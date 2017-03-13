@@ -4,27 +4,36 @@ title:  "Test!"
 date:   2017-02-05 20:15:12 +0000
 categories: test powershell
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+[sysinternals][sysinternals] are a great set of tools for the people administrating Windows machines, well anyone really trying to troubleshoot or wants a great presentation tool such as zoomit for demos.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+You can add the rss feed to your favourite reader or Outlook to get the latest news on updates and the script below can be run to grab the latest versions of the tool and save them to a file location.
 
 Jekyll also offers powerful support for code snippets:
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
-
 {% highlight powershell %}
-Get-Service -Name *bits*
+$uri = 'https://live.sysinternals.com/'
+$sysToolsPage = Invoke-WebRequest -Uri $uri
+$sysIntPath = 'C:\sysinternals'
+
+if (-not (Test-Path -Path $sysIntPath)){
+    New-Item -Path $sysIntPath -ItemType Directory
+}
+
+Set-Location -Path $sysIntPath
+
+$sysTools = $sysToolsPage.Links.innerHTML | Where-Object -FilterScript {$_ -like "*.exe" -or $_ -like "*.chm"} 
+
+
+foreach ($sysTool in $sysTools){
+    Invoke-WebRequest -Uri "$uri/$sysTool" -OutFile $sysTool
+}
+
 
 {% endhighlight %}
 
 Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
+[sysinternals]: https://technet.microsoft.com/en-gb/sysinternals/bb545021.aspx
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
