@@ -1,14 +1,16 @@
 ---
 layout: post
-title:  "Test!"
+title:  "sysinternals PowerShell script"
 date:   2017-02-05 20:15:12 +0000
-categories: test powershell
+categories: sysinternals powershell
 ---
-[sysinternals][sysinternals] are a great set of tools for the people administrating Windows machines, well anyone really trying to troubleshoot or wants a great presentation tool such as zoomit for demos.
+[sysinternals][sysinternals] are a great set of tools for the people administrating and troubleshootning Windows machines. It also includes [ZoomIt][ZoomIt] which is a really handy tool for presentations.
 
-You can add the rss feed to your favourite reader or Outlook to get the latest news on updates and the script below can be run to grab the latest versions of the tool and save them to a file location.
+The tools can be run directly from the live site 
 
-Jekyll also offers powerful support for code snippets:
+You can add the [rss feed][rss feed] to your favourite reader or Outlook to get the latest news on updates and the script below can be run to grab the latest versions of the tool and save them to a file location.
+
+Here is a small PowerShell script that I use to download the latest sysinternals tools. I set this script to run once a month via a scheduled task to make sure I have the latest versions.
 
 {% highlight powershell %}
 $uri = 'https://live.sysinternals.com/'
@@ -31,9 +33,11 @@ foreach ($sysTool in $sysTools){
 
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+
 
 [sysinternals]: https://technet.microsoft.com/en-gb/sysinternals/bb545021.aspx
+[rss feed]: https://blogs.technet.microsoft.com/sysinternals/feed/
+[ZoomIt]: https://technet.microsoft.com/en-us/sysinternals/zoomit.aspx
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
