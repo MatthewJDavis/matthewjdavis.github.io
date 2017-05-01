@@ -5,21 +5,25 @@ date:   2017-03-01 20:35:00 +0000
 categories: powershell
 ---
 
-The profile in PowerShell can be found can have four different settings:
+The PowerShell profile can be used to customise your PowerShell environment to how you like it. I use my profile to add aliases to common commands and modules I use.
+
+The profile in PowerShell can have four different settings:
 AllUsersAllHosts
 AllUsersCurrentHost
 CurrentUserAllHosts
 CurrentUserCurrentHost 
 
-To view your profiles, you can use the $profile variable
+To view your profiles, you can use the $profile variable:
 
 {% highlight powershell %}
 $PROFILE.AllUsersAllHosts
 $PROFILE.AllUsersCurrentHost
 $PROFILE.CurrentUserAllHosts
-$profile.CurrentUserCurrentHost
+$PROFILE.CurrentUserCurrentHost
 
 {% endhighlight %}
+
+You can just use the $PROFILE variable to see the current profile in use in the current host
 
 
 
