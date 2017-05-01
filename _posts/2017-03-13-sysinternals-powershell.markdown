@@ -6,7 +6,7 @@ categories: sysinternals powershell
 ---
 [sysinternals][sysinternals] are a great set of tools for the people administrating and troubleshootning Windows machines. It also includes [ZoomIt][ZoomIt] which is a really handy tool for presentations.
 
-The tools can be run directly from the live site 
+The tools can be run directly from the live site.
 
 You can add the [rss feed][rss feed] to your favourite reader or Outlook to get the latest news on updates and the script below can be run to grab the latest versions of the tool and save them to a file location.
 
