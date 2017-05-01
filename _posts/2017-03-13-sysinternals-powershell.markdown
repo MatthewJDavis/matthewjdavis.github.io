@@ -2,7 +2,7 @@
 layout: post
 title:  "sysinternals PowerShell script"
 date:   2017-02-05 20:15:12 +0000
-categories: sysinternals powershell
+categories: powershell
 ---
 [sysinternals][sysinternals] are a great set of tools for the people administrating and troubleshootning Windows machines. It also includes [ZoomIt][ZoomIt] which is a really handy tool for presentations.
 
