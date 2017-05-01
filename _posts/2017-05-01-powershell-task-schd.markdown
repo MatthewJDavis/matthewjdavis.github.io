@@ -5,8 +5,6 @@ date:   2017-05-01 20:55:00 +0000
 categories: powershell
 ---
 
-
-
 Jekyll also offers powerful support for code snippets:
 
 {% highlight ruby %}
