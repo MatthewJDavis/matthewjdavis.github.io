@@ -25,7 +25,7 @@ github_username:  matthewjdavis
 
 # Build settings
 markdown: kramdown
-theme: Slate
+theme: jekyll-theme-slatelate
 gems:
   - jekyll-feed
 exclude:
