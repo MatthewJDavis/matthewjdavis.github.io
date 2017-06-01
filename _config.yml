@@ -25,7 +25,7 @@ github_username:  matthewjdavis
 
 # Build settings
 markdown: kramdown
-theme: minima
+theme: jekyll-theme-slate
 gems:
   - jekyll-feed
 exclude:
