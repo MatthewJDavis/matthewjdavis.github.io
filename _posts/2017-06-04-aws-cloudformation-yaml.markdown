@@ -22,7 +22,7 @@ Here's a comparison of the code for parameters in JSON and YAML:
 
 Not only is YAML clearer it also allows code comments and also the standard [AWS functions] such as replacing values with parameters. Below I will demonstrate the code to provision a VM instance in AWS using JSON then YAML with cloudformation.  
 
-Here is the complete code to provision an EC2 instance in AWS in an existing VPC and subnet, made reusable with parmaeters:
+Here is the complete code to provision an EC2 instance in AWS in an existing VPC and subnet, made reusable with parmaeters (this template will work for the free tier, [check out the details])
 
 <script src="https://gist.github.com/MatthewJDavis/edcaa9d2c362464b7e5f7bced50df1b1.js"></script>
 
@@ -33,5 +33,6 @@ Coming from Azure, I used JSON for ARM templates a lot and found the best way to
 [YAML Ain't Markup Language]: http://www.yaml.org/
 [September last year]:https://aws.amazon.com/about-aws/whats-new/2016/09/aws-cloudformation-introduces-yaml-template-support-and-cross-stack-references/
 [AWS functions]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
+[check out the details]: https://aws.amazon.com/free/
 [Visual Studio Code]: https://code.visualstudio.com/
 [Azure Resource Manager tools]: https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools
