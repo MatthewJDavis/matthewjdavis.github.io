@@ -5,13 +5,17 @@ date:   2017-06-05 21:20:00 +0000
 categories: aws cloudformation yaml "infrastructure as code"
 ---
 
-### What is YAML  
+### Provision an EC2 instance with YAML and cloudformation  
 
 [YAML Ain't Markup Language] (YAML) was added to AWS cloudformation in [September last year] for provisioning resources through code via cloudformation.  
 
-I definitely find it easier to work with and understand what is going on than JSON, so have decided to write future cloudformation templates in YAML.  
+I definitely find YAML easier to work with and understand than JSON, so going forward will write future cloudformation templates in YAML.
 
- 
+Here's a comparison of the code for parameters in JSON and YAML:
+
+<script src="https://gist.github.com/MatthewJDavis/a4cc7f80a5954a7cbd9bc39f5d33b1af.js"></script>
+
+
 YAML allows code comments and also the standard AWS functions. Below I will demonstrate the code to provision a VM instance in AWS using JSON then YAML with cloudformation.  
 
 
