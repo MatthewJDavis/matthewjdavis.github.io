@@ -13,9 +13,20 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+title: Matthew Davis
+email: 
+description: > # this means to ignore newlines until "baseurl:"
+  My blog on tech things I learn that could be useful in the future. Focused on PowerShell, Azure, AWS.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: matthewjdavis
+github_username:  matthewjdavis
 
-title: Slate theme
-description: Slate is a theme for GitHub Pages.
-show_downloads: true
-google_analytics:
-theme: jekyll-theme-slate
+# Build settings
+markdown: kramdown
+theme: minima
+gems:
+  - jekyll-feed
+exclude:
+  - Gemfile
+  - Gemfile.lock
