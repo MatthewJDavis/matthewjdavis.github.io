@@ -13,7 +13,11 @@ I definitely find YAML easier to work with and understand than JSON, so going fo
 
 Here's a comparison of the code for parameters in JSON and YAML:
 
+#### JSON
 <script src="https://gist.github.com/MatthewJDavis/a4cc7f80a5954a7cbd9bc39f5d33b1af.js"></script>
+
+#### YAML
+<script src="https://gist.github.com/MatthewJDavis/e1bb0ed8ddd45fbe66199a397872b019.js"></script>
 
 
 YAML allows code comments and also the standard AWS functions. Below I will demonstrate the code to provision a VM instance in AWS using JSON then YAML with cloudformation.  
