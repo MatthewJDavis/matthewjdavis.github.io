@@ -2,7 +2,7 @@
 layout: post
 title:  "AWS Cloudformation with YAML"
 date:   2017-06-05 21:20:00 +0000
-categories: aws cloudformation yaml "infrastructure as code"
+categories: aws-cloudformation
 ---
 
 ### Provision an EC2 instance with YAML and cloudformation  
