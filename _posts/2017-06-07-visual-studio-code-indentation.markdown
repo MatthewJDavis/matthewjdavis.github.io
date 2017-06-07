@@ -19,7 +19,7 @@ My settings file now looks like:
     "editor.insertSpaces": true
 }
 This gives the indentation
-{end highlight}
+{% endhighlight %}
 
 With that line added, the YAML file now looked like:
 
