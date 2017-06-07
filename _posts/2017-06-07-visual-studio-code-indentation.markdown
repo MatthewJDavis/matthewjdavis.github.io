@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "2 EC2 Instances and EIPs with AWS Cloudformation YAML"
+title:  "View indentation guides in Visual Studio Code"
 date:   2017-06-07 20:40:00 +0000
 categories: Visual Studio Code
 ---
