@@ -2,7 +2,7 @@
 layout: post
 title:  "2 EC2 Instances and EIPs with AWS Cloudformation YAML"
 date:   2017-06-06 20:40:00 +0000
-categories: aws cloudformation yaml "infrastructure as code"
+categories: aws cloudformation yaml
 ---
 
 ### Provision 2 EC2 instances with an Elastic IP address attached to each using YAML and cloudformation
