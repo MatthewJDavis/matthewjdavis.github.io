@@ -18,7 +18,6 @@ My settings file now looks like:
     "window.zoomLevel": 0,
     "editor.insertSpaces": true
 }
-This gives the indentation
 {% endhighlight %}
 
 With that line added, the YAML file now looked like:
