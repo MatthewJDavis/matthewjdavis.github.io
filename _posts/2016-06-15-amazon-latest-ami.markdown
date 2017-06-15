@@ -1,11 +1,11 @@
 ---
 layout: post
 title:  "Get the lastest Amazon AMIs using PowerShell"
-date:   2017-06-07 20:40:00 +0000
+date:   2017-06-15 21:20:00 +0000
 categories: AWS PowerShell AMIs
 ---
 
-Need to find the latest AMI ID for Amazon Linux but don't want to use web console (click, click, click...). This simple PowerShell script will return the latest AMI IDs for Amazon Linux. I use this script to update AMI IDs in cloudformation maps.
+Need to find the latest AMI ID for Amazon Linux but don't want to use web console (click, click, click...)? This simple PowerShell script will return the latest AMI IDs for Amazon Linux. I use this script to update AMI IDs in cloudformation maps.
 
 <script src="https://gist.github.com/MatthewJDavis/9618049c2b75a36b8c8ee58b7a364dfd.js"></script>
 
