@@ -17,7 +17,8 @@ Get-AWSRegion
 
 Which as of 15th June 2017, gives the following:
 
-Region         Name                      
+| Region | Name |
+| --- | --- |                      
 ap-northeast-1 Asia Pacific (Tokyo)
 ap-northeast-2 Asia Pacific (Seoul)      
 ap-south-1     Asia Pacific (Mumbai)     
