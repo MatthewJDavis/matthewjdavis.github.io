@@ -33,3 +33,5 @@ Which as of 15th June 2017, gives the following:
 |us-east-2|      US East (Ohio)|
 |us-west-1|      US West (N. California)|
 |us-west-2|      US West (Oregon)|
+
+The next project will to be to generate the AMI mappings for cloudformation so it is easier to update.
