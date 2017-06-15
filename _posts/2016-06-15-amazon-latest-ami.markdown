@@ -35,3 +35,8 @@ us-east-1      US East (Virginia)
 us-east-2      US East (Ohio)            
 us-west-1      US West (N. California)   
 us-west-2      US West (Oregon)          
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
