@@ -9,7 +9,7 @@ Need to find the latest AMI ID for Amazon Linux but don't want to use web consol
 
 <script src="https://gist.github.com/MatthewJDavis/9618049c2b75a36b8c8ee58b7a364dfd.js"></script>
 
-Of course, you can change or add the regions as needed, you can use the following command to get the regions:
+ You can change or add the regions as needed, you can use the following command to get the regions:
 
 {% highlight powershell %}
 Get-AWSRegion
