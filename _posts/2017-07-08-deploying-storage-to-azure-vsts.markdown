@@ -19,7 +19,7 @@ This example doesn't store any data in the storage account so there will be no c
 
 Login to VSTS and create a New Project
 
-![VS Code Indentation](/images/vscode/vscode-indentation.png)
+![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
