@@ -37,9 +37,14 @@ Agent: Hosted
 
 ![VSTS build agent](/images/azure-storage-vsts/vsts-build-agent.png)
 
+Now you select your source, this can be your VSTS project repo or a remote repo
+See the [VSTS][vsts-repo] documentation for setting up a remote source. 
+
 
 
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
+[vsts-repo]: 
+https://www.visualstudio.com/en-us/docs/build/define/repository
