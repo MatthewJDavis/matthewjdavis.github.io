@@ -59,6 +59,13 @@ Target Folder:  $(build.artifactstagingdirectory) (this where the files will be 
 
 ![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy-1.png)
 
+Click the Publish Artifact task
+- Name: Rename if you like
+- Path to publish:  $(build.artifactstagingdirectory)
+- Artifact Name: storage-demo-artifact-drop
+- Artifact Type: Server
+
+![VSTS publish artifacts](/images/azure-storage-vsts/vsts-publish-artifact.png)
 
 
 
