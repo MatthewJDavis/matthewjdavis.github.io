@@ -80,6 +80,23 @@ Go back to the builds main page and click on the build. You should see a build n
 Here you can click on the artifacts and see what the build produced
 ![VSTS build artifacts](/images/azure-storage-vsts/vsts-build-artifacts.png)
 
+## Release
+Click on the Releases tab and click New Definition
+
+Select Empty
+![VSTS new release](/images/azure-storage-vsts/vsts-new-release.png)
+
+Make sure the build definition is the one you've just created.
+You can click the Continuous deployement if you like, then every time a successful build is created, the deployment will happen automatically (note: if you're doing lots of little changes you may not want this and deploy manually otherwise you can use up your free monthly build minutes pretty quickly).
+
+![VSTS release definition](/images/azure-storage-vsts/vsts-release-definition.png)
+
+
+
+
+
+
+
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
