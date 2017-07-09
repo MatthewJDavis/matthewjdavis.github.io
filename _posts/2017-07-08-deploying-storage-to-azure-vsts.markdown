@@ -67,7 +67,18 @@ Click the Publish Artifact task
 
 ![VSTS publish artifacts](/images/azure-storage-vsts/vsts-publish-artifact.png)
 
+## Build Time
+Click Save and Queue
+![VSTS queue build](/images/azure-storage-vsts/vsts-queue-build.png)
 
+This will queue a new build and once it has completed you should have an artifact containing the two JSON files that can be used in the release phase.
+
+Go back to the builds main page and click on the build. You should see a build number, click on that number and you will be taken into the details of the build.
+
+![VSTS build result](/images/azure-storage-vsts/vsts-build-result.png)
+
+Here you can click on the artifacts and see what the build produced
+![VSTS build artifacts](/images/azure-storage-vsts/vsts-build-artifacts.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
