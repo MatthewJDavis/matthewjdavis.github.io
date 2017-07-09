@@ -31,6 +31,12 @@ From the top menu I select "Build & Release" then click the + New definition
 Now select Empty process
 ![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
 
+Click on the Process:
+Name: rename this build if you like
+Agent: Hosted
+
+![VSTS build agent](/images/azure-storage-vsts/vsts-build-agent.png)
+
 
 
 
