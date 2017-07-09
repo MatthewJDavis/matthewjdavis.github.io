@@ -53,6 +53,11 @@ Source Folder: Select the ellipses and select the folder containing the template
 
 ![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)
 
+Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
+
+Target Folder:  $(build.artifactstagingdirectory) (this where the files will be copied before we upload them as an artifact to be used in the release)
+
+![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy-1.png)
 
 
 
@@ -60,5 +65,5 @@ Source Folder: Select the ellipses and select the folder containing the template
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
-[vsts-repo]: 
-https://www.visualstudio.com/en-us/docs/build/define/repository
+[vsts-repo]:https://www.visualstudio.com/en-us/docs/build/define/repository
+[vsts-file-copy]:https://www.visualstudio.com/en-gb/docs/build/steps/utility/copy-files
