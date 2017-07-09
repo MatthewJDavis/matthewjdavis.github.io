@@ -21,6 +21,13 @@ Login to VSTS and create a New Project
 
 ![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
 
+I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
+
+![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
+
+From the top menu I select "Build & Release" then click the + New definition
+
+
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
