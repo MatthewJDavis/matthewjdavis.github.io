@@ -39,6 +39,7 @@ Agent: Hosted
 
 Now you select your source, this can be your VSTS project repo or a remote repo
 See the [VSTS][vsts-repo] documentation for setting up a remote source. 
+![VSTS sources](/images/azure-storage-vsts/vsts-sources.png)
 
 
 
