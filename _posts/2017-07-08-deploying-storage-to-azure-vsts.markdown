@@ -23,9 +23,15 @@ Login to VSTS and create a New Project
 
 I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
-![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
 
 From the top menu I select "Build & Release" then click the + New definition
+
+![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
+
+Now select Empty process
+![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
+
+
 
 
 
