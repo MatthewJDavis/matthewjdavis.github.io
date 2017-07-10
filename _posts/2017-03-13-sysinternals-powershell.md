@@ -1,5 +1,5 @@
 ---
-title:  sysinternals PowerShell scrip
+title:  sysinternals PowerShell script
 author: Matthew Davis
 date: 2017-02-05
 categories: 
