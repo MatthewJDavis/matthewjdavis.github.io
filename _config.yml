@@ -79,7 +79,7 @@ analytics:
 author:
   name             : "Matthew Davis"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an amazing person."
+  bio              : 
   location         : "Bath UK"
   email            :
   uri              :
