@@ -100,8 +100,6 @@ First, let's setup the Variable for the release, these will apply to all of the 
 
 [![VSTS empty release](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables.png)
 
-
-
 Add the following variables (paying attention to the case):
 Location: uksouth (or the Azure region nearest you)
 blobEncryptionEnabled: true
@@ -109,7 +107,18 @@ blobEncryptionEnabled: true
 Click on Environment 1 and rename to Development or similar
 [![VSTS empty release](/images/azure-storage-vsts/vsts-release-var-setting.png)](/images/azure-storage-vsts/vsts-release-var-setting-big.png)
 
+Click Add Task
+Select Azure Resource Group Deployment
 
+Azure Subscription: Select your Azure subscription from the drop down
+Action: Create or update resource group
+Resource Group: demo-storage-rg (or call it what you like or choose an existing resource group to deploy into)
+Location: $(location) Here we are using the release variable that we set up earlier for the location
+
+Template: Linked artifact
+Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
+
+[![VSTS empty release](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/select-artifact-big.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
