@@ -7,6 +7,7 @@ categories:
 tags:
     - cloudformation
     - provisioning infrastructure
+    - infrastructure as code
 ---
 
 ### Provision 2 EC2 instances with an Elastic IP address attached to each using YAML and cloudformation
