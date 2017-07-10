@@ -2,7 +2,8 @@
 title:  PowerShell Profile
 author: Matthew Davis
 date:   2017-03-01
-categories: powershell
+categories: 
+    - powershell
 tags:
     - PowerShell
 ---
