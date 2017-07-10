@@ -118,7 +118,14 @@ Location: $(location) Here we are using the release variable that we set up earl
 Template: Linked artifact
 Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
 
-[![VSTS empty release](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/select-artifact-big.png)
+[![VSTS empty release](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/vsts-select-artifact-big.png)
+
+Template Parameters: Repeat the previous process and select azuredeployparameters.json
+Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
+Here we specify the variables we are going to use to override the template parameters
+
+
+[![VSTS empty release](/images/azure-storage-vsts/vsts-override-params.png)](/images/azure-storage-vsts/vsts-override-params-big.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
