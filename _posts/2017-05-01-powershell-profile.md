@@ -16,7 +16,7 @@ AllUsersCurrentHost
 CurrentUserAllHosts
 CurrentUserCurrentHost 
 
-To view your profiles, you can use the $profile variable:
+To view your profiles, you can use the $PROFILE variable and the relevant NoteProperty:
 
 {% highlight powershell %}
 $PROFILE.AllUsersAllHosts
