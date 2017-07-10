@@ -1,5 +1,5 @@
 ---
-title:  "PowerShell Profile"
+title:  PowerShell Profile
 author: Matthew Davis
 date:   2017-03-01 20:35:00 +0000
 categories: powershell
