@@ -107,6 +107,7 @@ Location: uksouth (or the Azure region nearest you)
 blobEncryptionEnabled: true
 
 Click on Environment 1 and rename to Development or similar
+[![VSTS empty release](/images/azure-storage-vsts/vsts-release-var-setting.png)](/images/azure-storage-vsts/vsts-release-var-setting-big.png)
 
 
 
