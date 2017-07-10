@@ -3,6 +3,8 @@ title:  "View indentation guides in Visual Studio Code"
 author: Matthew Davis
 date:   2017-06-07
 categories: 
+    - Tools 
+tags:
     - Visual Studio Code
 ---
 
