@@ -27,4 +27,4 @@ $PROFILE.CurrentUserCurrentHost
 
 You can just use the $PROFILE variable to see the current profile in use in the current host
 
-![PowerShell profiles](/images/powershell-profile/profile.png)
+[![PowerShell profiles](/images/powershell-profile/profile.png)](/images/powershell-profile/profile.png)
