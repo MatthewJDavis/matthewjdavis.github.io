@@ -1,5 +1,6 @@
 ---
 title: About
+layout: single
 permalink: /about/
 modified: 2011-07-10
 tags:
