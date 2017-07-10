@@ -56,7 +56,7 @@ Under the utilities section Add the following tasks:
 Click the Copy Files task
 Source Folder: Select the ellipses and select the folder containing the template and parameters JSON files
 
-![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)
+[![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)](/images/azure-storage-vsts/vsts-file-copy-big.png)
 
 Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
 
