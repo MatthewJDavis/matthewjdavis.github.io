@@ -3,6 +3,8 @@ title:  PowerShell Profile
 author: Matthew Davis
 date:   2017-03-01
 categories: powershell
+tags:
+    - PowerShell
 ---
 
 The PowerShell profile can be used to customise your PowerShell environment to how you like it. I use my profile to add aliases to common commands and modules I use.
