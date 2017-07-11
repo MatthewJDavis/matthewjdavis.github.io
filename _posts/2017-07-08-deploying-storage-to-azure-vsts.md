@@ -157,7 +157,10 @@ Click on Release-1
 You should now see the release deploying
 [![release in progress](/images/azure-storage-vsts/vsts-release-in-progress.png)](/images/azure-storage-vsts/vsts-release-in-progress-big.png)
 
+If you go to your Azure subscription, you should see the resource group created and shortly after the storage account and the release Deployment Status should show Success
 
+
+[![release success](/images/azure-storage-vsts/vsts-release-succeeded.png)](/images/azure-storage-vsts/vsts-release-succeeded-big.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
