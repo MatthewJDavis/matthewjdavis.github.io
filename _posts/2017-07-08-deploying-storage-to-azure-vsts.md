@@ -154,6 +154,9 @@ Hit create
 Click on Release-1
 [![click on release-1](/images/azure-storage-vsts/vsts-created-release.png)](/images/azure-storage-vsts/vsts-created-release-big.png)
 
+You should now see the release deploying
+[![release in progress](/images/azure-storage-vsts/vsts-release-in-progress.png)](/images/azure-storage-vsts/vsts-release-in-progress-big.png)
+
 
 
 
