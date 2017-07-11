@@ -31,7 +31,7 @@ I'm not going to be using the source control provided by VSTS because I'm using 
 
 From the top menu I select "Build & Release" then click the + New definition
 
-![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
+[![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)](/images/azure-storage-vsts/vsts-new-build-big.png)
 
 Now select Empty process
 ![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
