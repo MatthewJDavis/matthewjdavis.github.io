@@ -10,9 +10,11 @@ tags:
     - release
 ---
 
-In this post, we're going to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts] (VSTS).
+In this post, I'm going to show you how to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts] (VSTS).
 
-The code for the storage account is available on in my [GitHub][Github] account, it consists of two ARM templates:
+Using infrastructure as code and a build and release pipeline, this makes it easier to set up resources in different environments and even different Azure subscriptions / regions.
+
+The code for the storage account is available in my [GitHub][Github] account, it consists of two ARM templates:
 - azuredeploy.json - the template containing details of the resource (storage account in this example)
 - azuredeployparameters.json - this file is used to override the parameters in the template file to allow us to reuse it in different scenarios / projects
 
@@ -22,13 +24,20 @@ You'll need:
 These are free as long as you stay within the limits. Microsoft are very good at warning / disabling resources so you don't spend any money but you should keep a close eye on costs if you have monthly credit to use.
 This example doesn't store any data in the storage account so there will be no charges, if you do store data, you'll get charge / have credit reduced.
 
+The process is for Azure storage but can be used to deploy other Azure resources as long as you have the ARM templates.
+
+The steps are:
+1.  Build the templates so they are outputted as artifacts
+2. Use the artifacts from the build to release the resources to an Azure subscription.
+
+## Setup VSTS project
 Login to VSTS and create a New Project
 
 [![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)](/images/azure-storage-vsts/vsts-new-project-big.png)
 
 I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
-
+## Create Build
 From the top menu I select "Build & Release" then click the + New definition
 
 [![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)](/images/azure-storage-vsts/vsts-new-build-big.png)
