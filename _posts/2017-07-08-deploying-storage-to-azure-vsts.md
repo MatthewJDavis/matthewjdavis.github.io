@@ -141,6 +141,14 @@ storageAccountType: Standard_LRS
 
 [![configure variables for storageAccountName and storageAccountType](/images/azure-storage-vsts/vsts-environment-vars-conf.png)](/images/azure-storage-vsts/vsts-environment-vars-conf-big.png)
 
+Click the pencil icon to rename the release if you wish.
+
+Save the release
+
+Click the Release button and select Create Release
+
+[![select create release from release menu drop down](/images/azure-storage-vsts/vsts-create-release.png)](/images/azure-storage-vsts/vsts-create-release-big.png)
+
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
