@@ -124,8 +124,15 @@ Template Parameters: Repeat the previous process and select azuredeployparameter
 Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
 Here we specify the variables we are going to use to override the template parameters
 
-
 [![override template parameters](/images/azure-storage-vsts/vsts-override-params.png)](/images/azure-storage-vsts/vsts-override-params-big.png)
+
+Deployment mode: Incremental is fine
+
+Environment Variables
+Now we set the variables for the individual environment.
+Click the ellipses by the environment name and select Configure variables…
+
+[![select configure variables](/images/azure-storage-vsts/vsts-environment-vars.png)](/images/azure-storage-vsts/vsts-environment-vars-big.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
