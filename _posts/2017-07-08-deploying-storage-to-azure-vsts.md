@@ -134,6 +134,13 @@ Click the ellipses by the environment name and select Configure variables…
 
 [![select configure variables](/images/azure-storage-vsts/vsts-environment-vars.png)](/images/azure-storage-vsts/vsts-environment-vars-big.png)
 
+Enter the following:
+
+storageAccountName: storageacctname242 - this needs to be unique to Azure and has specific naming conventions
+storageAccountType: Standard_LRS
+
+[![configure variables for storageAccountName and storageAccountType](/images/azure-storage-vsts/vsts-environment-vars-conf.png)](/images/azure-storage-vsts/vsts-environment-vars-conf-big.png)
+
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
