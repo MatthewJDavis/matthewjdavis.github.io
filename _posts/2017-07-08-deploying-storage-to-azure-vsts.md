@@ -149,6 +149,13 @@ Click the Release button and select Create Release
 
 [![select create release from release menu drop down](/images/azure-storage-vsts/vsts-create-release.png)](/images/azure-storage-vsts/vsts-create-release-big.png)
 
+Hit create
+
+Click on Release-1
+[![click on release-1](/images/azure-storage-vsts/vsts-created-release.png)](/images/azure-storage-vsts/vsts-created-release-big.png)
+
+
+
 
 [vsts]: https://https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
