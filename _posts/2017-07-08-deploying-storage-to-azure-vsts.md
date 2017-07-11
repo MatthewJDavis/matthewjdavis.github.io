@@ -98,7 +98,7 @@ You can click the Continuous deployement if you like, then every time a successf
 
 First, let's setup the Variable for the release, these will apply to all of the environments
 
-[![VSTS empty release](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables.png)
+[![VSTS empty release](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables-big.png)
 
 Add the following variables (paying attention to the case):
 Location: uksouth (or the Azure region nearest you)
