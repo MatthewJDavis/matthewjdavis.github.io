@@ -94,18 +94,18 @@ Select Empty
 Make sure the build definition is the one you've just created.
 You can click the Continuous deployement if you like, then every time a successful build is created, the deployment will happen automatically (note: if you're doing lots of little changes you may not want this and deploy manually otherwise you can use up your free monthly build minutes pretty quickly).
 
-![VSTS release definition](/images/azure-storage-vsts/vsts-release-definition.png)
+![create release definition](/images/azure-storage-vsts/vsts-release-definition.png)
 
 First, let's setup the Variable for the release, these will apply to all of the environments
 
-[![VSTS empty release](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables-big.png)
+[![click on variables on the top menu](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables-big.png)
 
 Add the following variables (paying attention to the case):
 Location: uksouth (or the Azure region nearest you)
 blobEncryptionEnabled: true
 
 Click on Environment 1 and rename to Development or similar
-[![VSTS empty release](/images/azure-storage-vsts/vsts-release-var-setting.png)](/images/azure-storage-vsts/vsts-release-var-setting-big.png)
+[![set release variables](/images/azure-storage-vsts/vsts-release-var-setting.png)](/images/azure-storage-vsts/vsts-release-var-setting-big.png)
 
 Click Add Task
 Select Azure Resource Group Deployment
@@ -118,14 +118,14 @@ Location: $(location) Here we are using the release variable that we set up earl
 Template: Linked artifact
 Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
 
-[![VSTS empty release](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/vsts-select-artifact-big.png)
+[![select templates from artifacts](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/vsts-select-artifact-big.png)
 
 Template Parameters: Repeat the previous process and select azuredeployparameters.json
 Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
 Here we specify the variables we are going to use to override the template parameters
 
 
-[![VSTS empty release](/images/azure-storage-vsts/vsts-override-params.png)](/images/azure-storage-vsts/vsts-override-params-big.png)
+[![override template parameters](/images/azure-storage-vsts/vsts-override-params.png)](/images/azure-storage-vsts/vsts-override-params-big.png)
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
