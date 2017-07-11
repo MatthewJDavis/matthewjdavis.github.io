@@ -24,7 +24,7 @@ This example doesn't store any data in the storage account so there will be no c
 
 Login to VSTS and create a New Project
 
-[![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)]/images/azure-storage-vsts/vsts-new-project-big.png)
+[![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)](/images/azure-storage-vsts/vsts-new-project-big.png)
 
 I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
