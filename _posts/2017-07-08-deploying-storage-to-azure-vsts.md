@@ -12,7 +12,7 @@ tags:
 
 In this post, we're going to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts] (VSTS).
 
-The code for the storage account is available on my [GitHub][Github], it consists of two ARM templates:
+The code for the storage account is available on in my [GitHub][Github] account, it consists of two ARM templates:
 - azuredeploy.json - the template containing details of the resource (storage account in this example)
 - azuredeployparameters.json - this file is used to override the parameters in the template file to allow us to reuse it in different scenarios / projects
 
@@ -24,7 +24,7 @@ This example doesn't store any data in the storage account so there will be no c
 
 Login to VSTS and create a New Project
 
-![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
+[![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)]/images/azure-storage-vsts/vsts-new-project-big.png)
 
 I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
