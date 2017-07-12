@@ -132,63 +132,70 @@ Click on Environment 1 and rename to Development or similar
 
 ![set release variables](/images/azure-storage-vsts/vsts-release-var-setting.png)
 
-Click Add Task
-Select Azure Resource Group Deployment
+- click Add Task
+- select Azure Resource Group Deployment
 
-Azure Subscription: Select your Azure subscription from the drop down
-Action: Create or update resource group
-Resource Group: demo-storage-rg (or call it what you like or choose an existing resource group to deploy into)
-Location: $(location) Here we are using the release variable that we set up earlier for the location
+![release task](/images/azure-storage-vsts/vsts-release-task.png)
 
-Template: Linked artifact
-Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
+- Azure Subscription: Select your Azure subscription from the drop down
+- Action: Create or update resource group
+- Resource Group: demo-storage-rg (or call it what you like or choose an existing resource group to deploy into)
+- location: $(location) Here we are using the release variable that we set up earlier for the location
+
+### Template Artifacts
+
+- Template: Linked artifact
+- Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
 
 ![select templates from artifacts](/images/azure-storage-vsts/vsts-select-artifact.png)
 
-Template Parameters: Repeat the previous process and select azuredeployparameters.json
-Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
+- Template Parameters: Repeat the previous process and select azuredeployparameters.json
+- Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
+
 Here we specify the variables we are going to use to override the template parameters
 
 ![override template parameters](/images/azure-storage-vsts/vsts-override-params.png)
 
-Deployment mode: Incremental is fine
+- Deployment mode: Incremental is fine
 
-Environment Variables
+### Environment Variables
 Now we set the variables for the individual environment.
-Click the ellipses by the environment name and select Configure variables…
+- click the ellipses by the environment name and select Configure variables…
 
 ![select configure variables](/images/azure-storage-vsts/vsts-environment-vars.png)
 
 Enter the following:
 
-storageAccountName: storageacctname242 - this needs to be unique to Azure and has specific naming conventions
-storageAccountType: Standard_LRS
+- storageAccountName: storageacctname242 - this needs to be unique to Azure and has specific naming conventions
+- storageAccountType: Standard_LRS
 
 ![configure variables for storageAccountName and storageAccountType](/images/azure-storage-vsts/vsts-environment-vars-conf.png)
 
-Click the pencil icon to rename the release if you wish.
+- click the pencil icon to rename the release if you wish.
 
-Save the release
+- save the release
 
 Click the Release button and select Create Release
 
 ![select create release from release menu drop down](/images/azure-storage-vsts/vsts-create-release.png)
 
-Hit create
+- click create
 
-Click on Release-1
+- click on Release-1
+
 ![click on release-1](/images/azure-storage-vsts/vsts-created-release.png)
 
 You should now see the release deploying
+
 ![release in progress](/images/azure-storage-vsts/vsts-release-in-progress.png)
 
 If you go to your Azure subscription, you should see the resource group created and shortly after the storage account and the release Deployment Status should show Success
 
-![release success](/images/azure-storage-vsts/vsts-release-succeeded.png)]
+![release success](/images/azure-storage-vsts/vsts-release-succeeded.png)
 
 In the Azure portal:
 
-![azure portal](/images/azure-storage-vsts/vsts-azure-deploy.png)]
+![azure portal](/images/azure-storage-vsts/vsts-azure-deploy.png)
 
 
 [vsts-main]: https://www.visualstudio.com/team-services/
