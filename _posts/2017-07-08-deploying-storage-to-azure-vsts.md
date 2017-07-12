@@ -65,20 +65,20 @@ Here's my settings connected to my GitHub repo
 ![VSTS sources](/images/azure-storage-vsts/vsts-sources.png)
 
 Click on add task 
-Under the utilities section Add the following tasks:
-- Copy Files
+Under the utilities section Add the following two tasks:
+- Copy Files to:
 - Publish Build Artifacts
 
 ![VSTS add tasks](/images/azure-storage-vsts/vsts-build-add-task.png)
 
-Click the Copy Files task
-Source Folder: Select the ellipses and select the folder containing the template and parameters JSON files
+- Click the Copy Files task
+- Source Folder: Select the ellipses and select the folder containing the template and parameters JSON files
 
 ![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)
 
-Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
+- Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
 
-Target Folder:  $(build.artifactstagingdirectory) (this where the files will be copied before we upload them as an artifact to be used in the release)
+- Target Folder:  $(build.artifactstagingdirectory) (this where the files will be copied before we upload them as an artifact to be used in the release)
 
 ![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy-1.png)
 
@@ -91,7 +91,8 @@ Click the Publish Artifact task
 ![VSTS publish artifacts](/images/azure-storage-vsts/vsts-publish-artifact.png)
 
 ## Build Time
-Click Save and Queue
+- Click Save and Queue
+
 ![VSTS queue build](/images/azure-storage-vsts/vsts-queue-build.png)
 
 This will queue a new build and once it has completed you should have an artifact containing the two JSON files that can be used in the release phase.
