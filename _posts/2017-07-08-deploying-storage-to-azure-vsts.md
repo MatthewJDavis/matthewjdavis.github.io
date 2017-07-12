@@ -37,7 +37,7 @@ Login to [vsts][VSTS]
 
 ![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
 
-I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
+Note: I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
 ## Create Build
 From the top menu I select "Build & Release" then click the + New definition
