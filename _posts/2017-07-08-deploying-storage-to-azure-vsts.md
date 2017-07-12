@@ -10,7 +10,7 @@ tags:
     - release
 ---
 
-In this post, I'm going to show you how to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts] (VSTS).
+In this post, I'm going to show you how to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts-main] (VSTS).
 
 Using infrastructure as code and a build and release pipeline, this makes it easier to set up resources in different environments and even different Azure subscriptions / regions.
 
@@ -31,7 +31,7 @@ The steps are:
 2. Use the artifacts from the build to release the resources to an Azure subscription.
 
 ## Setup VSTS project
-Login to [vsts][VSTS] 
+Login to [VSTS][vsts-main] 
 
 - Create a New Project
 
@@ -177,7 +177,7 @@ In the Azure portal:
 ![azure portal](/images/azure-storage-vsts/vsts-azure-deploy.png)]
 
 
-[vsts]: https://https://www.visualstudio.com/team-services/
+[vsts-main]: https://www.visualstudio.com/team-services/
 [GitHub]: https://github.com/MatthewJDavis/Azure/tree/master/Azure-Storage/Storage-Account-Deployment-Demo
 [vsts-repo]:https://www.visualstudio.com/en-us/docs/build/define/repository
 [vsts-file-copy]:https://www.visualstudio.com/en-gb/docs/build/steps/utility/copy-files
