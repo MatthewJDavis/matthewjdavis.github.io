@@ -1,6 +1,8 @@
 ---
 title: "Deploy Storage to Azure via VSTS"
 date: 2017-07-07
+images:
+    thumb: /images/azure-storage-vsts/vsts-logo.png
 categories: 
     - azure
 tags:
