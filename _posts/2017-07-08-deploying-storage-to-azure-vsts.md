@@ -114,20 +114,22 @@ Select Empty
 
 ![VSTS new release](/images/azure-storage-vsts/vsts-new-release.png)
 
-Make sure the build definition is the one you've just created.
-You can click the Continuous deployement if you like, then every time a successful build is created, the deployment will happen automatically (note: if you're doing lots of little changes you may not want this and deploy manually otherwise you can use up your free monthly build minutes pretty quickly).
+- make sure the build definition is the one you've just created.
+- You can click the Continuous deployement if you like, then every time a successful build is created, the deployment will happen automatically (note: if you're doing lots of little changes you may not want this and deploy manually otherwise you can use up your free monthly build minutes pretty quickly).
 
 ![create release definition](/images/azure-storage-vsts/vsts-release-definition.png)
 
-First, let's setup the Variable for the release, these will apply to all of the environments
+### Release Varibales
+- setup the Variable for the release, these will apply to all of the environments - click on Variables
 
 ![click on variables on the top menu](/images/azure-storage-vsts/vsts-release-variables.png)
 
 Add the following variables (paying attention to the case):
-Location: uksouth (or the Azure region nearest you)
-blobEncryptionEnabled: true
+- location: uksouth (or the Azure region nearest you)
+- blobEncryptionEnabled: true
 
 Click on Environment 1 and rename to Development or similar
+
 ![set release variables](/images/azure-storage-vsts/vsts-release-var-setting.png)
 
 Click Add Task
