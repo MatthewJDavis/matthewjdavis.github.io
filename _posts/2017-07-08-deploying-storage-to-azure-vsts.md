@@ -40,16 +40,18 @@ Login to [VSTS][vsts-main]
 Note: I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
 ## Create Build
-From the top menu I select "Build & Release" then click the + New definition
+- From the top menu select "Build & Release" 
+![select build release from menu then build](/images/azure-storage-vsts/vsts-build.png)
 
+- click the + New definition
 ![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
 
-Now select Empty process
+- select Empty process
 ![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
 
 Click on the Process:
-Name: rename this build if you like
-Agent: Hosted
+1. Name: rename this build if you like
+2. Agent: Hosted
 
 ![VSTS build agent](/images/azure-storage-vsts/vsts-build-agent.png)
 
