@@ -102,13 +102,16 @@ Go back to the builds main page and click on the build. You should see a build n
 
 ![VSTS build result](/images/azure-storage-vsts/vsts-build-result.png)
 
-Here you can click on the artifacts and see what the build produced
+- click on the Artifacts and see what the build produced
+
 ![VSTS build artifacts](/images/azure-storage-vsts/vsts-build-artifacts.png)
 
 ## Release
-Click on the Releases tab and click New Definition
+- click the Releases tab
+- click New Definition
 
 Select Empty
+
 ![VSTS new release](/images/azure-storage-vsts/vsts-new-release.png)
 
 Make sure the build definition is the one you've just created.
