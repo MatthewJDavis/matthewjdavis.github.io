@@ -33,14 +33,14 @@ The steps are:
 ## Setup VSTS project
 Login to VSTS and create a New Project
 
-[![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)](/images/azure-storage-vsts/vsts-new-project-big.png)
+![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
 
 I'm not going to be using the source control provided by VSTS because I'm using GitHub for this demo. VSTS offers free private repositories and integrates very nicely with the build tasks.
 
 ## Create Build
 From the top menu I select "Build & Release" then click the + New definition
 
-[![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)](/images/azure-storage-vsts/vsts-new-build-big.png)
+![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
 
 Now select Empty process
 ![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
@@ -65,7 +65,7 @@ Under the utilities section Add the following tasks:
 Click the Copy Files task
 Source Folder: Select the ellipses and select the folder containing the template and parameters JSON files
 
-[![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)](/images/azure-storage-vsts/vsts-file-copy-big.png)
+![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)
 
 Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
 
@@ -107,14 +107,14 @@ You can click the Continuous deployement if you like, then every time a successf
 
 First, let's setup the Variable for the release, these will apply to all of the environments
 
-[![click on variables on the top menu](/images/azure-storage-vsts/vsts-release-variables.png)](/images/azure-storage-vsts/vsts-release-variables-big.png)
+![click on variables on the top menu](/images/azure-storage-vsts/vsts-release-variables.png)
 
 Add the following variables (paying attention to the case):
 Location: uksouth (or the Azure region nearest you)
 blobEncryptionEnabled: true
 
 Click on Environment 1 and rename to Development or similar
-[![set release variables](/images/azure-storage-vsts/vsts-release-var-setting.png)](/images/azure-storage-vsts/vsts-release-var-setting-big.png)
+![set release variables](/images/azure-storage-vsts/vsts-release-var-setting.png)
 
 Click Add Task
 Select Azure Resource Group Deployment
@@ -127,13 +127,13 @@ Location: $(location) Here we are using the release variable that we set up earl
 Template: Linked artifact
 Template: click the elipses and select the azuredeploy.json from the artifacts we create from the build
 
-[![select templates from artifacts](/images/azure-storage-vsts/vsts-select-artifact.png)](/images/azure-storage-vsts/vsts-select-artifact-big.png)
+![select templates from artifacts](/images/azure-storage-vsts/vsts-select-artifact.png)
 
 Template Parameters: Repeat the previous process and select azuredeployparameters.json
 Override Template Parameters: -location $(location) -storageAccountName $(storageAccountName) -storageAccountType $(storageAccountType) -blobEncryptionEnabled $(blobEncryptionEnabled)
 Here we specify the variables we are going to use to override the template parameters
 
-[![override template parameters](/images/azure-storage-vsts/vsts-override-params.png)](/images/azure-storage-vsts/vsts-override-params-big.png)
+![override template parameters](/images/azure-storage-vsts/vsts-override-params.png)
 
 Deployment mode: Incremental is fine
 
@@ -141,14 +141,14 @@ Environment Variables
 Now we set the variables for the individual environment.
 Click the ellipses by the environment name and select Configure variables…
 
-[![select configure variables](/images/azure-storage-vsts/vsts-environment-vars.png)](/images/azure-storage-vsts/vsts-environment-vars-big.png)
+![select configure variables](/images/azure-storage-vsts/vsts-environment-vars.png)
 
 Enter the following:
 
 storageAccountName: storageacctname242 - this needs to be unique to Azure and has specific naming conventions
 storageAccountType: Standard_LRS
 
-[![configure variables for storageAccountName and storageAccountType](/images/azure-storage-vsts/vsts-environment-vars-conf.png)](/images/azure-storage-vsts/vsts-environment-vars-conf-big.png)
+![configure variables for storageAccountName and storageAccountType](/images/azure-storage-vsts/vsts-environment-vars-conf.png)
 
 Click the pencil icon to rename the release if you wish.
 
@@ -156,23 +156,23 @@ Save the release
 
 Click the Release button and select Create Release
 
-[![select create release from release menu drop down](/images/azure-storage-vsts/vsts-create-release.png)](/images/azure-storage-vsts/vsts-create-release-big.png)
+![select create release from release menu drop down](/images/azure-storage-vsts/vsts-create-release.png)
 
 Hit create
 
 Click on Release-1
-[![click on release-1](/images/azure-storage-vsts/vsts-created-release.png)](/images/azure-storage-vsts/vsts-created-release-big.png)
+![click on release-1](/images/azure-storage-vsts/vsts-created-release.png)
 
 You should now see the release deploying
-[![release in progress](/images/azure-storage-vsts/vsts-release-in-progress.png)](/images/azure-storage-vsts/vsts-release-in-progress-big.png)
+![release in progress](/images/azure-storage-vsts/vsts-release-in-progress.png)
 
 If you go to your Azure subscription, you should see the resource group created and shortly after the storage account and the release Deployment Status should show Success
 
-[![release success](/images/azure-storage-vsts/vsts-release-succeeded.png)](/images/azure-storage-vsts/vsts-release-succeeded-big.png)
+![release success](/images/azure-storage-vsts/vsts-release-succeeded.png)]
 
 In the Azure portal:
 
-[![azure portal](/images/azure-storage-vsts/vsts-azure-deploy.png)](/images/azure-storage-vsts/vsts-azure-deploy-big.png)
+![azure portal](/images/azure-storage-vsts/vsts-azure-deploy.png)]
 
 
 [vsts]: https://https://www.visualstudio.com/team-services/
