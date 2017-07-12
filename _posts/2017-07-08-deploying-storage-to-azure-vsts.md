@@ -76,7 +76,7 @@ Under the utilities section Add the following two tasks:
 
 ![VSTS copy files](/images/azure-storage-vsts/vsts-file-copy.png)
 
-- Contents: **\\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
+- Contents: ***\\*\*.json (we only want the JSON files) See [file copy docs][vsts-file-copy] for more info.
 
 - Target Folder:  $(build.artifactstagingdirectory) (this where the files will be copied before we upload them as an artifact to be used in the release)
 
