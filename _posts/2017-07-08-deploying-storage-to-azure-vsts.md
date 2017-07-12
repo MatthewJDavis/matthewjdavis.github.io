@@ -92,6 +92,7 @@ Click the Publish Artifact task
 
 ## Build Time
 - Click Save and Queue
+- Check the agent is "Hosted" and branch is "master"
 
 ![VSTS queue build](/images/azure-storage-vsts/vsts-queue-build.png)
 
