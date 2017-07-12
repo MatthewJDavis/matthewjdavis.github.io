@@ -41,12 +41,15 @@ Note: I'm not going to be using the source control provided by VSTS because I'm 
 
 ## Create Build
 - From the top menu select "Build & Release" 
+
 ![select build release from menu then build](/images/azure-storage-vsts/vsts-build.png)
 
 - click the + New definition
+
 ![VSTS create New build](/images/azure-storage-vsts/vsts-new-build.png)
 
 - select Empty process
+
 ![VSTS build empty process](/images/azure-storage-vsts/vsts-build-empty-process.png)
 
 Click on the Process:
@@ -57,6 +60,8 @@ Click on the Process:
 
 Now you select your source, this can be your VSTS project repo or a remote repo
 See the [VSTS][vsts-repo] documentation for setting up a remote source. 
+Here's my settings connected to my GitHub repo
+
 ![VSTS sources](/images/azure-storage-vsts/vsts-sources.png)
 
 Click on add task 
