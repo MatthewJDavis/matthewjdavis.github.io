@@ -31,7 +31,9 @@ The steps are:
 2. Use the artifacts from the build to release the resources to an Azure subscription.
 
 ## Setup VSTS project
-Login to VSTS and create a New Project
+Login to [vsts][VSTS] 
+
+- Create a New Project
 
 ![VSTS create New Project](/images/azure-storage-vsts/vsts-new-project.png)
 
