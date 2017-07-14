@@ -24,7 +24,7 @@ I will admit, I struggle with regular expressions. I've not used them that much 
 
 I've not found documentation, but from researching the AWS AMI IDs seem to follow the pattern: ami-xxxxxxxx where x is a lowercase letter or number. I will raise a support request to find this out.
 
-[ami-update](http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/windows-ami-version-history.html)
-[ms-update](https://technet.microsoft.com/en-us/security/bulletins.aspx)
-[regexr-site](http://regexr.com/)
-[select-string](http://go.microsoft.com/fwlink/?LinkId=821853)
+[ami-update]:http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/windows-ami-version-history.html
+[ms-update]:https://technet.microsoft.com/en-us/security/bulletins.aspx
+[regexr-site]:http://regexr.com/
+[select-string]:http://go.microsoft.com/fwlink/?LinkId=821853
