@@ -18,5 +18,10 @@ Below is a script I came up with to update the AMI version using PowerShell. The
 
 <script src="https://gist.github.com/MatthewJDavis/3bdbe9fa8fe4a3657308d0799a92f57a.js"></script>
 
+I will admit, I struggle with regular expressions. I've not used them that much throughout my career, however I find the [RegExr][regexr-site] site really handy when writing and testing.
+
+I've not found documentation, but from researching the AWS AMI IDs seem to follow the pattern: ami-xxxxxxxx where x is a lowercase letter or number. I will raise a support request to find this out.
+
 [ami-update](http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/windows-ami-version-history.html)
 [ms-update](https://technet.microsoft.com/en-us/security/bulletins.aspx)
+[regexr-site](http://regexr.com/)
