@@ -2,6 +2,8 @@
 title: updating AMI with PowerShell
 author: Matthew Davis
 date: 2017-07-14
+header:
+  teaser: "images/powershell-profile/profile.png"
 categories: 
     - powershell
 tags:
