@@ -20,8 +20,11 @@ Below is a script I came up with to update the AMI version using PowerShell. The
 
 I will admit, I struggle with regular expressions. I've not used them that much throughout my career, however I find the [RegExr][regexr-site] site really handy when writing and testing.
 
+{% highlight powershell %} Select-String {% endhighlight %} is a useful PowerShell cmdlet, more info in the PowerShell [online docs][select-string] or by running {% highlight powershell %}Get-Help -Name Select-String -Full{% endhighlight %} in PowerShell.
+
 I've not found documentation, but from researching the AWS AMI IDs seem to follow the pattern: ami-xxxxxxxx where x is a lowercase letter or number. I will raise a support request to find this out.
 
 [ami-update](http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/windows-ami-version-history.html)
 [ms-update](https://technet.microsoft.com/en-us/security/bulletins.aspx)
 [regexr-site](http://regexr.com/)
+[select-string](http://go.microsoft.com/fwlink/?LinkId=821853)
