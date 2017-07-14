@@ -15,7 +15,8 @@ tags:
 Amazon release updates to their [Windows AMIs][ami-update] monthly, within 5 business days of Microsoft's [patch Tuesday][ms-update] updates. Making sure you are provisioning the latest patched Windows AMI images from your scripts can be labour intensive, you have to get the latest AMI ID from either the website, AWS console, commandline or via AWS PowerShell, copy it and then update the JSON or YAML cloudformation.
 
 Below is a script I came up with to update the AMI version using PowerShell. The script gets the latest AMI ID from AWS, then replaces it in the specified file (in the example code the file is ec2.yml). This takes out the manual step of updating the AMI ID to the latest version.
-Prequists:
+
+### You will need:
 - [AWS PowerShell][aws-powershell] installed / imported
 - [AWS credentials][aws-creds] set up
 
