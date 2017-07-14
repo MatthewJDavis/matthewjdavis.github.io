@@ -2,6 +2,7 @@
 title: Updating AMI IDs with PowerShell
 author: Matthew Davis
 date: 2017-07-14
+excerpt: Automating Windows AMI ID updating with PowerShell
 header:
   teaser: "images/powershell-profile/profile.png"
 categories: 
