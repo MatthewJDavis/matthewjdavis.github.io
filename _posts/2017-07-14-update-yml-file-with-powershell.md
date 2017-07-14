@@ -1,5 +1,5 @@
 ---
-title: updating AMI with PowerShell
+title: Updating AMI IDs with PowerShell
 author: Matthew Davis
 date: 2017-07-14
 header:
@@ -12,7 +12,7 @@ tags:
     - ami 
 ---
 
-# Updating AMI IDs in Cloudformation
+## Windows AMI updates
 
 Amazon release updates to their [Windows AMIs][ami-update] monthly, within 5 business days of Microsoft's [patch Tuesday][ms-update] updates. Making sure you are provisioning the latest patched Windows AMI images from your scripts can be labour intensive, you have to get the latest AMI ID from either the website, AWS console, commandline or via AWS PowerShell, copy it and then update the JSON or YAML cloudformation.
 
