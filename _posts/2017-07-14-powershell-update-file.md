@@ -1,7 +1,7 @@
 ---
 title: Updating AMI IDs with PowerShell
 author: Matthew Davis
-date: 2017-07-14
+date: 2017-07-17
 excerpt: Automating Windows AMI ID updating with PowerShell
 header:
   teaser: "images/powershell-profile/profile.png"
@@ -32,9 +32,19 @@ I do struggle with regular expressions. I've not used them that much throughout 
 
 I've not found documentation, but from researching the AWS AMI IDs seem to follow the pattern: ami-xxxxxxxx where x is a lowercase letter or number. I will raise a support request to find this out.
 
+## update 17th July 2017
+I raised support request with AWS and got an answer impressively  within an hour:
+
+Turns out only abcdef are valid letters... the 8 letters and numbers are [hex][hex].
+
+"AMI image ID contains 12 characters. It's made of an 'ami' identifier and 8 hexadecimal characters, separated by a dash. Valid image IDs range from 'ami-00000000' to 'ami-ffffffff'."
+
+Nice, I've updated the regex to reflect this.
+
 [ami-update]:http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/windows-ami-version-history.html
 [ms-update]:https://technet.microsoft.com/en-us/security/bulletins.aspx
 [aws-powershell]:https://aws.amazon.com/powershell/
 [aws-creds]:http://docs.aws.amazon.com/powershell/latest/userguide/specifying-your-aws-credentials.html
 [regexr-site]:http://regexr.com/
 [select-string]:http://go.microsoft.com/fwlink/?LinkId=821853
+[hex]:https://en.wikipedia.org/wiki/Hexadecimal
