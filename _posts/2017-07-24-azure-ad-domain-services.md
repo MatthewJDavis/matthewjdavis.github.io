@@ -55,8 +55,35 @@ Add-AzureRmAccount
 {% highlight powershell %}
 Select-AzureRmSubscription -SubscriptionName
 {% endhighlight %}
-3. Run the following (adjust the names / addresses as required)
+3. Run the following (adjust the names / location / addresses as required)
 <script src="https://gist.github.com/MatthewJDavis/6fad491b929572afd4c01170eb888242.js"></script>
+
+## Classic VNET deployment
+Now it's time to deploy the classic VNET, this means authenticating against the ASM API, using the Azure PowerShell module (not the AzureRM module).
+
+1. Login to Azure
+{% highlight powershell %}
+Add-AzureAccount
+{% endhighlight %}
+2. Select correct Azure subscription (if you need to)
+{% highlight powershell %}
+Select-AzureSubscription -SubscriptionName
+{% endhighlight %}
+
+To deploy the classic VNET, you need to have the config in XML format like below:
+
+<script src="https://gist.github.com/MatthewJDavis/d515c177fec80ed2297f5a241c155953.js"></script>
+
+If you look at the VirtualNetworkSite element, you will see the resource group name with the VNET name, this will place it in the Resource group created. 
+Save this file to the local computer and then run the following Azure PowerShell command with the full path to the file:
+{% highlight powershell %}
+Set-AzureVNetConfig -ConfigurationPath C:\temp\classic-network-config.xml
+{% endhighlight %}
+
+You should now see the classic VNET in the resource group with the ARM VNET in the portal.
+
+
+## Setting up VNET Peering
 
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
