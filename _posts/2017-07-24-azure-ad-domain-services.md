@@ -87,7 +87,15 @@ You should now see the classic VNET in the resource group with the ARM VNET in t
 
 
 ## Setting up VNET Peering
+The last step of this part is to enable VNET peering between the classic and ARM VNETs. This will allow VMs provisioned in the ARM VNET to be able to communicate and join AADDS.
 
+Below this code will create the peering between the two VNETs.
+Update the resource group name, classic VNET name and input your subscription name. These are all needed to create the classic VNET id so we can create the peering link.
+
+<script src="https://gist.github.com/MatthewJDavis/5b3968c304c5a54d12e0ebd539c56ca6.js"></script>
+
+After this has run successfully, you'll be able to see the peering in the Azure Portal.
+ ![Peering setup](/images/azure-ad-domain-services/vnet-Gpeering.png)
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [Azure Automation]: https://docs.microsoft.com/en-us/azure/automation/automation-intro
