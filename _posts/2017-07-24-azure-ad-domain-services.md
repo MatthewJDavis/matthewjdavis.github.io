@@ -95,7 +95,7 @@ Update the resource group name, classic VNET name and input your subscription na
 <script src="https://gist.github.com/MatthewJDavis/5b3968c304c5a54d12e0ebd539c56ca6.js"></script>
 
 After this has run successfully, you'll be able to see the peering in the Azure Portal.
- ![Peering setup](/images/azure-ad-domain-services/vnet-Gpeering.png)
+ ![Peering setup](/images/azure-ad-domain-services/vnet-peering.png)
 
 That's the networking setup ready for the AADDS to be deployed.
 In the next post, I'll show how this was set up and the DNS added to the VNET so VMs can find and join the domain
