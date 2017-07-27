@@ -8,5 +8,5 @@ categories:
 tags:
     - azure
     - active directory domain services
-draft: true
+published: false
 ---
