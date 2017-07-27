@@ -1,7 +1,7 @@
 ---
 title: Azure Active Directory Domain Services Part 2
 author: Matthew Davis
-date: 2017-07-24
+date: 2017-07-27
 excerpt: Setting up Azure Active Directory Domain Services in the Portal
 categories: 
     - azure
