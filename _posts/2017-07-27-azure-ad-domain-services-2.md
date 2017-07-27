@@ -17,6 +17,7 @@ This is the manual bit at the moment (no PowerShell available), so login to the 
 
 Click the "+" sign in the menu and search for "Domain Services" (Make sure you select "Azure AD Domain Services).
 Click "Create"
+![](/images/azure-ad-domain-services\az-search-aadds.png)
 
 Fill in the basic config:
 
