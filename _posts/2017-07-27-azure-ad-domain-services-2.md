@@ -48,9 +48,25 @@ You should now see the AADDS as a resource in your resource group
 
 ![aadds resource](/images/azure-ad-domain-services/aadds-resource.png)
 
-It will take some time to deploy, I waited around 20 minutes before mine had finished... time to get a brew.
+It will take some time to deploy, it took an hour before mine had finished... time to get a brew.
 
 ![aadds deploying](/images/azure-ad-domain-services/aadds-deploying.png)
+
+## Update the DNS Server values of the VNET
+Now we need to update the VNET DNS server values so VMs in the VNET can resolve the domain name to be able to join it.
+
+Get the DNS server values from the Portal. 
+Click on the AADDS resource and Overview to see the DNS server values:
+
+![aadds dns server addresses](/images/azure-ad-domain-services/aadds-overview.png)
+
+You can update the VNET DNS settings via the Portal or use the PowerShell script below.
+The script needs the VNET name, resource group name and two DNS server addresses.
+The script will save the current ARM VNET in a variable, update the DNS server addresses then update the VNET
+
+<script src="https://gist.github.com/MatthewJDavis/85b93d15ef222f504524cc4d0aae033f.js"></script>
+
+That's it, you now have your Azure Active Directory Domain Services set up and VNETs configured, ready for VMs to be added and joined to the domain. In the next part, we'll set up a management server, allowing you to manage the Directory.
 
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
 [Microsoft blog post]: https://blogs.technet.microsoft.com/enterprisemobility/2017/07/11/new-public-preview-azure-ad-domain-services-admin-ux-in-the-new-azure-portal/
