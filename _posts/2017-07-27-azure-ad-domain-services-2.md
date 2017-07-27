@@ -24,10 +24,10 @@ Click "Create"
 
 Fill in the basic config:
 
-DNS Name: yourdnsname.com 
-Subscription: same one you created the VNETs in
-Resource Group: Use exsisting or create new, up to you (I'm managing everything in one resource group)
-Location: Same as where you created the VNETs
+- DNS Name: yourdnsname.com 
+- Subscription: same one you created the VNETs in
+- Resource Group: Use exsisting or create new, up to you (I'm managing everything in one resource group)
+- Location: Same as where you created the VNETs
 
 ![fill out basic config](/images/azure-ad-domain-services/aadds-basic-config.png)
 
@@ -64,6 +64,8 @@ The script needs the VNET name, resource group name and two DNS server addresses
 The script will save the current ARM VNET in a variable, update the DNS server addresses then update the VNET
 
 <script src="https://gist.github.com/MatthewJDavis/85b93d15ef222f504524cc4d0aae033f.js"></script>
+
+![dns servers added to vnet](/images/azure-ad-domain-services/aadds-dns-servers.png)
 
 That's it, you now have your Azure Active Directory Domain Services set up and VNETs configured, ready for VMs to be added and joined to the domain. In the next part, we'll set up a management server, allowing you to manage the Directory.
 
