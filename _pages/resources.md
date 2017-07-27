@@ -1,5 +1,5 @@
 ---
-title: Resource I've found useful
+title: Resources
 layout: single
 permalink: /resources/
 modified: 2011-07-27
@@ -7,7 +7,7 @@ tags:
   - resources
 ---
 
-# Podcasts
+## Podcasts
 - [Security Now]
 - [RunAs radio]
 - [.NET Rocks]
@@ -19,7 +19,7 @@ tags:
 - [The Azure Podcast]
 - [Hanselminutes]
 
-# Books
+## Books
 - [Time Management for System Administrators]
 - [The Phoenix Project]
 - [Devops Handbook]
