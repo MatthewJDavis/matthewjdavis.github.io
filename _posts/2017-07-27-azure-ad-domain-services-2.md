@@ -8,7 +8,6 @@ categories:
 tags:
     - azure
     - active directory domain services
-published: false
 ---
 
 In [part 1], we set up the networking for Azure Active Directory Domain Services. In this part we will implement AADDS using the portal. It was announced on July 2017 that AADDS will be available in the portal in this [Microsoft blog post].
