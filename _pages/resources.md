@@ -1,5 +1,5 @@
 ---
-title: About
+title: Resource I've found useful
 layout: single
 permalink: /resources/
 modified: 2011-07-27
@@ -8,26 +8,28 @@ tags:
 ---
 
 # Podcasts
-[Security Now]
-[RunAs radio]
-[.NET Rocks]
-[Crypto-Gram]
-[AWS Techchat]
-[AWS Podcast]
-[Microsoft Cloud Show]
-[PowerScripting Podcast]
-[The Azure Podcast]
+- [Security Now]
+- [RunAs radio]
+- [.NET Rocks]
+- [Crypto-Gram]
+- [AWS Techchat]
+- [AWS Podcast]
+- [Microsoft Cloud Show]
+- [PowerScripting Podcast]
+- [The Azure Podcast]
+- [Hanselminutes]
 
 # Books
-[Time Management for System Administrators]
-[The Phoenix Project]
-[Devops Handbook]
+- [Time Management for System Administrators]
+- [The Phoenix Project]
+- [Devops Handbook]
 
 
 
 [Security Now]: https://twit.tv/shows/security-now
 [RunAs Radio]: http://www.runasradio.com/
 [.NET Rocks]: https://www.dotnetrocks.com/
+[Hanselminutes]: https://hanselminutes.com/
 [Crypto-Gram]: http://crypto-gram.libsyn.com/
 [AWS Techchat]: https://aws.amazon.com/podcasts/aws-techchat/
 [AWS Podcast]: https://aws.amazon.com/podcasts/aws-podcast/
