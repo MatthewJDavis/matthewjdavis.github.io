@@ -10,3 +10,11 @@ tags:
     - active directory domain services
 published: false
 ---
+
+In [part 1], we set up the networking for Azure Active Directory Domain Services. In this part we will implement AADDS using the portal. It was announced on July 2017 that AADDS will be available in the portal in this [Microsoft blog post].
+
+This is the manual bit at the moment (no PowerShell available), so login to the [Azure portal].
+
+[part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
+[Microsoft blog post]: https://blogs.technet.microsoft.com/enterprisemobility/2017/07/11/new-public-preview-azure-ad-domain-services-admin-ux-in-the-new-azure-portal/
+[Azure portal]: https://portal.azure.com
