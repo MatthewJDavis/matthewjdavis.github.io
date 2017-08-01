@@ -73,6 +73,9 @@ What happens here is the Install-WindowsFeature Cmdlt is called for each item in
 This will take a couple of minutes or so to install, once it has you can run the test again to verify the tools are there.
 
 The tools will be available from Server Manager under the tools directory.
+![rsat tools in server manager](/images/azure-ad-domain-services/rsat-tools.png)
+
+In the next part, we'll join the VM up to the domain and have a quick look at what we can manage.
 
 ## Pester Tests
 Pester tests are a great way to make sure your PowerShell scripts are behaving as they should. Below is a Pester test to make sure the features we say we wanted to install are installed (checking our script does what it should do). I've also put a test in to make sure smb-1 is not installed... after the [vulnerabilities] found that helps it propagate malware.
@@ -83,11 +86,11 @@ Save the script below and then from a PowerShell prompt in the same directory as
 Invoke-Pester
 {% endhighlight %} 
 You'll see from the output the 1 test passed (smb-1 is hopefully not installed) and 3 failed.
-
+![failed peseter tests](/images/azure-ad-domain-services/config-test.png)
 Once you have run the PowerShell script to install the features, run this again and you should see that all tests pass.
+![passed pester tests](/images/azure-ad-domain-services/config-test-pass.png)
 
-
-
+<script src="https://gist.github.com/MatthewJDavis/13effe612ad0eabc438675ba92055f35.js"></script>
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: https://matthewdavis111.com/
