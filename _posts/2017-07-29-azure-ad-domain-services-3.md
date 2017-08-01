@@ -77,6 +77,7 @@ What happens here is the Install-WindowsFeature Cmdlt is called for each item in
 This will take a couple of minutes or so to install.
 
 The tools will be available from Server Manager under the tools directory.
+
 ![rsat tools in server manager](/images/azure-ad-domain-services/rsat-tools.png)
 
 In the next part, we'll join the VM up to the domain and have a quick look at what we can manage.
@@ -89,9 +90,13 @@ Save the script below and then from a PowerShell prompt in the same directory as
 {% highlight PowerShell %}
 Invoke-Pester
 {% endhighlight %} 
+
 You'll see from the output the 1 test passed (smb-1 is hopefully not installed) and 3 failed.
+
 ![failed pester tests](/images/azure-ad-domain-services/config-test.png)
+
 Once you have run the PowerShell script to install the features, run this again and you should see that all tests pass.
+
 ![passed pester tests](/images/azure-ad-domain-services/config-test-pass.png)
 
 <script src="https://gist.github.com/MatthewJDavis/13effe612ad0eabc438675ba92055f35.js"></script>
