@@ -22,7 +22,7 @@ This post will concentrate on installing the management tools.
     - AD PowerShell
     - DNS Server Tools
 
-The VM needs to be placed within one of the subnets created in the ARM VNET in a subnet that is **not** the gateway subnet.
+The VM needs to be placed within one of the subnets created in the ARM VNET in a subnet that is **not** the gateway subnet. The backend subnet makes sense because in a production environment this may only be accessible via a jumpbox or private IP address via a VPN.
 
 Provision the VM either through the portal, via PowerShell or you can deploy via the ARM templates I've created and are stored on Github:
 - [Azure ARM deployment Template]
