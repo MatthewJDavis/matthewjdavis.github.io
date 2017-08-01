@@ -28,26 +28,27 @@ Provision the VM either through the portal, via PowerShell or you can deploy via
 - [Azure ARM deployment Template]
 - [Azure ARM deployment Parameters]
 
-## Connect to and login to the VM
+#### Connect to and login to the VM
 - Authenticate to AzureRM and select the correct subscription
 - Get the public IP address of the VM
 {% highlight powershell %}
 (Get-AzureRmPublicIpAddress -Name domain-services-vm-pip -ResourceGroupName domain-services-rg).IpAddress | Set-Clipboard
 {% endhighlight %}
 
-- Remote desktop into the VM
+#### Remote desktop into the VM
   Tip: type mstc into the PowerShell prompt to start remote desktop and then press ctrl + v to paste in the IP address (see screenshot below)
+
 ![start and RDP session to the VM](/images/azure-ad-domain-services/start-rdp.png)
 
 - Enter the login details: \dsamin
 ![Login to the VM](/images/azure-ad-domain-services/connect-rdp.png)
 
-**Certificate Warning**
+#### Certificate Warning
 You'll get a certificate warning because the VM is presenting a certificate that our computer doesn't trust. When you see these warnings, you should always pay attention and think about what is going on. Because we've just created this VM and have not installed any certs on it, our computer doesn't know about it so rightly gives a warning, but because we've just created it and are going to the right IP address, click yes so we can connect to it.
 
 ![certificate warning](/images/azure-ad-domain-services/cert-warning.png)
 
-**Check existing tools**
+#### Check existing tools
 Open Server Manager (it usually opens by default but if not, press the Windows menu key and type server manager).
 Click on the Tools menu at the top on the right and you will see that there are no AD or DNS tools
 
@@ -55,6 +56,7 @@ Click on the Tools menu at the top on the right and you will see that there are 
 
 Note: If you want another cool way to test this using a [Pester Test] with PowerShell, scroll down and I'll post a simple test that checks for the features, will fail because they are not installed and then after running the PowerShell to install the features, will pass to prove that the script does what it is supposed to do.
 
+## Install the features
 - Open up a PowerShell terminal as an **Administrator**
   We want to install the following:
     - Remote Server Administration Tools
