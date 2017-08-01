@@ -22,7 +22,7 @@ This post will concentrate on installing the management tools.
     - AD PowerShell
     - DNS Server Tools
 
-The VM needs to be placed within one of the subnets create in the ARM VNET in a subnet that is **not** the gateway subnet.
+The VM needs to be placed within one of the subnets created in the ARM VNET in a subnet that is **not** the gateway subnet.
 
 Provision the VM either through the portal, via PowerShell or you can deploy via the ARM templates I've created and are stored on Github:
 - [Azure ARM deployment Template]
@@ -86,7 +86,7 @@ Save the script below and then from a PowerShell prompt in the same directory as
 Invoke-Pester
 {% endhighlight %} 
 You'll see from the output the 1 test passed (smb-1 is hopefully not installed) and 3 failed.
-![failed peseter tests](/images/azure-ad-domain-services/config-test.png)
+![failed pester tests](/images/azure-ad-domain-services/config-test.png)
 Once you have run the PowerShell script to install the features, run this again and you should see that all tests pass.
 ![passed pester tests](/images/azure-ad-domain-services/config-test-pass.png)
 
