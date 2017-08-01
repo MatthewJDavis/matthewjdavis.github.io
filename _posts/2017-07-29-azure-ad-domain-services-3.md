@@ -8,7 +8,6 @@ categories:
 tags:
     - azure
     - active directory domain services
-published: false
 ---
 
 In [part 1] we configured the networking and in [part 2] set up [Azure Active Directory Domain Services] (AADDS), a managed domain controller for Microsoft Azure.
