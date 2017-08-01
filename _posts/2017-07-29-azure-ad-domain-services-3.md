@@ -12,14 +12,15 @@ tags:
 
 In [part 1] we configured the networking and in [part 2] set up [Azure Active Directory Domain Services] (AADDS), a managed domain controller for Microsoft Azure.
 
-Microsoft take care of the infrastructure running the domain controller so you can concentrate on managing the domain. To do this, you'll need a domain joined Virtual Machine (VM) with the [management tools] installed. 
+Microsoft take care of the infrastructure running the domain controller so you can concentrate on managing the domain. To do this, you'll need a domain joined Virtual Machine (VM) with Active Directory and DNS [management tools] installed. 
+
+This post will concentrate on installing the management tools.
 
 1. Provision a Windows 2016 VM
 2. Install the following tools for domain management
     - Remote Server Administration Tools
     - AD PowerShell
     - DNS Server Tools
-3. Domain Join the VM
 
 The VM needs to be placed within one of the subnets create in the ARM VNET in a subnet that is **not** the gateway subnet.
 
