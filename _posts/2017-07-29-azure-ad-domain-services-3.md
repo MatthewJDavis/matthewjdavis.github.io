@@ -40,7 +40,7 @@ Provision the VM either through the portal, via PowerShell or you can deploy via
 
 ![start and RDP session to the VM](/images/azure-ad-domain-services/start-rdp.png)
 
-- Enter the login details: \dsamin
+#### Enter the login details: \dsamin
 ![Login to the VM](/images/azure-ad-domain-services/connect-rdp.png)
 
 #### Certificate Warning
