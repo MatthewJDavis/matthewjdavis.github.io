@@ -42,7 +42,7 @@ Provision the VM either through the portal, via PowerShell or you can deploy via
 ![Login to the VM](/images/azure-ad-domain-services/connect-rdp.png)
 
 - Certificate Warning
-You'll get a certificate warning because the VM is presenting a certificate that our computer doesn't trust. When you see these warnings, you should always pay attention and think about what is going on. Because we've just created this VM and have not installed any certs on it, our computer doesn't know about it so rightly gives a warning, but because just we've created it and are going to the right IP address, click yes so we can connect to it.
+You'll get a certificate warning because the VM is presenting a certificate that our computer doesn't trust. When you see these warnings, you should always pay attention and think about what is going on. Because we've just created this VM and have not installed any certs on it, our computer doesn't know about it so rightly gives a warning, but because we've just created it and are going to the right IP address, click yes so we can connect to it.
 ![certificate warning](/images/azure-ad-domain-services/cert-warning.png)
 
 - Check existing tools
