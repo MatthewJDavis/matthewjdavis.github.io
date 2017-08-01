@@ -57,7 +57,7 @@ Click on the Tools menu at the top on the right and you will see that there are 
 Note: If you want another cool way to test this using [Pester Tests] with PowerShell, scroll down and I'll post a simple test that checks for the features, will fail because they are not installed and then after running the PowerShell to install the features, will pass to prove that the script does what it is supposed to do.
 
 ## Install the features
-- Open up a PowerShell terminal as an **Administrator**
+Open up a PowerShell terminal as an **Administrator**
   We want to install the following:
     - Remote Server Administration Tools
     - AD PowerShell
