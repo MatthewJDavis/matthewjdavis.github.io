@@ -93,8 +93,8 @@ Once you have run the PowerShell script to install the features, run this again 
 <script src="https://gist.github.com/MatthewJDavis/13effe612ad0eabc438675ba92055f35.js"></script>
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
-[part 1]: https://matthewdavis111.com/
-[part 2]: https://matthewdavis111.com/
+[part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
+[part 2]: http://matthewdavis111.com/azure/azure-ad-domain-services-2/
 [management tools]: https://docs.microsoft.com/en-us/azure/active-directory-domain-services/active-directory-ds-admin-guide-administer-domain
 [Azure ARM deployment Template]: https://github.com/MatthewJDavis/Azure/blob/master/Domain-Services/vm-templates/windows-management-vm/azuredeploy.json
 [Azure ARM deployment Parameters]: https://github.com/MatthewJDavis/Azure/blob/master/Domain-Services/vm-templates/windows-management-vm/azuredeploy.parameters.json
