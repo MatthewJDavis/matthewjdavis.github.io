@@ -79,7 +79,7 @@ analytics:
 author:
   name             : "Matthew Davis"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Another IT blog sharing what I come across"
+  bio              : "PowerShell, infrastructure automation, sharing what I'm learning / extending my memory here"
   location         : "Bath UK"
   email            :
   uri              :
@@ -89,13 +89,13 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : https://github.com/MatthewJDavis
+  github           : MatthewJDavis
   gitlab           :
   google_plus      :
   keybase          :
   instagram        :
   lastfm           :
-  linkedin         : www.linkedin.com/in/matthew-davis
+  linkedin         : matthew-davis
   pinterest        :
   soundcloud       :
   stackoverflow    : # "123456/username" (the last part of your profile url, e.g. http://stackoverflow.com/users/123456/username)
