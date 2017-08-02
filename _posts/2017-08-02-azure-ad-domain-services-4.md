@@ -73,4 +73,5 @@ Click on yourdomain (local) on the left hand side and then AADDC computers. Ther
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
 [part 2]: http://matthewdavis111.com/azure/azure-ad-domain-services-2/
+[part 3]: http://matthewdavis111.com/azure/azure-ad-domain-services-3/
 [Microsoft Document]: https://docs.microsoft.com/en-us/azure/active-directory-domain-services/active-directory-ds-admin-guide-join-windows-vm
