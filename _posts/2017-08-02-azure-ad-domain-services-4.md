@@ -52,7 +52,7 @@ Start a PowerShell session as Administrator
 
 You'll need to authenticate to the domain when joining it so use the Get-Credential cmdlet to store you domain credentials in a variable. 
 
-**Note** I've always had success using the UserPrincipalName of the user. The samaccountname may not be as expected in Azure AD as outlined at the bottom of this [Microsoft document] on domain joining to Azure AD Domain Services.
+**Note** I've always had success using the **UserPrincipalName** of the user. The samaccountname may not be as expected in Azure AD as outlined at the bottom of this [Microsoft document] on domain joining to Azure AD Domain Services.
 
 {% highlight PowerShell %}
 $creds = Get-Credential
