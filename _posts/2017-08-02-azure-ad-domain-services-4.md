@@ -62,7 +62,7 @@ Restart-Computer -Force
 You should now be able to login with the domain user you used to join the domain with (or any other user who is a member of the AAD DC Administrators)
 
 Open Server Manager (search for Server Manager) if it doesn't open automatically on start and go to **Tools** on the top right.
-Select **Active Directory Domain Services**
+Select **Active Directory Administrative Centre**
 
 ![open active directory admin centre from server manager](/images/azure-ad-domain-services/ad-admin-centre.png)
 
