@@ -51,15 +51,18 @@ Login with the **admin user** that was created with the vm **dsadmin** (or whate
 
 Start a PowerShell session as Administrator
 
-Optional - I like to rename the computer
+You'll need to authenticate to the domain when joining it so use the Get-Credential cmdlet to store you domain credentials in a variable. 
+
+**Note** I've always had success using the UserPrincipalName of the user. The samaccountname may not be as expected in Azure AD as outlined at the bottom of this [Microsoft document] on domain joining to Azure AD Domain Services.
 
 ```PowerShell
 $creds = Get-Credential
 Add-Computer -Credential $creds -DomainName yourdomain.com
 Restart-Computer -Force
 ```
-
+You should now be able to login with the domain user you used to join the domain with (or any other user who is a member of the AAD DC Administrators)
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
 [part 2]: http://matthewdavis111.com/azure/azure-ad-domain-services-2/
+[Microsoft Document]: https://docs.microsoft.com/en-us/azure/active-directory-domain-services/active-directory-ds-admin-guide-join-windows-vm
