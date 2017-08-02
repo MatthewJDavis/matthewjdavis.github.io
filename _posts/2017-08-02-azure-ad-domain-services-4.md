@@ -8,7 +8,6 @@ categories:
 tags:
     - azure
     - active directory domain services
-published: false
 ---
 
 In [part 1] we configured the networking, in [part 2] set up [Azure Active Directory Domain Services] (AADDS) and in [part 3] we setup a management VM. 
