@@ -50,7 +50,7 @@ Login with the **admin user** that was created with the vm **dsadmin** (or whate
 
 Start a PowerShell session as Administrator
 
-You'll need to authenticate to the domain when joining it so use the Get-Credential cmdlet to store you domain credentials in a variable. 
+You'll need to authenticate to the domain when joining it so use the Get-Credential cmdlet to store the domain credentials in a variable. 
 
 **Note** I've always had success using the **UserPrincipalName** of the user. The samaccountname may not be as expected in Azure AD as outlined at the bottom of this [Microsoft document] on domain joining to Azure AD Domain Services.
 
