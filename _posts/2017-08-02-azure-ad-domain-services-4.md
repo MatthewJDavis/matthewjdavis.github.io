@@ -41,6 +41,25 @@ Get-AzureRmVM -Name ds-manag-vm -ResourceGroupName DOMAIN-SERVICES-RG | Start-Az
 
 ![start Azure VM with PowerShell](/images/azure-ad-domain-services/start-vm.png)
 
+Connect to the VM via RDP, you can use PowerShell to set the public IP of the VM to your clipboard and open the RDP prompt as before:
+
+```PowerShell
+(Get-AzureRmPublicIpAddress -Name domain-services-vm-pip -ResourceGroupName domain-services-rg).PublicIpAddressVersion | Set-Clipboard
+mstsc
+```
+Login with the **admin user** that was created with the vm **dsadmin** (or whatever you called it).
+
+Start a PowerShell session as Administrator
+
+Optional - I like to rename the computer
+
+```PowerShell
+$creds = Get-Credential
+Add-Computer -Credential $creds -DomainName yourdomain.com
+Restart-Computer -Force
+```
+
+
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
 [part 2]: http://matthewdavis111.com/azure/azure-ad-domain-services-2/
