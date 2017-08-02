@@ -18,7 +18,7 @@ To join the domain in the first instance and manage it, you'll need to use an ac
 
 ```PowerShell
 (Get-AzureRmADGroup -SearchString AAD).Id.guid | Set-Clipboard
-Get-AzureRmADGroupMember -GroupObjectId *paste clipboard here*
+Get-AzureRmADGroupMember -GroupObjectId paste clipboard here
 ```
 Or via the Azure Portal
 
