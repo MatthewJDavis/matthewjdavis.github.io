@@ -23,8 +23,23 @@ Get-AzureRmADGroupMember -GroupObjectId *paste clipboard here*
 ```
 Or via the Azure Portal
 
+Search for "Directory" and select **Azure Active Directory**
+
+![Azure Active Directory](/images/azure-ad-domain-services/directory.png)
+
+Find the AAD DC Administrators group and select it to see the users and add more users
+
 ![admin group in portal](/images/azure-ad-domain-services/aad-dc-admin-group.png)
 
+I've created a user called domain-join which is a member of the AAD DC Administrators group and I'll be using this account to join the domain and manage it for this post. In future I plan to use this user to domain join VMs to the domain via different configuration management software such as Chef and PowerShell DSC for testing.
+
+Start the management VM either through the portal or via PowerShell
+
+```PowerShell
+Get-AzureRmVM -Name ds-manag-vm -ResourceGroupName DOMAIN-SERVICES-RG | Start-AzureRmVM
+```
+
+![start Azure VM with PowerShell](/images/azure-ad-domain-services/start-vm.png)
 
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
