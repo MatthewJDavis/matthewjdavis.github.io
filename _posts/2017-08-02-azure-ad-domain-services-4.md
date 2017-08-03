@@ -70,6 +70,43 @@ Click on yourdomain (local) on the left hand side and then AADDC computers. Ther
 
 ![management computer in AADDC OU](/images/azure-ad-domain-services/ad-admin-centre-comps.png)
 
+## DNS Management
+
+Open the DNS tool, from the **Tools** menu on the top right of server manager, select DNS.
+
+![open the DNS tool from the tools menu](/images/azure-ad-domain-services/dns.png)
+
+In the dialog box, check the radio button of "The following computer:" and enter your domain name.
+
+![add your domain name as the computer to connect to](/images/azure-ad-domain-services/dns-add-computer.png)
+
+You should now be able to add and edit your custom DNS records
+
+![DNS manager connected](/images/azure-ad-domain-services/dns-manager.png)
+
+## Group Policy... I almost forgot!
+
+Yeah, so I forgot to install Group Policy Management Console which is not going to help in the management of group policy.
+
+To install, open up a PowerShell console as an administrator and install the windows feature:
+
+{ % Highlight PowerShell % }
+Install-WindowsFeature -Name GPMC
+{ % endhighlight % }
+
+![DNS manager connected](/images/azure-ad-domain-services/install-gp.png)
+
+Open up **Group Policy Management** from the tools menu in Server Manager and you'll be able to create and edit group policies through the familiar interface. 
+
+![DNS manager connected](/images/azure-ad-domain-services/gpo-management.png)
+
+That's as far as I've got with Group Policy so will be interesting to see if it behaves the same as it does in normal Active Directory.
+
+
+
+
+That's it for this series. I think AADDS is great for setting up and testing, it does eat into your credits and although we've automated as much as possible at the moment, it still takes a bit of time to create. I plan on using it for a week or so of testing and then tearing it down. I do think this would be very handy for a company that wanted to run VMs in Azure and manage them without the need to set up a DC.
+
 [Azure Active Directory Domain Services]: https://azure.microsoft.com/en-gb/services/active-directory-ds/
 [part 1]: http://matthewdavis111.com/azure/azure-ad-domain-services-1/
 [part 2]: http://matthewdavis111.com/azure/azure-ad-domain-services-2/
