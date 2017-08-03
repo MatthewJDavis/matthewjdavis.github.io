@@ -13,7 +13,7 @@ tags:
 In [part 1] we configured the networking, in [part 2] set up [Azure Active Directory Domain Services] (AADDS) and in [part 3] we setup a management VM. 
 In this post we'll join the management VM to the domain to enable DNS and Active Directory management.
 
-## User
+## Domain Management User
 To join the domain in the first instance and manage it, you'll need to use an account that is a member of the **AAD DC Administrators** group. A user (or users) were specified when setting up AADDS, to check what users are members of this group you can use AzureRM PowerShell cmdlets:
 
 {% highlight PowerShell %}
@@ -98,7 +98,7 @@ Yeah, so I forgot to install Group Policy Management Console which is not going 
 
 To install, open up a PowerShell console as an administrator and install the windows feature:
 
-{ % Highlight PowerShell % }
+{ % highlight PowerShell % }
 Install-WindowsFeature -Name GPMC
 { % endhighlight % }
 
@@ -109,9 +109,6 @@ Open up **Group Policy Management** from the tools menu in Server Manager and yo
 ![DNS manager connected](/images/azure-ad-domain-services/gpo-management.png)
 
 That's as far as I've got with Group Policy so will be interesting to see if it behaves the same as it does in normal Active Directory.
-
-
-
 
 That's it for this series. I think AADDS is great for setting up and testing, it does eat into your credits and although we've automated as much as possible at the moment, it still takes a bit of time to create. I plan on using it for a week or so of testing and then tearing it down. I do think this would be very handy for a company that wanted to run VMs in Azure and manage them without the need to set up a DC.
 
