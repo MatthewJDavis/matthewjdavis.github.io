@@ -98,9 +98,9 @@ Yeah, so I forgot to install Group Policy Management Console which is not going 
 
 To install, open up a PowerShell console as an administrator and install the windows feature:
 
-{ % highlight PowerShell % }
+{% highlight PowerShell %}
 Install-WindowsFeature -Name GPMC
-{ % endhighlight % }
+{% endhighlight %}
 
 ![DNS manager connected](/images/azure-ad-domain-services/install-gp.png)
 
