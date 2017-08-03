@@ -70,6 +70,14 @@ Click on yourdomain (local) on the left hand side and then AADDC computers. Ther
 
 ![management computer in AADDC OU](/images/azure-ad-domain-services/ad-admin-centre-comps.png)
 
+If you click on AADDC Users, you'll be able to manage your users there, however you won't be able to create any, you'll need to do that through the Azure portal or via AzureRM PowerShell.
+
+![viewing users in aadds](/images/azure-ad-domain-services/managing-users.png)
+
+You can use AD commands to see users too.
+
+![get-aduser with PowerShell](/images/azure-ad-domain-services/get-aduser.png)
+
 ## DNS Management
 
 Open the DNS tool, from the **Tools** menu on the top right of server manager, select DNS.
