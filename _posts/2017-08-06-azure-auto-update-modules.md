@@ -11,7 +11,7 @@ tags:
     - powershell runbook
 ---
 
-While creating a PowerShell runbook to automating the shutting down of tagged Virtual Machines, I ran into the following error:
+While creating a PowerShell runbook to automate the shutting down of tagged Virtual Machines, I ran into the following error:
 
 {% highlight powershell %}
 Get-AzureRmResourceGroup : Run Login-AzureRmAccount to login.
@@ -26,7 +26,8 @@ At test:7 char:7
 
 PowerShell runbooks that had previously run successfully also produced the same error when they ran despite not being updated.
 
-After checking that the certificate the service principal was using hadn't expired and the service principal looked OK and testing with the demo runbook which also failed, I came across this post in a [Microsoft Forum] which fixed the problem:
+After checking the certificate being used by the service principal hadn't expired and the service principal looked OK, I tested the tutorial runbook which also failed.
+I came across this post in a [Microsoft Forum] which fixed the problem:
 
 **The modules in my Automation account were not updated**. 
 
