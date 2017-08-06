@@ -13,14 +13,13 @@ tags:
 
 While creating a PowerShell runbook to automate the shutting down of tagged Virtual Machines, I ran into the following error:
 
-{% highlight powershell %}
+'''powershell
 Get-AzureRmResourceGroup : Run Login-AzureRmAccount to login.
 At test:7 char:7
 + 
     + CategoryInfo          : InvalidOperation: (:) [Get-AzureRmResourceGroup], PSInvalidOperationException
     + FullyQualifiedErrorId : InvalidOperation,Microsoft.Azure.Commands.Resources.GetAzureResourceGroupCommand
-
-{% endhighlight %}
+```
 
 ![login error when running PowerShell runbook](/images/azure-auto-module-update/login-error.png)
 
