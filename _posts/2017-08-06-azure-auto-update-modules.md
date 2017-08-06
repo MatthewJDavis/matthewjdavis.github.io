@@ -76,10 +76,11 @@ $params = @{'powerOffTime' = '23:00'}
 
 ```powershell
 Register-AzureRmAutomationScheduledRunbook -RunbookName $schedule.RunbookName -ScheduleName $schedule.ScheduleName -ResourceGroupName $schedule.ResourceGroupName -AutomationAccountName $schedule.AutomationAccountName -Parameters $params
-```powershell
+```
 
 The runbook and schedule is now linked again and the updated modules should now work. Hopefully the Get-AzureRmAutomationScheduledRunbook issue will be resolved so the updating of the modules and un-linking, linking of the runbooks can be automated.
 
+
 [Microsoft Forum]: https://social.msdn.microsoft.com/Forums/en-US/c38e01df-dac8-4095-9658-7b1d981fe8e6/azure-automation-error-run-loginazurermaccount-to-login?forum=azureautomation
 
-[issue] https://github.com/Azure/azure-powershell/issues/2180
+[issue]: https://github.com/Azure/azure-powershell/issues/2180
