@@ -17,7 +17,7 @@ You can add the [rss feed][rss feed] to your favourite reader or Outlook to get 
 
 Here is a small PowerShell script that I use to download the latest sysinternals tools. I set this script to run once a month via a scheduled task to make sure I have the latest versions.
 
-{% highlight powershell %}
+```powershell
 $uri = 'https://live.sysinternals.com/'
 $sysToolsPage = Invoke-WebRequest -Uri $uri
 $sysIntPath = 'C:\sysinternals'
@@ -34,11 +34,7 @@ $sysTools = $sysToolsPage.Links.innerHTML | Where-Object -FilterScript {$_ -like
 foreach ($sysTool in $sysTools){
     Invoke-WebRequest -Uri "$uri/$sysTool" -OutFile $sysTool
 }
-
-
-{% endhighlight %}
-
-
+```
 
 [sysinternals]: https://technet.microsoft.com/en-gb/sysinternals/bb545021.aspx
 [rss feed]: https://blogs.technet.microsoft.com/sysinternals/feed/
