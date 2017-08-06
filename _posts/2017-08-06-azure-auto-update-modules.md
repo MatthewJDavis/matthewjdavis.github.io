@@ -13,7 +13,7 @@ tags:
 
 While creating a PowerShell runbook to automate the shutting down of tagged Virtual Machines, I ran into the following error:
 
-'''powershell
+```powershell
 Get-AzureRmResourceGroup : Run Login-AzureRmAccount to login.
 At test:7 char:7
 + 
