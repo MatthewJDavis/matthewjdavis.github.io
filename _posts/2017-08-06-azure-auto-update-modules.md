@@ -44,4 +44,42 @@ I ran the update and now my PowerShell runbooks authenticated to AzureRM ok agai
 
 ![updated modules](/images/azure-auto-module-update/azure-auto-module-update.png)
 
+## re-link schedules
+
+To use the latest modules, the runbooks have to be un-linked and re-linked to a schedule:
+
+> Azure modules have been updated; for runbooks that use these modules and have a linked schedule you will need to unlink and re-link the schedule so that the updated modules will be used by the runbook.
+
+Runbooks can be un-linked and linked via Azure PowerShell, below is an example.
+
+### Save the runbook schedule as a variable
+
+```powershell
+$schedule = Get-AzureRmAutomationScheduledRunbook -AutomationAccountName autoAcctName -ResourceGroupName rgName -name rbName
+```
+
+**Note** The parameters are not returned with this command (they are visible in the portal), the issue is raised on Github.
+
+### Unregister the scheduled runbook
+
+```powershell
+ Unregister-AzureRmAutomationScheduledRunbook -JobScheduleId $schedule.JobScheduleId -AutomationAccountName $schedule.AutomationAccountName -ResourceGroupName $schedule.ResourceGroupName -Force
+```
+
+### Register the runbook
+
+**Create the parameters as required**
+
+```powershell
+$params = @{'powerOffTime' = '23:00'}
+```
+
+```powershell
+Register-AzureRmAutomationScheduledRunbook -RunbookName $schedule.RunbookName -ScheduleName $schedule.ScheduleName -ResourceGroupName $schedule.ResourceGroupName -AutomationAccountName $schedule.AutomationAccountName -Parameters $params
+```powershell
+
+The runbook and schedule is now linked again and the updated modules should now work. Hopefully the Get-AzureRmAutomationScheduledRunbook issue will be resolved so the updating of the modules and un-linking, linking of the runbooks can be automated.
+
 [Microsoft Forum]: https://social.msdn.microsoft.com/Forums/en-US/c38e01df-dac8-4095-9658-7b1d981fe8e6/azure-automation-error-run-loginazurermaccount-to-login?forum=azureautomation
+
+[issue] https://github.com/Azure/azure-powershell/issues/2180
