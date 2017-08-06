@@ -23,9 +23,10 @@ At test:7 char:7
 
 ![login error when running PowerShell runbook](/images/azure-auto-module-update/login-error.png)
 
-PowerShell runbooks that had previously run successfully also produced the same error when they ran despite not being updated.
+PowerShell runbooks that had completed successfully also produced the same error despite not being updated.
 
 After checking the certificate being used by the service principal hadn't expired and the service principal looked OK, I tested the tutorial runbook which also failed.
+
 I came across this post in a [Microsoft Forum] which fixed the problem:
 
 **The modules in my Automation account were not updated**. 
@@ -44,7 +45,7 @@ I ran the update and now my PowerShell runbooks authenticated to AzureRM ok agai
 
 ![updated modules](/images/azure-auto-module-update/azure-auto-module-update.png)
 
-## re-link schedules
+## Re-link schedules
 
 To use the latest modules, the runbooks have to be un-linked and re-linked to a schedule:
 
@@ -58,7 +59,7 @@ Runbooks can be un-linked and linked via Azure PowerShell, below is an example.
 $schedule = Get-AzureRmAutomationScheduledRunbook -AutomationAccountName autoAcctName -ResourceGroupName rgName -name rbName
 ```
 
-**Note** The parameters are not returned with this command (they are visible in the portal), the issue is raised on Github.
+**Note** The parameters are not returned with this command (they are visible in the portal), the [issue] is raised on Github.
 
 ### Unregister the scheduled runbook
 
