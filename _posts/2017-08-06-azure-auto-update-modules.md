@@ -7,7 +7,7 @@ categories:
     - azure
 tags:
     - azure
-    - active automation
+    - azure automation
     - powershell runbook
 ---
 
