@@ -2,7 +2,7 @@
 title: Azure Automation PowerShell runbook failing to login to AzureRM
 author: Matthew Davis
 date: 2017-08-06
-excerpt: AzureRM Automation PowerShell runbook started failing, Run Login-AzureRmAccount to login.
+excerpt: My Azure Automation PowerShell runbook started failing with the error Run Login-AzureRmAccount to login.
 categories: 
     - azure
 tags:
