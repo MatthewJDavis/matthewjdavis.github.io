@@ -131,3 +131,33 @@ $autoVarParams = @{
 
 New-AzureRmAutomationVariable @autoVarParams
 ```
+
+## Create a schedule
+The runbook is uploaded and you should now be able to run it and it will shutdown any VMs that have the tag powerOffTime with the value 23:00. Now we want to run this at 23:00 daily with a schedule.
+The script below will create a schedule. The timezone is taken from the machine you are running the script on and the start time is set to 23:00 of the day you run the script.
+It's run daily so uses the day interval parameter set to 1.
+
+
+```PowerShell
+   
+$timeZone = (Get-TimeZone).id
+$startTime = get-date "23:00"
+$dayInterval = 1
+$scheduleName = 'Daily 2300 Power Off'
+$scheduleDescription = 'Shutdown tagged VMs at 23:00'
+
+$scheduleParams = @{
+  'Name' = $scheduleName;
+  'StartTime' = $startTime;
+  'DayInterval' = $dayInterval;
+  'Description' = $scheduleDescription;
+  'TimeZone' = $timeZone;
+  'AutomationAccountName' = $automationAccountName;
+  'ResourceGroupName' = $resourceGroupName 
+}
+
+New-AzureRmAutomationSchedule @scheduleParams
+```
+
+## Link the runbook and schedule
+Now we link the created runbook with the created schedule so it will run daily at 23:00.
