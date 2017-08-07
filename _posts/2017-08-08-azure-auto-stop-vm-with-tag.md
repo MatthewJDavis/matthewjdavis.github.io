@@ -15,6 +15,7 @@ published: false
 
 # Automating Virtual Machine shut down with Azure Automation
 Leaving your Virtual Machines (VMs) running when they are not needed is an unnecessary cost. With DevTest Labs auto-shutdown feature you can schedule your development VMs to shutdown on a schedule and this feature is available now to individual VMs but controlling shutdown schedules with Tags and Azure automation allows for a solution that can scale to many VMs easily.
+
 I've also had it when I've just shut down the VM from Windows, but there are still charges because the VM is holding resources and not deallocated from the Azure fabric.
 
 The new **Azure Mobile App** allows you to remotely shutdown your VMs if you forget while you're on the move, handy if you remember you left one running and it's not on an auto-shutdown schedule.
@@ -30,6 +31,7 @@ This post will show you how to
 
 The script will look for Virtual Machines that have the powerOffTime tag set to a specific value (this example uses 23:00).
 You can tag the VMs via the portal or with PowerShell as shown below.
+
 Tags are Key Value pairs that are attached to resources and enable you to group them via the tag values, for instance you could tag all resources by department and run reports on all resources used by a particular department.
 
 ### Authenticate to AzureRM and select the subscription
