@@ -10,7 +10,6 @@ tags:
     - azure automation
     - powershell runbook
     - virtual machines
-published: false
 ---
 
 # Automating Virtual Machine shut down with Azure Automation
