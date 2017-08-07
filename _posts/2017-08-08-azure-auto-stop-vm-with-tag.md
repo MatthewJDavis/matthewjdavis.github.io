@@ -105,5 +105,27 @@ Import-AzureRmAutomationRunbook @runbookParams
 ```
 
 ## Creating the subscription variable 
-New-AzureRmAutomationVariable -Name 'subscriptionName' -Value 'demo' -Encrypted $false -AutomationAccountName matt-auto-acct -ResourceGroupName automation
+We need to create an Azure Automation variable to hold the subscription name. The script below will create the following:
 
+- Variable named: 'subscriptionName
+- Value: demo
+
+Update the $subName variable with your subscription name. Update the automation account name and resource group name variables. This value does not need to be encrypted so it is set to the false value.
+
+```PowerShell
+$varName = 'subscriptionName'
+$subName = 'demo'
+$encrypted = $false
+$automationAccountName = 'matt-auto-acct'
+$resourceGroupName = 'automation'
+
+$autoVarParams = @{
+  'Name' = $varName;
+  'Value' = $subName;
+  'Encrypted' = $encrypted;
+  'AutomationAccountName' = $automationAccountName;
+  'ResourceGroupName' = $resourceGroupName
+}
+
+New-AzureRmAutomationVariable @autoVarParams
+```
