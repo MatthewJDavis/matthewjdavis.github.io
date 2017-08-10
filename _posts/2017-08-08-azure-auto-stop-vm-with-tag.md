@@ -98,7 +98,7 @@ $vm.Tags.Add('powerOffTime','23:00')
 Finally we pipe the VM object to the update-azurermvm cmdlet to add the tag.
 
 ```powershell
-$vm | update-azurermvm -Tags $tags
+$vm | update-azurermvm
 ```
 
 Once it's updated, check the tags by running:
