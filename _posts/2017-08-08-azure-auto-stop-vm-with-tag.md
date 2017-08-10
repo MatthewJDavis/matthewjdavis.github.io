@@ -49,6 +49,8 @@ Select-AzureRmSubscription -SubscriptionName subName
 ```
 
 ### Save the tags in a hash table
+See the next section if your VM has existing tags and you just want to add one.
+
 Create a hashtable to store the tag key value pairs, the below hastable will create the following tags, so change the keys and values to what you like, the important one is the powerOffTime tag:
 - Env:Demo
 - powerOffTime:23:00 (this is the one the script will look for when it is run)
@@ -64,9 +66,8 @@ $tags = @{"Env"="Demo";"powerOffTime"='23:00';'createdBy'='Matt';'project'='Doma
 To add the tag to a VM (or it could be a set of VMs), we need to save the VM object into a variable. Replace the name and resourcgroup to get your VM>
 
 ```powershell
-$vm = get-azurermvm -Name ds-manag-vm -ResourceGroupName DOMAIN-SERVICES-RG
+$vm = get-azurermvm -Name vmName -ResourceGroupName resourcegroupname
 ```
-
 
 ### Update the VM with the tags
 Now we pass the VM object which is stored in the $vm variable to the Update-AzureRmVM command along with the tags hashtable. This will update the VM with the tags.
@@ -74,6 +75,41 @@ Now we pass the VM object which is stored in the $vm variable to the Update-Azur
 ```powershell
 $vm | update-azurermvm -Tags $tags
 ```
+Once it's updated, check the tags by running:
+
+```powershell
+Get-AzureRmVm -Name vmname -ResourceGroupName resourcegroupname | Select-Object -ExpandProperty Tags
+```
+
+## Add tag to VM with existing tags
+This will preserve the existing tags on the VM and just add an extra tag.
+Save the VM object into a variable
+
+```powershell
+$vm = get-azurermvm -Name vmName -ResourceGroupName resourcegroupname
+```
+
+Using the add method of the Dictionary type (this is the type of object the tags are), we can add the power off tag to the vm varable with the following code.
+
+```powershell
+$vm.Tags.Add('powerOffTime','23:00')
+```
+
+Finally we pipe the VM object to the update-azurermvm cmdlet to add the tag.
+
+```powershell
+$vm | update-azurermvm -Tags $tags
+```
+
+Once it's updated, check the tags by running:
+
+```powershell
+Get-AzureRmVm -Name vmname -ResourceGroupName resourcegroupname | Select-Object -ExpandProperty Tags
+```
+
+
+
+
 
 ## Create and upload an Azure PowerShell runbook
 This workflow has the powerOffTime parameter set to a default time of 23:00, you can pass other time values to the script so that it is reusable if you wanted to shutdown vms on different schedules. 
