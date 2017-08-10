@@ -1,7 +1,7 @@
 ---
 title: Stop Azure VMs with Azure Automation PowerShell runbook
 author: Matthew Davis
-date: 2017-08-06
+date: 2017-08-08
 excerpt: Create a PowerShell run book to stop VMs with a certain tag value to automatically stop Azure VMs
 categories: 
     - azure
