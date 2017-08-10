@@ -52,14 +52,14 @@ Create a hashtable to store the tag key value pairs, the below hastable will cre
 - project:Domain Services
 - role:Domain Services Management VM
 
-```PowerShell
+```powershell
 $tags = @{"Env"="Demo";"powerOffTime"='23:00';'createdBy'='Matt';'project'='Domain Services';'role'='Domain Services Management VM'}
 ```
 
 ### Save the VM in a variable
 To add the tag to a VM (or it could be a set of VMs), we need to save the VM object into a variable. Replace the name and resourcgroup to get your VM>
 
-```PowerShell
+```powershell
 $vm = get-azurermvm -Name ds-manag-vm -ResourceGroupName DOMAIN-SERVICES-RG
 ```
 
@@ -67,7 +67,7 @@ $vm = get-azurermvm -Name ds-manag-vm -ResourceGroupName DOMAIN-SERVICES-RG
 ### Update the VM with the tags
 Now we pass the VM object which is stored in the $vm variable to the Update-AzureRmVM command along with the tags hashtable. This will update the VM with the tags.
 
-```PowerShell
+```powershell
 $vm | update-azurermvm -Tags $tags
 ```
 
@@ -87,7 +87,7 @@ Update the variables as needed (the path where the runbook was saved, automation
 The parameters are splatted into a hashtable to make for easier reading and then passed to the Import-AzureRmAutomationRunbook cmdlet. 
 
 
-```PowerShell
+```powershell
 $pathToRunbook = 'C:\Downloads\Stop-MDAzureRMVMByTag.ps1'
 $description = 'stop VMs by powerOffTime tag value'
 $runbookType = 'PowerShellWorkflow'
@@ -114,7 +114,7 @@ We need to create an Azure Automation variable to hold the subscription name. Th
 
 Update the $subName variable with your subscription name. Update the automation account name and resource group name variables. This value does not need to be encrypted so it is set to the false value.
 
-```PowerShell
+```powershell
 $varName = 'subscriptionName'
 $subName = 'demo'
 $encrypted = $false
@@ -137,9 +137,7 @@ The runbook is uploaded and you should now be able to run it and it will shutdow
 The script below will create a schedule. The timezone is taken from the machine you are running the script on and the start time is set to 23:00 of the day you run the script.
 It's run daily so uses the day interval parameter set to 1.
 
-
-```PowerShell
-   
+```powershell
 $timeZone = (Get-TimeZone).id
 $startTime = get-date "23:00"
 $dayInterval = 1
