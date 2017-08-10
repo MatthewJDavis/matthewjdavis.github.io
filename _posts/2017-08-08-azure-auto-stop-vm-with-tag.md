@@ -18,7 +18,7 @@ Leaving your Virtual Machines (VMs) running when they are not needed is an unnec
 
 I've also had it when I've just shut down the VM from Windows, but there are still charges because the VM is holding resources and not deallocated from the Azure fabric.
 
-The new **Azure Mobile App** allows you to remotely shutdown your VMs if you forget while you're on the move, handy if you remember you left one running and it's not on an auto-shutdown schedule.
+The new [Azure Mobile App] allows you to remotely shutdown your VMs if you forget while you're on the move, handy if you remember you left one running and it's not on an auto-shutdown schedule.
 
 This post will show you how to
 - Tag VMs
@@ -28,9 +28,9 @@ This post will show you how to
 - Link a PowerShell workflow to a schedule
 
 You'll need:
-- An Azure subscription
+- An [Azure subscription]
 - An [Azure Automation Account] set up
-- Azure PowerShell
+- [Azure PowerShell]
 
 ## Tagging the VM
 
@@ -186,5 +186,7 @@ $runSchdParams = @{
 Register-AzureRMAutomationScheduledRunbook @runSchdParams
 ```
 
-
+[Azure Mobile App]: https://azure.microsoft.com/en-gb/features/azure-portal/mobile-app/
+[Azure Subscription]: https://azure.microsoft.com/en-gb/free/
 [Azure Automation Account]: https://docs.microsoft.com/en-us/azure/automation/automation-create-standalone-account
+[Azure PowerShell]: https://docs.microsoft.com/en-us/powershell/azure/overview
