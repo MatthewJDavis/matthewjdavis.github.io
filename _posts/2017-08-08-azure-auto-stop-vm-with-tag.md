@@ -14,7 +14,7 @@ tags:
 ---
 
 # Automating Virtual Machine shut down with Azure Automation
-Leaving your Virtual Machines (VMs) running when they are not needed is an unnecessary cost. With DevTest Labs auto-shutdown feature you can schedule your development VMs to shutdown on a schedule and this feature is available now to individual VMs but controlling shutdown schedules with Tags and Azure automation allows for a solution that can scale to many VMs easily.
+Leaving your Virtual Machines (VMs) running when they are not needed is an unnecessary cost. With [DevTest Labs] auto-shutdown feature you can schedule your development VMs to shutdown on a schedule and this feature is available now to individual VMs but controlling shutdown schedules with [Tags] and Azure automation allows for a solution that can scale to many VMs easily.
 
 I've also had it when I've just shut down the VM from Windows, but there are still charges because the VM is holding resources and not deallocated from the Azure fabric.
 
@@ -41,11 +41,11 @@ Tags are Key Value pairs that are attached to resources and enable you to group 
 
 ### Authenticate to AzureRM and select the subscription
 
-```PowerShell
+```powershell
 Add-AzureRmAccount
 ```
 
-```PowerShell
+```powershell
 Select-AzureRmSubscription -SubscriptionName subName
 ```
 
@@ -186,6 +186,8 @@ $runSchdParams = @{
 Register-AzureRMAutomationScheduledRunbook @runSchdParams
 ```
 
+[DevTest Labs]: https://docs.microsoft.com/en-gb/azure/devtest-lab/devtest-lab-set-lab-policy
+[Tags]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags
 [Azure Mobile App]: https://azure.microsoft.com/en-gb/features/azure-portal/mobile-app/
 [Azure Subscription]: https://azure.microsoft.com/en-gb/free/
 [Azure Automation Account]: https://docs.microsoft.com/en-us/azure/automation/automation-create-standalone-account
