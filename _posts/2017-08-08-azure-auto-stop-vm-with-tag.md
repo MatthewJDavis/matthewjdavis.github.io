@@ -91,8 +91,8 @@ The parameters are splatted into a hashtable to make for easier reading and then
 $pathToRunbook = 'C:\Downloads\Stop-MDAzureRMVMByTag.ps1'
 $description = 'stop VMs by powerOffTime tag value'
 $runbookType = 'PowerShellWorkflow'
-$automationAccountName = 'matt-auto-acct'
-$resourceGroupName = 'automation'
+$automationAccountName = 'demo-auto-acct'
+$resourceGroupName = 'demo-auto-rg'
 
 $runbookParams = @{
   'Path' = $pathToRunbook;
@@ -118,8 +118,8 @@ Update the $subName variable with your subscription name. Update the automation 
 $varName = 'subscriptionName'
 $subName = 'demo'
 $encrypted = $false
-$automationAccountName = 'matt-auto-acct'
-$resourceGroupName = 'automation'
+$automationAccountName = 'demo-auto-acct'
+$resourceGroupName = 'demo-auto-rg'
 
 $autoVarParams = @{
   'Name' = $varName;
@@ -145,6 +145,8 @@ $startTime = get-date "23:00"
 $dayInterval = 1
 $scheduleName = 'Daily 2300 Power Off'
 $scheduleDescription = 'Shutdown tagged VMs at 23:00'
+$automationAccountName = 'demo-auto-acct'
+$resourceGroupName = 'demo-auto-rg'
 
 $scheduleParams = @{
   'Name' = $scheduleName;
@@ -161,3 +163,22 @@ New-AzureRmAutomationSchedule @scheduleParams
 
 ## Link the runbook and schedule
 Now we link the created runbook with the created schedule so it will run daily at 23:00.
+
+```powershell
+$runbookName = 'Stop-MDAzureRMVMByTag'
+$powerOffTime = '23:00'
+$automationAccountName = 'demo-auto-acct'
+$resourceGroupName = 'demo-auto-rg'
+$powerOffTime = '23:00'
+
+$runSchdParams = @{
+  RunbookName = $runbookName;
+  ScheduleName = $scheduleName;
+  AutomationAccountName = $automationAccountName;
+  ResourceGroupName = $resourceGroupName;
+  'Parameters' = @{'PowerOffTime' = $powerOffTime}
+}
+
+
+Register-AzureRMAutomationScheduledRunbook @runSchdParams
+```
