@@ -27,6 +27,11 @@ This post will show you how to
 - Create an Automation schedule
 - Link a PowerShell workflow to a schedule
 
+You'll need:
+- An Azure subscription
+- An [Azure Automation Account] set up
+- Azure PowerShell
+
 ## Tagging the VM
 
 The script will look for Virtual Machines that have the powerOffTime tag set to a specific value (this example uses 23:00).
@@ -180,3 +185,6 @@ $runSchdParams = @{
 
 Register-AzureRMAutomationScheduledRunbook @runSchdParams
 ```
+
+
+[Azure Automation Account]: https://docs.microsoft.com/en-us/azure/automation/automation-create-standalone-account
