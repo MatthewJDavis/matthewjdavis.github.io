@@ -49,7 +49,7 @@ Select-AzureRmSubscription -SubscriptionName subName
 ```
 
 ### Save the tags in a hash table
-See the next section if your VM has existing tags and you just want to add one.
+See the next section if your VM has existing tags and you just want to add a single tag.
 
 Create a hashtable to store the tag key value pairs, the below hastable will create the following tags, so change the keys and values to what you like, the important one is the powerOffTime tag:
 - Env:Demo
@@ -214,12 +214,14 @@ $runSchdParams = @{
   ScheduleName = $scheduleName;
   AutomationAccountName = $automationAccountName;
   ResourceGroupName = $resourceGroupName;
-  'Parameters' = @{'PowerOffTime' = $powerOffTime}
+  Parameters = @{'PowerOffTime' = $powerOffTime}
 }
 
 
 Register-AzureRMAutomationScheduledRunbook @runSchdParams
 ```
+
+The runbook will now run every evening at 23:00 and shutdown any VMs with the relevant tag. You can easily create other schedules and use the parameters value of ths schedule to target different tag values and start the runbook at different times. You can also modify the runbook to start VMs so they are ready for you in the morning. 
 
 [DevTest Labs]: https://docs.microsoft.com/en-gb/azure/devtest-lab/devtest-lab-set-lab-policy
 [Tags]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags
