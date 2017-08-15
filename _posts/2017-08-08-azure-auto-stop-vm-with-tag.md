@@ -10,7 +10,6 @@ tags:
     - azure automation
     - powershell runbook
     - virtual machines
-
 ---
 
 Leaving your Virtual Machines (VMs) running when they are not needed is an unnecessary cost. With [DevTest Labs] auto-shutdown feature you can schedule your development VMs to shutdown on a schedule and this feature is available now to individual VMs but controlling shutdown schedules with [Tags] and Azure automation allows for a solution that can scale to many VMs easily.
