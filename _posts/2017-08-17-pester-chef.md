@@ -22,14 +22,14 @@ You'll need:
 1. chefdk installed
 2. A kitchen.yml file for your cookbook
 
-1. Install kitchen-pester
+1. Install [kitchen-pester]
  - Open up the chefdk 
  - Run ```ruby gem install kitchen-pester ```
 
 2. Open the kitchen.yml file
   Edit the verifier and change it to pester 
   Specify a path to the tests if you want to change from the default location of test/integration
-  
+
 
   verifier:
       name: pester
@@ -37,3 +37,4 @@ You'll need:
 
 [learnchef.io]: https://learn.chef.io/
 [Local Development and Testing]: https://learn.chef.io/tracks/local-development-and-testing#/
+[kitchen-pester]: https://github.com/test-kitchen/kitchen-pester
