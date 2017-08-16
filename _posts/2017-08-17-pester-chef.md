@@ -38,7 +38,7 @@ cookbook/test/integration/recipeName/pester
 For example, a recipe call uk_settings, create a Pester test file like so:
 team_city_agent/test/integration/uk_settings/pester/uk_settings.Tests.ps1
 
-[Directory tree of tests](/images/chef-pester/directory-layout.png)
+![Directory tree of tests](/images/chef-pester/directory-layout.png)
  
 
 Now when you run ``` kitchen verify```, your Pester tests will run for the integration tests.
