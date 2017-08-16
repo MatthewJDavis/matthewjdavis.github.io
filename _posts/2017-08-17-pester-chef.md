@@ -39,18 +39,18 @@ For example, a recipe call uk_settings, create a Pester test file like so:
 team_city_agent/test/integration/uk_settings/pester/uk_settings.Tests.ps1
  
 
-Now when you run ``` ruby kitchen verify ``` your Pester tests will run for the integration tests.
+Now when you run ``` kitchen verify```, your Pester tests will run for the integration tests.
 
 I'm enjoying learning chef and am glad I can use Pester tests within the chef framework to test the infrastructure created.
 
 For reference, the following versions are being used on my Windows 10 machine. I also got this set up easily on my mac at work after I had added the chef install of ruby to my bash_profile (which it tells you to do in the setup but I had originally missed that step and was using the system installed version which was too old to install kitchen-pester).
 
-> Chef Development Kit Version: 2.0.28
-> chef-client version: 13.2.20
-> berks version: 6.2.0
-> kitchen version: 1.16.0
-> inspec version: 1.31.1
-> kitchen-pester: 0.8.0
+>- Chef Development Kit Version: 2.0.28
+> - chef-client version: 13.2.20
+> - berks version: 6.2.0
+> - kitchen version: 1.16.0
+> - inspec version: 1.31.1
+> - kitchen-pester: 0.8.0
 
 
 
