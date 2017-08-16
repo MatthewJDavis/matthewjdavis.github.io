@@ -14,7 +14,7 @@ tags:
 
 I've been learning chef for configuration management through their excellent learning resources at [learnchef.io]. It's a great way to learn chef and has some excellent resources and tutorials that cover Linux and Windows configuration management with chef.
 
-I've completed a number of the tracks and I'm currently working through the [Local Development and Testing] track and although inspec was cool, I'd much prefer to run integration tests with Pester, the PowerShell testing framework (which I'm also learning and incorporating it as much as possible).
+I've completed a number of the tracks and I'm currently working through the [Local Development and Testing] track and although inspec was cool, I'd much prefer to run integration tests with [Pester], the PowerShell testing framework (which I'm also learning and incorporating it as much as possible).
 
 It took me a bit of time and googling to get this up and running but it's easy once you know how, so here's an overview.
 You'll need:
@@ -39,7 +39,7 @@ For example, a recipe call uk_settings, create a Pester test file like so:
 team_city_agent/test/integration/uk_settings/pester/uk_settings.Tests.ps1
  
 
-Now when you run ```ruby kitchen verify``` your Pester tests will run for the integration tests.
+Now when you run ``` ruby kitchen verify ``` your Pester tests will run for the integration tests.
 
 I'm enjoying learning chef and am glad I can use Pester tests within the chef framework to test the infrastructure created.
 
@@ -56,5 +56,6 @@ For reference, the following versions are being used on my Windows 10 machine. I
 
 
 [learnchef.io]: https://learn.chef.io/
+[Pester]: https://github.com/pester/Pester
 [Local Development and Testing]: https://learn.chef.io/tracks/local-development-and-testing#/
 [kitchen-pester]: https://github.com/test-kitchen/kitchen-pester
