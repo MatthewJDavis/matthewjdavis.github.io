@@ -27,13 +27,22 @@ You'll need:
  - Run ```ruby gem install kitchen-pester ```
 
 2. Open the kitchen.yml file
-  Edit the verifier and change it to pester 
-  Specify a path to the tests if you want to change from the default location of test/integration
+   - Edit the verifier and change it to pester 
 
+My kichen.yml file looks like this
 
-  verifier:
-      name: pester
-      test_folder: test/integration
+<script src="https://gist.github.com/MatthewJDavis/43ecc7e3b81d42b9d260a06b33de233f.js"></script>
+
+Now create the Pester tests under the directory structure:
+cookbook/test/integration/recipeName/pester
+
+For example, a recipe call uk_settings, create a Pester test file like so:
+team_city_agent/test/integration/uk_settings/pester/uk_settings.Tests.ps1
+ 
+
+Now when you run ```ruby kitchen verify``` your Pester tests will run for the integration tests.
+
+I'm enjoying learning chef and am glad I can use Pester tests within the chef framework to test the infrastructure created.
 
 [learnchef.io]: https://learn.chef.io/
 [Local Development and Testing]: https://learn.chef.io/tracks/local-development-and-testing#/
