@@ -26,10 +26,22 @@ I had downloaded the microsoft/powershell Docker image from [Docker Hub] to my l
 docker pull microsoft/powershell
 ```
 
-I run docker to create a container with a shared drive from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests. 
+What this will do:
+1. Create a container from the microsoft/powershell image.
+2. Mount the folder where your PowerShell script and tests are as a volume in the container
+3. Invoke-Pester against the script in the container 
+4. Output the results to the mounted volume which will be accessible from your client machine
+5. Remove the container
+
+Here is the command that I ran:
+
+ ```bash
+docker run --rm -v ~/Documents/PowerShell:/tests microsoft/powershell Invoke-Pester -Script /tests/New-Test.Tests.ps1 -OutputFile /tests/results.xml -OutputFormat NUnitXml
+```
+I run docker to create a container with a directory mapped to a volume in the container from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests. 
 Once the container is created, Invoke-Pester is executed against the designated script and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has been removed (the rm command)
 
-docker run --rm -ti -v ~/Documents/PowerShell:/tests microsoft/powershell Invoke-Pester -Script /tests/New-Test.Tests.ps1 -OutputFile /tests/results.xml -OutputFormat NUnitXml
+## Manually running tests in a container
 
 If you want to run the test manually you can add the -ti parameter to docker run to have an interactive terminal session to the container. Then you can change directory to the shared directory (in this example the /tests directory) and access any scripts there for more interactive testing
 
