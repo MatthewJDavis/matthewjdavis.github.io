@@ -48,13 +48,7 @@ I run docker to create a container with a directory mapped to a volume in the co
 The -w option is used to set the working directory in the container to /tests
 Once the container is created, Invoke-Pester is executed in the directory containing the tests and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has exited (exit) and has been removed (the rm command).
 
-## Manually running tests in a container
 
-If you want to run the test manually you can add the -ti parameter to docker run to have an interactive terminal session to the container. Then you can change directory to the shared directory (in this example the /tests directory) and access any scripts there for more interactive testing
-
-```bash
-docker run --rm -ti -v ~/Documents/PowerShell:/tests microsoft/powershell
-```
 
 ## Creating a Docker Image with the AWS module installed
 
