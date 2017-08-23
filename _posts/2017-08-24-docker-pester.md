@@ -54,8 +54,25 @@ Once the container is created, Invoke-Pester is executed in the directory contai
 
 As I was also testing some code that used the AWS module, instead of installing the module each time the test ran which would add significantly more time to the test, creating a new docker image with the module already installed with a DockerFile allowed me to create a container with the necessary module. 
 
+Create a text file called Dockerfile.
+The following code:
+1. Creates a container from the microsoft/powershell image
+2. Installs the AWS PowerShell module in the container
+3. Creates an image from the above container called AWSPowerShell.NetCore
 
-DockerFile
+<script src="https://gist.github.com/MatthewJDavis/1aef9a47bc804b5a8e118a97b3ec32b8.js"></script>
+
+Navigate into the directory where you created the file (cd ~/Documents/Docker/PowerShell) run the following to create the image:
+
+```bash
+docker build -t awspowershell
+```
+
+You should now be able to see your new image and create containers from it.
+
+```bash
+docker image list
+```
 
 [PowerShell docker image](https://hub.docker.com/r/microsoft/powershell/)
 [Docker course on lynda.com](https://www.lynda.com/Docker-tutorials/Learning-Docker/485649-2.html)
