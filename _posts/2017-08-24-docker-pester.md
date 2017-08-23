@@ -26,6 +26,8 @@ I had downloaded the microsoft/powershell Docker image from [Docker Hub] to my l
 docker pull microsoft/powershell
 ```
 
+![download the powershell image from docker hub](/images/pester-docker/docker-pull-powershell.png)
+
 The following will happen:
 1. Create a container from the microsoft/powershell image.
 2. Mount the folder where your PowerShell script and tests are as a volume in the container
@@ -39,16 +41,18 @@ Here is the command that I ran:
 ```bash
 docker run --rm -it -w /tests -v ~/Documents/PowerShell:/tests microsoft/powershell
 ```
+![docker run](/images/pester-docker/docker-run.png)
 
 In the container run
  ```bash
- Invoke-Pester -OutputFile /tests/results.xml -OutputFormat NUnitXml
+ Invoke-Pester -OutputFile results.xml -OutputFormat NUnitXml
 ```
+
+![invoke-pester with outputfile](/images/pester-docker/invoke-pester.png)
+
 I run docker to create a container with a directory mapped to a volume in the container from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests. 
 The -w option is used to set the working directory in the container to /tests
 Once the container is created, Invoke-Pester is executed in the directory containing the tests and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has exited (exit) and has been removed (the rm command).
-
-
 
 ## Creating a Docker Image with the AWS module installed
 
@@ -67,12 +71,14 @@ Navigate into the directory where you created the file (cd ~/Documents/Docker/Po
 ```bash
 docker build -t awspowershell
 ```
+![build the docker file](/images/pester-docker/docker-build.png)
 
 You should now be able to see your new image and create containers from it.
 
 ```bash
 docker image list
 ```
+![docker image list](/images/pester-docker/docker-image-list.png)
 
 [PowerShell docker image](https://hub.docker.com/r/microsoft/powershell/)
 [Docker course on lynda.com](https://www.lynda.com/Docker-tutorials/Learning-Docker/485649-2.html)
