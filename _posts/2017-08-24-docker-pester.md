@@ -26,20 +26,27 @@ I had downloaded the microsoft/powershell Docker image from [Docker Hub] to my l
 docker pull microsoft/powershell
 ```
 
-What this will do:
+The following will happen:
 1. Create a container from the microsoft/powershell image.
 2. Mount the folder where your PowerShell script and tests are as a volume in the container
+3. Set the working directory of the container to the mounted volume
 3. Invoke-Pester against the script in the container 
 4. Output the results to the mounted volume which will be accessible from your client machine
-5. Remove the container
+5. Exit the container
 
 Here is the command that I ran:
 
+```bash
+docker run --rm -it -w /tests -v ~/Documents/PowerShell:/tests microsoft/powershell
+```
+
+In the container run
  ```bash
-docker run --rm -v ~/Documents/PowerShell:/tests microsoft/powershell Invoke-Pester -Script /tests/New-Test.Tests.ps1 -OutputFile /tests/results.xml -OutputFormat NUnitXml
+ Invoke-Pester -OutputFile /tests/results.xml -OutputFormat NUnitXml
 ```
 I run docker to create a container with a directory mapped to a volume in the container from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests. 
-Once the container is created, Invoke-Pester is executed against the designated script and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has been removed (the rm command)
+The -w option is used to set the working directory in the container to /tests
+Once the container is created, Invoke-Pester is executed in the directory containing the tests and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has exited (exit) and has been removed (the rm command).
 
 ## Manually running tests in a container
 
