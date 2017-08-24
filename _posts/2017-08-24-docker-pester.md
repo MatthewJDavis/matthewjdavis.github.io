@@ -60,7 +60,7 @@ Create a text file called Dockerfile.
 The following code:
 1. Creates a container from the microsoft/powershell image
 2. Installs the AWS PowerShell module in the container
-3. Creates an image from the above container called AWSPowerShell.NetCore
+3. Creates an image from the above container with the AWS module installed
 
 <script src="https://gist.github.com/MatthewJDavis/1aef9a47bc804b5a8e118a97b3ec32b8.js"></script>
 
@@ -72,6 +72,7 @@ docker build -t awspowershell
 ![build the docker file](/images/pester-docker/docker-build.png)
 
 You should now be able to see your new image and create containers from it.
+The -t option adds the tag of awspowershell to the image.
 
 ```bash
 docker image list
