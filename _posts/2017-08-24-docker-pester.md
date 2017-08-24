@@ -72,7 +72,7 @@ docker build -t awspowershell
 ![build the docker file](/images/pester-docker/docker-build.png)
 
 You should now be able to see your new image and create containers from it.
-The -t option adds the tag of awspowershell to the image.
+The -t parameter adds the tag of awspowershell to the image.
 
 ```bash
 docker image list
