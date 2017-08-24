@@ -77,10 +77,10 @@ You should now be able to see your new image and create containers from it.
 ```bash
 docker image list
 ```
-![docker image list](/images/pester-docker/docker-image-list.png)
+![docker image list]: /images/pester-docker/docker-image-list.png
 
-[PowerShell docker image](https://hub.docker.com/r/microsoft/powershell/)
-[Docker course on lynda.com](https://www.lynda.com/Docker-tutorials/Learning-Docker/485649-2.html)
-[PowerShell editions](https://docs.microsoft.com/en-us/powershell/gallery/psget/script/scriptwithpseditionsupport)
-[Docker Hub](https://hub.docker.com/)
-[docker docs on installing](https://docs.docker.com/engine/installation/#desktop)
+[PowerShell docker image]: https://hub.docker.com/r/microsoft/powershell/
+[Docker course on lynda.com]: https://www.lynda.com/Docker-tutorials/Learning-Docker/485649-2.html
+[PowerShell editions]: https://docs.microsoft.com/en-us/powershell/gallery/psget/script/scriptwithpseditionsupport
+[Docker Hub]: https://hub.docker.com/
+[docker docs on installing]: https://docs.docker.com/engine/installation/#desktop
