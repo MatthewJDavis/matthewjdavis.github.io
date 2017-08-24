@@ -49,9 +49,8 @@ In the container run
 
 ![invoke-pester with outputfile](/images/pester-docker/invoke-pester.png)
 
-I run docker to create a container with a directory mapped to a volume in the container from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests. 
-The -w option is used to set the working directory in the container to /tests
-Once the container is created, Invoke-Pester is executed in the directory containing the tests and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has exited (exit) and has been removed (the rm command).
+I run docker to create a container with a directory mapped to a volume in the container from my host laptop. The directory on my laptop is ~/Documents/PowerShell and the directory in the container is /tests.The -w option is used to set the working directory in the container to /tests.
+Once the container is created, Invoke-Pester is executed in the directory containing the tests and the results are outputted to a file in the /tests directory which will write to the local directory on the laptop once the container is run and has exited (type exit in the container) and has been removed (the rm command).
 
 ## Creating a Docker Image with the AWS module installed
 
