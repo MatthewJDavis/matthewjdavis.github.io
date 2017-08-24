@@ -8,7 +8,6 @@ tags:
     - pester
     - docker
     - testing
-published: false
 ---
 
 When running Pester tests, it's nice to know that you are running against the correct version of the module you are testing and there are no environment variables that could influence the test in an unexpected way. You can unload all modules and check the environment variables but I was following a [Docker course on lynda.com] and thought it would be pretty cool to use the [PowerShell docker image] from Microsoft to spin up a container, run the tests on a "clean" system and then output the results. 
