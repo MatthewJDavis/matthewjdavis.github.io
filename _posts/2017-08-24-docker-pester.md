@@ -27,7 +27,7 @@ docker pull microsoft/powershell
 
 ![download the powershell image from docker hub](/images/pester-docker/docker-pull-powershell.png)
 
-The following will happen:
+The process for running Pester tests in a Docker container:
 1. Create a container from the microsoft/powershell image.
 2. Mount the folder where your PowerShell script and tests are as a volume in the container
 3. Set the working directory of the container to the mounted volume
