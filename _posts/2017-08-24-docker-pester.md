@@ -77,7 +77,7 @@ The -t option adds the tag of awspowershell to the image.
 ```bash
 docker image list
 ```
-![docker image list]: /images/pester-docker/docker-image-list.png
+![docker image list](/images/pester-docker/docker-image-list.png)
 
 [PowerShell docker image]: https://hub.docker.com/r/microsoft/powershell/
 [Docker course on lynda.com]: https://www.lynda.com/Docker-tutorials/Learning-Docker/485649-2.html
