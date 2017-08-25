@@ -21,7 +21,7 @@ Not overly helpful, I checked the path was correct, used relative and full file 
 
 To check that there wasn't an error in my cloudformation yaml file, I deployed it successfully via the AWS console and found the Test-CFNTemplate command that accepted the -TemplateBody parameter but still failed with the same error message as New-CFNStack
 
-Checking the help I realised the parameter was requires the type System.String and not a file
+Checking the help I realised the parameter was requires the type System.String and not a file (I know, RTFM first!!)
 
 
 >    -TemplateBody <System.String>
@@ -34,3 +34,13 @@ Checking the help I realised the parameter was requires the type System.String a
 >        Accept pipeline input?       False
 >        Accept wildcard characters?  false
 
+Next I tried:
+
+```powershell
+
+```
+
+This gave the error:
+```powershell
+Test-CFNTemplate : Cannot convert 'System.Object[]' to the type 'System.String' required by parameter 'TemplateBody'.
+```
