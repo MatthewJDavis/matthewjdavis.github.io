@@ -37,10 +37,35 @@ Checking the help I realised the parameter was requires the type System.String a
 Next I tried:
 
 ```powershell
-
+Test-CFNTemplate -TemplateBody (get-content .\amazon-linux-vm.yaml)
 ```
 
 This gave the error:
 ```powershell
 Test-CFNTemplate : Cannot convert 'System.Object[]' to the type 'System.String' required by parameter 'TemplateBody'.
 ```
+
+What gives here?
+Get-Content reads the file in and creates a list of objects for each line. If you were to save get content to a variable, then access the first item, you'd get the **whole** first line of the file returned.
+```powershell
+$template = Get-Content -Path .\amazon-linux-vm.yaml
+$template[0]
+AWSTemplateFormatVersion: 2010-09-09
+```powershell
+
+
+## Use the -Raw switch
+The Raw switch, although not well documented at present, will read in the whole file as one big string object instead of a separate object per line. To demonstrate this:
+```powershell
+$template1 = Get-Content -Path .\amazon-linux-vm.yaml
+$template1[0]
+A
+```powershell
+
+To read the file without line breaks, use the -Raw switch and the cmdlet should now work correctly.
+
+```powershell
+Test-CFNTemplate -TemplateBody (Get-Content .\amazon-linux-vm.yaml -Raw)
+```
+
+The Test-CFNTemplate will now run correctly and you'll be able to use New-CFNStack to deploy your resources via cloudformation with PowerShell making it easy to change the values of the parameters you pass in.
