@@ -1,7 +1,7 @@
 ---
 title: Test-CFNTemplate PowerShell
 author: Matthew Davis
-date: 2017-08-17
+date: 2017-08-25
 excerpt: How to test an AWS cloudformation template with PowerShell
 categories: 
     - aws
@@ -19,7 +19,7 @@ Test-CFNTemplate : Template format error: unsupported structure.
 
 Not overly helpful, I checked the path was correct, used relative and full file paths and tried with file:// before the file name but the error was still the same.
 
-To check that there wasn't an error in my cloudformation yaml file, I deployed it successfully via the AWS console and found the Test-CFNTemplate command that accepted the -TemplateBody parameter but still failed with the same error message as New-CFNStack
+To check that there wasn't an error in my cloudformation yaml file, I deployed it successfully via the AWS console and thought I'd try the Test-CFNTemplate command that accepted the -TemplateBody parameter but still failed with the same error message as New-CFNStack
 
 Checking the help I realised the parameter was requires the type System.String and not a file (I know, RTFM first!!)
 
