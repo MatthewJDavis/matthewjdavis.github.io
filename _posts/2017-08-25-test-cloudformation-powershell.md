@@ -25,6 +25,7 @@ Checking the help I realised the parameter was requires the type System.String a
 
 
 >    -TemplateBody \<System.String>
+>
 >        Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. 
 >        Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
 
