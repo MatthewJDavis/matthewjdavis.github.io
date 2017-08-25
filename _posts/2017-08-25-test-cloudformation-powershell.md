@@ -21,14 +21,6 @@ Not overly helpful, I checked the path was correct, used relative and full file 
 
 To check that there wasn't an error in my cloudformation yaml file, I deployed it successfully via the AWS console and thought I'd try the Test-CFNTemplate command that accepted the -TemplateBody parameter but still failed with the same error message as New-CFNStack
 
-Checking the help I realised the parameter was requires the type System.String and not a file (I know, RTFM first!!)
-
-
->    -TemplateBody \<System.String>
->
->        Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. 
->        Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
-
 Next I tried:
 
 ```powershell
