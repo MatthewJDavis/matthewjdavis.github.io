@@ -24,15 +24,9 @@ To check that there wasn't an error in my cloudformation yaml file, I deployed i
 Checking the help I realised the parameter was requires the type System.String and not a file (I know, RTFM first!!)
 
 
->    -TemplateBody <System.String>
+>    -TemplateBody '<System.String>'
 >        Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. 
 >        Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
-
->        Required?                    False
->        Position?                    Named
->        Default value                None
->        Accept pipeline input?       False
->        Accept wildcard characters?  false
 
 Next I tried:
 
