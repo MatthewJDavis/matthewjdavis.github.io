@@ -10,18 +10,18 @@ tags:
     - infrastructure as code
 ---
 
-### Provision an EC2 instance with YAML and cloudformation  
-
-[YAML Ain't Markup Language] (YAML) was added to AWS cloudformation in [September last year] for provisioning resources through code via cloudformation.  
+[YAML Ain't Markup Language] (YAML) was added to AWS cloudformation in [September last year] for provisioning resources through code via cloudformation.
 
 I definitely find YAML easier to work with and understand than JSON, so going forward will write future cloudformation templates in YAML.
 
 Here's a comparison of the code for parameters in JSON and YAML:
 
-#### JSON
+## JSON
+
 <script src="https://gist.github.com/MatthewJDavis/a4cc7f80a5954a7cbd9bc39f5d33b1af.js"></script>
 
-#### YAML
+## YAML
+
 <script src="https://gist.github.com/MatthewJDavis/e1bb0ed8ddd45fbe66199a397872b019.js"></script>
 
 
@@ -31,7 +31,7 @@ Here is the complete code to provision an EC2 instance in AWS in an existing VPC
 
 <script src="https://gist.github.com/MatthewJDavis/edcaa9d2c362464b7e5f7bced50df1b1.js"></script>
 
-#### Wrap up 
+## Wrap up
 
 Coming from Azure, I used JSON for ARM templates a lot and found the best way to work with them was to install the [Azure Resource Manager tools] for Visual studio. I find working with YAML much easier to understand and quicker to use, plus I can use my favourite code editor, [Visual Studio code] to get things done without the need for starting up Visual Studio. 
 
