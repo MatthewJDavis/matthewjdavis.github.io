@@ -35,7 +35,7 @@ My kichen.yml file looks like this
 Now create the Pester tests under the directory structure:
 cookbook/test/integration/recipeName/pester
 
-For example, a recipe call uk_settings, create a Pester test file like so:
+For example, a recipe called uk_settings, create a Pester test file like so:
 team_city_agent/test/integration/uk_settings/pester/uk_settings.Tests.ps1
 
 ![Directory tree of tests](/images/chef-pester/directory-layout.png)
