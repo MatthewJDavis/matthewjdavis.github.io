@@ -66,15 +66,15 @@ Now it's time to create the CloudFormation stack that will be deployed with the 
 New-CFNStack -StackName s3-demo-stack -TemplateBody $template -Parameter $bucketname, $project
 ```
 
-If you go to the console, under the CloudFormation you'll see the full details of the stack deployment (make sure you're in the same region as the region set in the PowerShell session).
+If you go to the console, under the CloudFormation you'll see the full details of the stack deployment, including events and outputs (make sure you're in the same region as the region set in the PowerShell session).
 
-You can get an outputs specified in the yaml template with PowerShell:
+![console output of deployed CloudFormation stack](/images/cfn-powershell/deployed-stack.png)
+
+You can also get events and outputs with PowerShell. For example to get the outputs specified in the yaml template with PowerShell:
 
 ```powershell
 (Get-CFNStack -StackName s3-demo-stack).Outputs
 ```
-
-![console output of deployed CloudFormation stack](/images/cfn-powershell/deployed-stack.png)
 
 You can also remove stacks with the Remove-CFNStack command that will delete all the resources created with the stack so be careful when using it, especially with the force switch!
 
