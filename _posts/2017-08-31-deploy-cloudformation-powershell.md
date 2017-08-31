@@ -9,7 +9,6 @@ tags:
     - aws
     - cloudformation
     - powershell
-published: false
 ---
 
 Following from my last post about testing CloudFormation, I'm going to write up how to use PowerShell to deploy resources to AWS with a CloudFormation stack.
