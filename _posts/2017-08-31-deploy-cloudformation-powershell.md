@@ -25,6 +25,58 @@ Find-Module -Name AWSPowerShell | Install-Module
 # For Core PowerShell:
 Find-Module -Name AWSPowerShell.NetCore | Install-Module
 ```
+You'll need to set your credentials to authenticate to the AWS APIs with PowerShell (your access key, secret key, and possibly your session token) which are located in "Security Credentials" within your "Users" area of the "IAM" console.
+
+To set this for the duration of the PowerShell session, use the Set-AWSCredentials cmdlet.
+
+To store them for every session, the credentials need to be stored in a file called "credentials" in the AWS directory: ~\.aws\
+
+Now set the default AWS region for the session:
+
+```powershell
+Set-DefaultAWSRegion -Region eu-west-1
+```
+
+The following yaml template will create a basic S3 bucket with the owner having full access to it and no other properties set. See the [AWS cloudformation S3 docs] for all the properties that can be set. This template will be used to deploy a cloudformation stack via PowerShell.
+
+<script src="https://gist.github.com/MatthewJDavis/c60e7558d4adbba4b1e40eb5dbd061cf.js"></script>
+
+With that file saved and the PowerShell session authenticated with AWS, save the template in a variable, using the Get-Content with the Raw switch to read the whole of the file as a [single object]:
+
+```powershell
+$template = Get-Content -Path C:\temp\simple-s3-bucket.yml -Raw
+```
+
+Now we need to create 2 parameters to pass to the template (BucketName and ProjectTag). The New-CFNStack requires a parameter type data type (not a string) so a custom object is required.
+
+```powershell
+# bucketname parameter
+$bucketname = New-Object -TypeName Amazon.CloudFormation.Model.Parameter
+$bucketname.ParameterKey = 'BucketName'
+$bucketname.ParameterValue = 'globally-unique-bucket-name'
+
+# project value for the project tag
+$project = New-Object -TypeName Amazon.CloudFormation.Model.Parameter
+$project.ParameterKey = 'ProjectTag'
+$project.ParameterValue = 'demo'
+```
+
+Now it's time to create the cloudformation stack that will be deployed with the New-CFNStack cmdlet:
+
+```powershell
+New-CFNStack -StackName s3-demo-stack -TemplateBody $template -Parameter $bucketname, $project
+```
+
+If you go to the console, under the cloudformation you'll see the full details of the stack deployment (make sure you're in the same region as the region set in the PowerShell session).
+
+You can get an outputs specified in the yaml template with PowerShell:
+
+```powershell
+(Get-CFNStack -StackName s3-demo-stack).Outputs
+```
 
 
-[PowerShell galler]: https://www.powershellgallery.com/api/v2/
+
+[PowerShell gallery]: https://www.powershellgallery.com/api/v2/
+[AWS cloudformation S3 docs]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-bucket-prop
+[single object]: https://powershell.org/2013/10/21/why-get-content-aint-yer-friend/
