@@ -74,7 +74,7 @@ You can get an outputs specified in the yaml template with PowerShell:
 ```powershell
 (Get-CFNStack -StackName s3-demo-stack).Outputs
 ```
-
+![console output of deployed cloudformation stack](/images/cfn-powershell/deployed-stack.png)
 
 
 [PowerShell gallery]: https://www.powershellgallery.com/api/v2/
