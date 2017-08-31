@@ -79,7 +79,7 @@ analytics:
 author:
   name             : "Matthew Davis"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "PowerShell, infrastructure automation, sharing what I'm learning / extending my memory here"
+  bio              : "PowerShell, Azure, AWS, infrastructure automation, sharing what I'm learning / taking notes, because... docs."
   location         : "Bath UK"
   email            :
   uri              :
@@ -105,7 +105,7 @@ author:
   vine             :
   weibo            :
   xing             :
-  youtube          : # "https://youtube.com/c/MichaelRoseDesign"
+  youtube          :
 
 
 # Reading Files
