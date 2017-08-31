@@ -28,7 +28,7 @@ Find-Module -Name AWSPowerShell.NetCore | Install-Module
 
 You'll need to set your [AWS credentials] to authenticate to the AWS APIs with PowerShell (your access key, secret key, and possibly your session token) which are located in "Security Credentials" within your "Users" area of the "[IAM]" console.
 
-To set this for the duration of the PowerShell session, use the Set-AWSCredentials cmdlet. See the [AWS PowerShell docs] for details of how the credentials are set and stored.
+To set your credentials, use the Set-AWSCredentials cmdlet. See the [AWS PowerShell docs] for details of how the credentials are set and stored.
 
 Now set the default AWS region for the session:
 
