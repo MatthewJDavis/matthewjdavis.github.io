@@ -11,7 +11,7 @@ title                    : "matthewdavis111"
 title_separator          : "-"
 name                     : "Matthew Davis"
 description              : "My site on tech things, PowerShell, Azure, AWS, DevOps and automation."
-url                      : "http://matthewdavis111.com"
+url                      : "https://matthewdavis111.com"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : MatthewJDavis/matthewjdavis.github.io
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
