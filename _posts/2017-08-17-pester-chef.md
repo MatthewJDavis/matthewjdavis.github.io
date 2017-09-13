@@ -1,5 +1,5 @@
 ---
-title: Run Pester test with Test Kitchen & Chef
+title: Run Pester tests with Test Kitchen & Chef
 author: Matthew Davis
 date: 2017-08-17
 excerpt: Use Pester for integration testing for Chef recipes
