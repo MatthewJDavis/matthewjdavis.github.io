@@ -1,8 +1,8 @@
 ---
-title: Deploy AWS CloudFormation stack with PowerShell
+title: Deploy an AWS CloudFormation stack with PowerShell
 author: Matthew Davis
 date: 2017-08-31
-excerpt: Deploy a CloudFormation template for AWS with PowerShell and the AWS module
+excerpt: Deploy a CloudFormation template into AWS with PowerShell and the AWS PowerShell module
 categories: 
     - aws
 tags:
@@ -12,11 +12,11 @@ tags:
 ---
 
 Following from my last post about testing CloudFormation, I'm going to write up how to use PowerShell to deploy resources to AWS with a CloudFormation stack.
-I use yaml templates but the process is the same for templates in JSON.
+I use yaml templates but the process is the same for templates written in JSON.
 
 The AWS PowerShell module is required and can be installed via the [PowerShell gallery] for both the desktop and core versions of PowerShell.
 
-The below commands will find the module on the PSGallery and pipe the result to Install-Module to install (you can change the scope to the current user if you need to - the default will install for all users of the machine)
+The below commands will find the module on the PSGallery and pipe the result to Install-Module to install (you can change the scope to the current user if you need to - the default will install the module for all users of the machine)
 
 ```powershell
 # For Desktop PowerShell:
