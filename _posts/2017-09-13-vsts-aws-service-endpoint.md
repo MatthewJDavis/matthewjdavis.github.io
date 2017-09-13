@@ -19,7 +19,7 @@ Login to your VSTS account and access the market place.
 
 The easiest way to do this is click on the shopping bag icon by the search box and select browse market place.
 
-![shopping bag by the search bar at the top of the page](/images/vsts-aws-endpoint/settings-service.png)
+![shopping bag by the search bar at the top of the page](/images/vsts-aws-endpoint/market-place-icon.png)
 
 Another way to do this is from the main account, click on the settings cog then select extensions and click on the browse market place icon.
 Note, this is not from within an individual project, you'll get the project settings. Click on the VSTS logo at the top left of the page to get back to the main account screen.
@@ -35,9 +35,20 @@ It will check you have the correct permissions to install the extension, click c
 Click the get started if you like to be taken to the AWS page, or click close and go back to the tab with your VSTS account loaded in it.
 
 # Service Endpoint
-![project settings then select services](/images/vsts-aws-endpoint/settings-service.png)
 
+Click on one of your projects. Once you are in a project, click on the settings cog icon and select services from the drop down.
 
+![project settings then select services](/images/vsts-aws-endpoint/settings-services.png)
+
+Click on the + New Service Endpoint button on the left of the screen and from the drop down choose AWS
+
+![New service endpoint drop down list, aws, azure classic](/images/vsts-aws-endpoint/aws-endpoint.png)
+
+You'll need your access key ID and secret key ID for an IAM user who has programmatic access to AWS with the correct permissions to deploy resources.
+
+![AWS connection settings](/images/vsts-aws-endpoint/aws-connection-settings.png)
+
+You now have a connection that will allow you to deploy from VSTS releases into AWS. In my next post, I'll demonstrate how to deploy a simple resource such as a storage account from VSTS to AWS.
 
 [VSTS market place]: https://marketplace.visualstudio.com/vsts
 [AWS Tools for Microsoft Visual Studio Team Services]: https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.aws-vsts-tools
