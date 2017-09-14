@@ -2,7 +2,7 @@
 title: Creating a VSTS and AWS Service Endpoint
 author: Matthew Davis
 date: 2017-08-31
-excerpt: Set up a connection between VSTS and AWS to deploy AWS resources from VSTS
+excerpt: Set up a connection between Microsoft Visual Studio Team Services and Amazon Web Services to deploy AWS resources from VSTS
 categories: 
     - vsts
 tags:
