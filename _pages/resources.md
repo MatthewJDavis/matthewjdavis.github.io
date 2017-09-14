@@ -32,8 +32,9 @@ tags:
 - [Cacti Network Monitoring]
 - [Snort Intrusion Detection]
 - [7-Zip]
-
-
+- [Wireshark]
+- [nmap]
+- [mxtoolbox]
 
 [Security Now]: https://twit.tv/shows/security-now
 [RunAs Radio]: http://www.runasradio.com/
@@ -57,3 +58,6 @@ tags:
 [Double Driver]: http://download.cnet.com/Double-Driver/3000-2094_4-81936.html
 [Ubuntu]: https://www.ubuntu.com/
 [7-Zip]: http://www.7-zip.org/download.html
+[Wireshark]: https://www.wireshark.org/download.html
+[nmap]: https://nmap.org/
+[mxtoolbox]: https://mxtoolbox.com/
