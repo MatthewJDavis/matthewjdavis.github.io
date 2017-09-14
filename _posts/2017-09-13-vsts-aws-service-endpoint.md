@@ -31,7 +31,7 @@ On the main screen, click install.
 ![aws tools in the vsts market place](/images/vsts-aws-endpoint/aws-tools-market-place.png)
 
 It will check you have the correct permissions to install the extension, click confirm.
-Click the get started if you like to be taken to the AWS page, or click close and go back to the tab with your VSTS account loaded in it.
+Click get started and you'll be taken to the AWS page with the details of the extension, or click close and go back to the tab with your VSTS account loaded in it.
 
 # Service Endpoint
 
