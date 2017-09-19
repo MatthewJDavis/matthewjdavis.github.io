@@ -31,7 +31,7 @@ Enter the following details:
 Click on the newly create project and select **or initialize with a README or git ignore**
 Click **Initialize** (you can select an ignore file item, however it is not needed in this case).
 
-![Initialise repo](/images/vsts-aws-deploy/initialise-repo.png)
+![Initialise repo](/images/vsts-aws-deploy/initalise-repo.png)
 
 Click on the **Code** tab on the top menu
 Click **+ New** button and then **Folder** from the drop down and call it **S3**.
