@@ -20,7 +20,7 @@ From the main screen, click the **New Project** Button.
 Enter the following details:
 
 - Project name
-- Details
+- Description
 - Git Version Control
 - Agile Work item process
 
@@ -33,7 +33,7 @@ Click **Initialize** (you can select an ignore file item, however it is not need
 Click **New** and then **Folder** from the drop down and call it **S3**.
 In the New Filename text box, enter: **create-bucket.yml**
 
-![New folder](/images/vsts-aws-deploy/new-folder.png)
+![Initialise repo](/images/vsts-aws-deploy/initialise-repo.png)
 
 Copy the template code below into the file, click the **Commit** button. The commit dialogue box will appear, here you can change the commit message if you like and then click **Commit**
 
