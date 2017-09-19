@@ -15,7 +15,7 @@ set up endpoint - previous blog post link
 In the last post I outlined how to set up a service endpoint from Visual Studio Team Services (VSTS) to Amazon Web Services (AWS). In this post, I'll go through deploying an S3 bucket via VSTS though the method will be similar to different AWS resources.
 
 ## templates
-With the endpoint created to AWS, either create a new project to upload the templates to or if the templates are in another reposititory (git or bitbucket) skip ahead to the build step and link those as the build source. This post will show you how to create a new project and add the templates too them.
+With the endpoint created to AWS, either create a new project to upload the templates to or if the templates are in another repository (git or bitbucket) skip ahead to the build step and link those as the build source. This post will show you how to create a new project and add the templates too them.
 From the main screen, click the **New Project** Button.
 Enter the following details:
 
