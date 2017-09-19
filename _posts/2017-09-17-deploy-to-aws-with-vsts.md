@@ -67,6 +67,7 @@ Click the **Commit** button. The commit dialogue box will appear, here you can c
 ![Complete file and folder](/images/vsts-aws-deploy/complete-code.png)
 
 ## build step
+
 From the top menu, select **Build and Release**, then **Builds**
 
 ![Select build from the build release tab](/images/vsts-aws-deploy/build-tab.png)
@@ -103,9 +104,86 @@ Add the following tasks:
 ![publish artifact build step](/images/vsts-aws-deploy/publish-artifact-build-step.png)
 
 Click **Save and Queue**
+Click **Queue**
 
 ## release step
 
-## 
+From the top menu, select **Build and Release**, then **Releases**
+Click **+ New Definition**
+Select **Empty Process**
+
+Call the **Envrionment** what you like, I'm calling mine Dev1 (this could be part of a dev - qa - staging - production pipeline).
+Click **Save**
+Enter a comment if you like then click **OK**
+
+![New release definition](/images/vsts-aws-deploy/new-release-definition.png)
+
+### Artifacts
+
+You should be taken to the pipeline view, if not click on **Pipeline** from the menu.
+Click **+ Add** in the Artifacts box
+Choose the **Source (build definition)** from the drop down (you can leave the remaining settings as default)
+
+![Add artifact screen](/images/vsts-aws-deploy/add-artifact.png)
+
+### Release Tasks
+
+Click on the **Phase, Task ** link under the environment name
+
+![Release tasks](/images/vsts-aws-deploy/release-tasks.png)
+
+Select the **AWS CloudFormation Create/Update Stack**, click **Add**
+
+![CloudFormation task](/images/vsts-aws-deploy/cloudformation-task.png)
+
+Enter in the following values
+- Display Name: Create/Update Stack: s3-stack-vsts
+- AWS Credentials: AWS-VSTS (or select whatever you called your service endpoint to AWS)
+- AWS Region: eu-west-1 (or any other valid AWS region)
+- Stack Name: s3-stack-vsts
+- Template File: $(System.DefaultWorkingDirectory)/aws-resource-demo-CI/s3-drop/create-bucket.yml (you can use the ellipsis to naviagate to the template file in the artifacts)
+- Template Parameters File: $(System.DefaultWorkingDirectory)/aws-resource-demo-CI/s3-drop/create-bucket-params.json
+
+![CloudFormation task settigns](/images/vsts-aws-deploy/cloudformation-task-settings.png)
+
+The rest can be left as default.
+Click **Save**
+Enter a comment if you like and click **OK**
+
+Click **Release**
+From the drop down select **Create Release**
+
+![Create new release](/images/vsts-aws-deploy/create-new-release.png)
+
+Add a description if you like
+Click **Queue**
+
+Click on the Release-1 (or could be another number if there are previous releases) to access the newly created release. This will open the releases in a new browser tab.
+
+![Successful release](/images/vsts-aws-deploy/released.png)
+
+If there are any errors, check on the log tab to see them.
+
+![Release logs](/images/vsts-aws-deploy/release-logs.png)
+
+## Check release and cleaning up 
+
+The last step is to go to the AWS console and check the bucket.
+
+Here's the bucket created with the Project tag.
+
+![VSTS deployed bucket](/images/vsts-aws-deploy/vsts-s3-bucket.png)
+
+If we go to the CloudFormation section, we can see the CloudFormation stack created from the VSTS release.
+
+![CloudFormation Console](/images/vsts-aws-deploy/cloudformation-console.png)
+
+To clean up, with the stack checked, click **Actions** and select **Delete Stack** from the drop down.
+
+![Delete stack](/images/vsts-aws-deploy/delete-stack.png)
+
+## The end
+
+This was an overview how to use VSTS to deploy an AWS resource. The resource was a simple S3 bucket but the steps would be the same to deploy more complicated resources. Creating deployment pipelines in VSTS is super easy and brings powerful and configurable build and releases to both small and large teams with a small time investment to get it up and running. Once you have one environment being deployed to, it's easy to copy that task and deploy to others.
 
 [Rules for bucket naming]: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
