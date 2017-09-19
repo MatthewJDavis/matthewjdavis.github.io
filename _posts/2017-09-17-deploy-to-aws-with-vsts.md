@@ -84,8 +84,25 @@ Add the following tasks:
 - Copy Files to:
 - Publish Artifacts:
 
+![adding build tasks](/images/vsts-aws-deploy/build-tasks.png)
 
+### Copy build step
 
+- Source Folder: S3 (you can click on the ellipsis to navigate to the folder too)
+- Contents: ** (this copies all the files in the folder)
+- Target Folder: $(build.artifactstagingdirectory)
+
+![copy build step](/images/vsts-aws-deploy/copy-build-step.png)
+
+### Publish Artifact build step
+
+- Path to Publish: $(build.artifactstagingdirectory)
+- Artifact Name: s3-drop
+- Artifact Type: Server
+
+![publish artifact build step](/images/vsts-aws-deploy/publish-artifact-build-step.png)
+
+Click **Save and Queue**
 
 ## release step
 
