@@ -67,6 +67,23 @@ Click the **Commit** button. The commit dialogue box will appear, here you can c
 ![Complete file and folder](/images/vsts-aws-deploy/complete-code.png)
 
 ## build step
+From the top menu, select **Build and Release**, then **Builds**
+
+![Select build from the build release tab](/images/vsts-aws-deploy/build-tab.png)
+
+Click on **+ New Definition**
+In the build template, select **Empty Process**
+
+![Select empty process](/images/vsts-aws-deploy/build-empty-process.png)
+
+Select "Hosted Agent"
+The **Get Sources** section should be set to your master branch from the code you added to you repository earlier. This is the step where you can specify another source for your code such as Github or Bitbucket.
+
+Add the following tasks:
+
+- Copy Files to:
+- Publish Artifacts:
+
 
 
 
