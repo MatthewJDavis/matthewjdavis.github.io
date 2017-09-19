@@ -8,7 +8,7 @@ categories:
 tags:
     - aws
     - vsts
-published: false
+published: true
 ---
 ## 
 set up endpoint - previous blog post link
