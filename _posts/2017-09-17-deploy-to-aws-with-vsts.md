@@ -160,11 +160,12 @@ Enter in the following values
 ![CloudFormation task settigns](/images/vsts-aws-deploy/cloudformation-task-settings.png)
 
 The rest can be left as default.
-Click **Save**
-Enter a comment if you like and click **OK**
 
-Click **Release**
-From the drop down select **Create Release**
+- Click **Save**
+- Enter a comment if you like and click **OK**
+
+- Click **Release**
+- From the drop down select **Create Release**
 
 ![Create new release](/images/vsts-aws-deploy/create-new-release.png)
 
