@@ -86,7 +86,8 @@ In the build template, select **Empty Process**
 
 ![Select empty process](/images/vsts-aws-deploy/build-empty-process.png)
 
-Select "Hosted Agent"
+Select "Hosted Agent".
+
 The **Get Sources** section should be set to your master branch from the code you added to you repository earlier. This is the step where you can specify another source for your code such as Github or Bitbucket.
 
 Add the following tasks:
@@ -112,26 +113,28 @@ Add the following tasks:
 
 ![publish artifact build step](/images/vsts-aws-deploy/publish-artifact-build-step.png)
 
-Click **Save and Queue**
-Click **Queue**
+- Click **Save and Queue**
+- Click **Queue**
 
 ## Release step
 
 From the top menu, select **Build and Release**, then **Releases**
-Click **+ New Definition**
-Select **Empty Process**
+
+- Click **+ New Definition**
+- Select **Empty Process**
 
 Call the **Environments** what you like, I'm calling mine Dev1 (this could be part of a dev - qa - staging - production pipeline).
-Click **Save**
-Enter a comment if you like then click **OK**
+
+- Click **Save**
+- Enter a comment if you like then click **OK**
 
 ![New release definition](/images/vsts-aws-deploy/new-release-definition.png)
 
 ### Artifacts
 
 You should be taken to the pipeline view, if not click on **Pipeline** from the menu.
-Click **+ Add** in the Artifacts box
-Choose the **Source (build definition)** from the drop down (you can leave the remaining settings as default)
+- Click **+ Add** in the Artifacts box
+- Choose the **Source (build definition)** from the drop down (you can leave the remaining settings as default)
 
 ![Add artifact screen](/images/vsts-aws-deploy/add-artifact.png)
 
