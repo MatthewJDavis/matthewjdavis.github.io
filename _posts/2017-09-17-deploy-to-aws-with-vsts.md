@@ -198,9 +198,10 @@ To clean up, with the stack checked, click **Actions** and select **Delete Stack
 
 ## The end
 
-This was an overview how to use VSTS to deploy an AWS resource. The resource was a simple S3 bucket but the steps would be the same to deploy more complicated resources. Creating deployment pipelines in VSTS is super easy and brings powerful and configurable build and releases to both small and large teams with a small time investment to get it up and running. Once you have one environment being deployed to, it's easy to copy that task and deploy to others.
+This was an overview how to use VSTS to deploy an AWS resource. The resource was a simple S3 bucket but the steps would be the same to deploy more complicated resources. Creating deployment pipelines in VSTS is super easy and brings powerful and configurable build and releases to both small and large teams with a small time investment to get it up and running. Once you have one environment being deployed to, it's easy to copy that task and deploy to others. With that in mind, the parameter file would have to be updated to allow it to have environment variables passed to it, this can be done by a PowerShell script or use a Variable plugin from the market place to inject variables into the JSON script such as [Variables Helpers Build and Release Tasks]
 
 [service endpoint]: https://matthewdavis111.com/vsts/vsts-aws-service-endpoint/
 [CloudFormation Templates]: https://aws.amazon.com/cloudformation/aws-cloudformation-templates/
 [ignore file]: https://git-scm.com/docs/gitignore
 [Rules for bucket naming]: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
+[Variables Helpers Build and Release Tasks]: https://marketplace.visualstudio.com/items?itemName=geeklearningio.gl-vsts-tasks-variables
