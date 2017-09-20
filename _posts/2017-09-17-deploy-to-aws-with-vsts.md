@@ -50,7 +50,7 @@ The template:
 
 ![Committing the template](/images/vsts-aws-deploy/commit-template.png)
 
-The template is a CloudFormation yaml file which will create an S3 bucket, give the account owner full access and tag it with a Project tag. It requires 2 input parameters, BucketName and ProjectTag
+The template is a CloudFormation yaml file which will create an S3 bucket, give the account owner full access and tag it with a Project tag. It requires 2 input parameters, BucketName and ProjectTag.
 
 Now we need a parameter file.
 
@@ -75,7 +75,7 @@ Click the **Commit** button. The commit dialogue box will appear, here you can c
 
 ![Complete file and folder](/images/vsts-aws-deploy/complete-code.png)
 
-## build step
+## Build step
 
 From the top menu, select **Build and Release**, then **Builds**
 
@@ -115,7 +115,7 @@ Add the following tasks:
 Click **Save and Queue**
 Click **Queue**
 
-## release step
+## Release step
 
 From the top menu, select **Build and Release**, then **Releases**
 Click **+ New Definition**
