@@ -11,11 +11,12 @@ tags:
 published: true
 ---
 
-In the last post I outlined how to set up a [service endpoint] from Visual Studio Team Services (VSTS) to Amazon Web Services (AWS). In this post, I'll go through deploying an S3 bucket via VSTS. This method will be similar to different AWS resources, you just need to use different [CloudFormation templates].
+In my previous post I outlined how to set up a [service endpoint] from Visual Studio Team Services (VSTS) to Amazon Web Services (AWS) that allows you to deploy AWS resource from VSTS. In this post, I'll outline how deploy an S3 bucket via VSTS. This method will be similar to other AWS resources, you just need to specify the other resources in the [CloudFormation templates].
 
 ## New VSTS Project
 
-With the endpoint created to AWS, either create a new project to upload the templates to or if the templates are in another repository (github or Bitbucket) skip ahead to the build step and link those as the build source. This post will show you how to create a new project and add the templates to them.
+With the endpoint created to AWS, either create a new project to upload the CloudFormation templates to or if the templates are in another repository (Github or Bitbucket) skip ahead to the build step and link those as the build source. This post will show you how to create a new project, add the templates, create a build step and finally a release phase that will deploy the resources.
+
 From the main screen, click the **New Project** Button.
 Enter the following details:
 
@@ -29,7 +30,7 @@ Enter the following details:
 ## CloudFormation Templates
 
 Click on the newly create project and select **or initialize with a README or git ignore**
-Click **Initialize** (you can select an ignore file item, however it is not needed in this case).
+Click **Initialize** (you can select an [ignore file] item, however it is not needed in this case).
 
 ![Initialise repo](/images/vsts-aws-deploy/init-repo.png)
 
@@ -135,7 +136,7 @@ Choose the **Source (build definition)** from the drop down (you can leave the r
 
 ### Release Tasks
 
-Click on the **Phase, Task ** link under the environment name
+Click on the **Phase, Task** link under the environment name
 
 ![Release tasks](/images/vsts-aws-deploy/release-tasks.png)
 
@@ -196,4 +197,5 @@ This was an overview how to use VSTS to deploy an AWS resource. The resource was
 
 [service endpoint]: https://matthewdavis111.com/vsts/vsts-aws-service-endpoint/
 [CloudFormation Templates]: https://aws.amazon.com/cloudformation/aws-cloudformation-templates/
+[ignore file]: https://git-scm.com/docs/gitignore
 [Rules for bucket naming]: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
