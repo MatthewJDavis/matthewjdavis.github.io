@@ -31,14 +31,14 @@ Enter the following details:
 Click on the newly create project and select **or initialize with a README or git ignore**
 Click **Initialize** (you can select an ignore file item, however it is not needed in this case).
 
-![Initialise repo](/images/vsts-aws-deploy/initalise-repo.png)
+![Initialise repo](/images/vsts-aws-deploy/init-repo.png)
 
 Click on the **Code** tab on the top menu
 Click **+ New** button and then **Folder** from the drop down and call it **S3**.
 
 In the New Filename text box, enter: **create-bucket.yml**
 
-![Initialise repo](/images/vsts-aws-deploy/new-folder.png)
+![New folder dialogue](/images/vsts-aws-deploy/new-folder.png)
 
 Copy the template code below into the file, click the **Commit** button. The commit dialogue box will appear, here you can change the commit message if you like and then click **Commit**
 
