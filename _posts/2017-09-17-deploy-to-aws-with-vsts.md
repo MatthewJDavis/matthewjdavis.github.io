@@ -35,6 +35,7 @@ Click **Initialize** (you can select an [ignore file] item from the drop down, h
 ![Initialise repo](/images/vsts-aws-deploy/init-repo.png)
 
 Click on the **Code** tab on the top menu
+
 Click **+ New** button and then **Folder** from the drop down and call it **S3**.
 
 In the New Filename text box, enter: **create-bucket.yml**
