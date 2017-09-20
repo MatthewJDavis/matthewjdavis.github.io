@@ -30,7 +30,7 @@ Enter the following details:
 ## CloudFormation Templates
 
 Click on the newly create project and select **or initialize with a README or git ignore**
-Click **Initialize** (you can select an [ignore file] item, however it is not needed in this case).
+Click **Initialize** (you can select an [ignore file] item from the drop down, however it is not needed in this case).
 
 ![Initialise repo](/images/vsts-aws-deploy/init-repo.png)
 
