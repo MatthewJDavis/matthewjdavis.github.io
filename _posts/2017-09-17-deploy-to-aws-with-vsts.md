@@ -13,6 +13,11 @@ published: true
 
 In my previous post I outlined how to set up a [service endpoint] from Visual Studio Team Services (VSTS) to Amazon Web Services (AWS) that allows you to deploy AWS resource from VSTS. In this post, I'll outline how deploy an S3 bucket via VSTS. This method will be similar to other AWS resources, you just need to specify the other resources in the [CloudFormation templates].
 
+Before starting, you'll need
+
+- [AWS Tools for Microsoft Visual Studio Team Services] extension installed from the market place
+- A [service endpoint] created
+
 ## New VSTS Project
 
 With the endpoint created to AWS, either create a new project to upload the CloudFormation templates to or if the templates are in another repository (Github or Bitbucket) skip ahead to the build step and link those as the build source. This post will show you how to create a new project, add the templates, create a build step and finally a release phase that will deploy the resources.
@@ -29,8 +34,8 @@ Enter the following details:
 
 ## CloudFormation Templates
 
-Click on the newly create project and select **or initialize with a README or git ignore**
-Click **Initialize** (you can select an [ignore file] item from the drop down, however it is not needed in this case).
+Click on the newly created project and select **or initialize with a README or git ignore**
+Click **Initialize** (you can select an [ignore file] item from the drop down, this will tell git what files to omit from source control tracking however it is not needed in this demo).
 
 ![Initialise repo](/images/vsts-aws-deploy/init-repo.png)
 
@@ -201,6 +206,7 @@ To clean up, with the stack checked, click **Actions** and select **Delete Stack
 This was an overview how to use VSTS to deploy an AWS resource. The resource was a simple S3 bucket but the steps would be the same to deploy more complicated resources. Creating deployment pipelines in VSTS is super easy and brings powerful and configurable build and releases to both small and large teams with a small time investment to get it up and running. Once you have one environment being deployed to, it's easy to copy that task and deploy to others. With that in mind, the parameter file would have to be updated to allow it to have [environment variables] passed to it, this can be done by a PowerShell script or use a Variable plugin from the market place to inject variables into the JSON script such as [Variables Helpers Build and Release Tasks]
 
 [service endpoint]: https://matthewdavis111.com/vsts/vsts-aws-service-endpoint/
+[AWS Tools for Microsoft Visual Studio Team Services]: https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.aws-vsts-tools
 [CloudFormation Templates]: https://aws.amazon.com/cloudformation/aws-cloudformation-templates/
 [ignore file]: https://git-scm.com/docs/gitignore
 [Rules for bucket naming]: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
