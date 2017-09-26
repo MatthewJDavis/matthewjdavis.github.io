@@ -101,7 +101,7 @@ Login to the Azure Portal
 
 - Name: ubuntu-server-1 or anything that makes sense
 - VM Disk Type: HHD (I always change my dev / test vms to this to save credit)
-- User name: anything you like
+- User name: anything you like, make a note for connecting later
 - Authentication Type: leave default of **SSH public key**, this will be cover next
 - Subscription: Select appropriate subscription if you have more than one (same one you )
 - Enter a name for the resource group (ubuntu-demo-rg)
@@ -169,7 +169,32 @@ Check that the **Network Security Group**  allows ssh traffic (port 22) to reach
 
 ![copy the ip address to the clipboard](/images/wsl-ssh-azure/copy-ip.png)
 
+Focus / open the bash terminal again
 
+Replace the username with the one you entered when creating the VM
+Replace the IP address with the one you copied from the portal to the clipboard
+
+```bash
+ssh -i ~/.ssh/id_rsa username@52.138.136.92
+```
+
+- Enter **yes** (this will update the known_hosts file in the ~/.ssh/ directory with the new host)
+- Enter the password for the private key
+- You should now be connected to the server
+- Type **exit** when you're finished
+
+![connected to the VM](/images/wsl-ssh-azure/connected.png)
+
+### Cleaning up
+
+You can delete all the resources created if you want to save your credits by deleting the resource group that was created, this will delete all resources so take care when deleting resources and make sure you definitely want them gone.
+
+- Click on the **Resource Group** to select it
+- Click on the **Delete Resource group** icon
+- Type in the name of the resource group to confirm
+- Click **Delete**
+
+![Deleting the resource group](/images/wsl-ssh-azure/delete-rg.png)
 
 [Installing Windows Subsystem for Linux]: https://msdn.microsoft.com/en-gb/commandline/wsl/install_guide
 [Azure Portal]: https://portal.azure.com
