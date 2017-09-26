@@ -1,5 +1,5 @@
 ---
-title: Connect to an Azure Linux vm with ssh and Windows Subsytem for Linux
+title: Connect to an Azure Linux vm with ssh and Windows Subsystem for Linux
 author: Matthew Davis
 date: 2017-09-18
 excerpt: How to create ssh keys and use them to connect to a Linux vm running on Azure
