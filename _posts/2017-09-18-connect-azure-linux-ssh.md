@@ -11,6 +11,8 @@ tags:
 published: false
 ---
 
+# Overview 
+
 Windows 10 64bit version has the Windows Subsystem for Linux (WSL) installed allowing you to easily run Linux tools from within Windows 10 which is great for managing Linux VMs in Azure and AWS. When creating an EC2 instance in AWS, you specify which key pair to use so you can connect to your AWS EC2 instance via ssh. You create the initial key pair in the AWS Identity and Access Management (IAM) console and providing you keep the key safe and still have access to it, you'll be able to easily connect to the EC2 instance.
 
 Azure Linux VMs work slightly differently though the concept to connect is the same via ssh, you need to specify the public key to the vm and authenticate to it with the private key. The main difference is you must create the key pair on your computer and then paste the public key into the Azure VM.
