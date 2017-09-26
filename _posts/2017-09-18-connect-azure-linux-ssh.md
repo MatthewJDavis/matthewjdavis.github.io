@@ -128,11 +128,49 @@ cat ~/.ssh/id_rsa.pub
 
 ![pasting the text for the ssh key](/images/wsl-ssh-azure/paste-key.png)
 
+- Click **OK**
 
+### Choose VM size
+
+- For this demo I will choose an A1 standard, select what [size vm] you feel is appropriate (you will be charge accordingly for compute time)
+- Click **Select**
+
+![select vm size](/images/wsl-ssh-azure/select-vm-size.png)
+
+#### Configure Optional Settings
+
+- I leave these as default for the demo, feel free to adjust as needed
+- Click **OK**
+
+![optional settings as default](/images/wsl-ssh-azure/select-vm-size.png)
+
+#### Purchase
+
+- Here you can review the settings
+- Click **Purchase**
+
+The deployment will now be started.
+
+- On the left hand menu, click **Resource Groups** and click on the group created for the VM.
 
 ### Network Security Group
 
+- Click on the **Network Security Group** (will usually be named server-name-nsg if created through the portal)
+
+Check that the **Network Security Group**  allows ssh traffic (port 22) to reach the VM (for security you may wish to change this to your own IP address).
+
+![network security group](/images/wsl-ssh-azure/nsg-22.png)
+
 ## Connecting
+
+- Click on the create VM
+- Check status has changed from "creating" to **Running**
+- Hover the mouse cursor over the **IP address**, to the right the clipboard icon will appear, click this to copy the address to the clipboard
+
+![copy the ip address to the clipboard](/images/wsl-ssh-azure/copy-ip.png)
+
+
 
 [Installing Windows Subsystem for Linux]: https://msdn.microsoft.com/en-gb/commandline/wsl/install_guide
 [Azure Portal]: https://portal.azure.com
+[size vm]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes
