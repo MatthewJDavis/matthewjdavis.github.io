@@ -8,7 +8,7 @@ categories:
 tags:
     - azure
     - linux
-published: false
+published: true
 ---
 
 # Overview 
