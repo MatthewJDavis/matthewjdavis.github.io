@@ -1,28 +1,40 @@
 ---
 title: How to delete a project in Visual Studio Team Services
 author: Matthew Davis
-date: 2017-09-18
+date: 2017-09-20
 excerpt: Sometimes you need to delete a project if you've been testing or using it for demos, here's how to.
 categories: 
     - vsts
 tags:
     - vsts
-published: false
+published: true
 ---
 
-I use VSTS to create test projects and demo projects then have a clean up every now and then but sometimes forget how to delete the project.. can you delete it from within the project itself or elsewhere? I forgot. This quickie will remind me in the future when I've not deleted a project in a while and have forgotten (hopefully the interface won't have changed too drastically then, it's updated on such a fast cycle there's always something new to discover!).
+I use VSTS to create test projects and demo projects then have a clean up every now and then but sometimes forget how to delete the project, sometime having to ask myself if I delete it from within the project itself or elsewhere? I forget. This quickie will remind me in the future when I've not deleted a project in a while and have forgotten (hopefully the interface won't have changed too drastically then, it's updated on such a fast cycle there's always something new to discover!).
 
-Go to the main account settings
+**This action can't be undone, so make sure you have backups / definitely don't mind all of the work being deleted**
 
-## click on the VSTS icon (top right)
+You need to been in the main account overview page before clicking on the cog (settings) icon.
 
-In the settings icon, select projects??
+[VSTS main account screen](/images/vsts-delete-project/vsts-account-main.png)
 
-Click on the project
+If you're in a project this will take you to the settings for the project and not the overall account. To get to the main account page from a project either:
 
-Select delete
+1. Click on the VSTS icon on the top right
+2. Click on the **cog** icon and select **Account Settings**
 
+![settings in a VSTS project](/images/vsts-delete-project/vsts-project-settings.png)
 
-Confirm the deletion by typing in the name of the project (you must be sure.... this action is not reversable!!)
+On the main screen, select the **cog** icon and select **Overview**
 
-Easy when you know how!
+![overview option from cog menu](/images/vsts-delete-project/vsts-account-overview.png)
+
+Hover the mouse over the project, click the ellipsis and select **Delete**
+
+![delete option for project on main screen](/images/vsts-delete-project/vsts-delete-option.png)
+
+A confirmation screen pops up, write the name of the project to confirm deletion.
+
+![confirm deletion of project](/images/vsts-delete-project/vsts-delete-confirm.png)
+
+Goodbye project, easy when you know how!
