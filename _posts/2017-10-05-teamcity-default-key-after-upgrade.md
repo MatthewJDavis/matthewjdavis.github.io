@@ -7,7 +7,7 @@ categories:
     - teamcity
 tags:
     - teamcity
-published: false
+published: true
 ---
 
 I've recently been testing upgrading [teamcity] server from version 9.1 to the latest version 2017.1. During testing of the upgrade, we noticed that projects that were using the default ssh key to connect to Github were failing authentication failure. When testing the connection in the project settings, specifying the ssh key by name directly in the project worked, so the key was ok, but the default key setting couldn't find the key.
