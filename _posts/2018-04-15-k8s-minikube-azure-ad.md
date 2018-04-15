@@ -2,17 +2,18 @@
 title: Running Kubernetes on minikube and using authentication with Azure AD
 author: Matthew Davis
 date: 2018-04-15
-excerpt: 
+excerpt: I was asked to investigate how to authenticate our proof of concept 
 categories: 
     - Kubernetes
 tags:
     - active directory
     - minikube
 published: true
+---
 
 # Intro
 
-Recently I was asked to investigate how to authenticate our proof of concept [Kubernetes (K8s)] cluster with our Active Directory. 
+I was asked to investigate how to authenticate our proof of concept [Kubernetes (K8s)] cluster with our Active Directory. 
 
 One of the nice to have requirements was to make it not reliant on our internal network where are AD servers reside. We sync our AD with Azure AD so it would be great if this could be used as authentication to a Kubernetes cluster and it can be done. 
 
