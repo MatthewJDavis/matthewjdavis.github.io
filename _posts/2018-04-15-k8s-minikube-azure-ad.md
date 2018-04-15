@@ -25,15 +25,38 @@ We need two Azure AD apps:
 1. For the [kube-apiserver]
 2. For [kubectl], the kubernetes commandline client
 
-### Kube server API
-Sign into the Azure Portal
-Select the Azure Active Directory Blade
-Select App registrations
-Click New application registration
+### Kube server API application
+
+1. Sign into the Azure Portal
+2. Select the Azure Active Directory Blade
+3. Select App registrations
+4. Click New application registration
+
+[api server azure ad](/images/k8-minikube-azure-ad/api-server-app-new.png)
+
+1. Name: demo-k8s-api-server
+2. Application type: Web app  / API
+3. Sign-on URL: https://localhost
+4. Click Create
+
+Copy the application id and make a note of it
+
+Api server = ba75cd2a-26ef-4aae-840c-02a00d0ad4c5
+
+[copy server app id from settings](/images/k8-minikube-azure-ad/api-server-app-id.png)
 
 
+[create api app](/images/k8-minikube-azure-ad/api-server-app-create.png)
+
+[](/images/k8-minikube-azure-ad/.png)
+
+[](/images/k8-minikube-azure-ad/.png)
 
 [Kubernetes (K8s)]:https://kubernetes.io/
 [minikube]:https://kubernetes.io/docs/getting-started-guides/minikube/
 [kube-apiserver]:https://kubernetes.io/docs/reference/generated/kube-apiserver/
 [kubectl]:https://kubernetes.io/docs/reference/generated/kubectl/kubectl/
+
+
+
+[](/images/k8-minikube-azure-ad/.png)
