@@ -8,7 +8,7 @@ categories:
 tags:
     - active directory
     - minikube
-published: false
+published: true
 
 # Intro
 
