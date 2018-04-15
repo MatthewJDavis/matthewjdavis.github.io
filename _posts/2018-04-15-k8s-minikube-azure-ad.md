@@ -13,11 +13,11 @@ published: true
 
 # Intro
 
-I was recently asked to investigate how to authenticate our proof of concept [Kubernetes (K8s)] cluster with our Active Directory. 
+Recently I was asked to investigate how to authenticate our proof of concept [Kubernetes (K8s)] cluster with our Active Directory. 
 
 One of the nice to have requirements was to make it not reliant on our internal network where are AD servers reside. We sync our AD with Azure AD so it would be great if this could be used as authentication to a Kubernetes cluster and it can be done. 
 
-I was using [minikube], which is a great way to get up and running quickly with K8s so this post will show you how to configure k8s running on minikube to authenticate with Azure AD. 
+I was using [minikube] for testing, which is a great way to get up and running quickly with K8s so this post will show you how to configure k8s running on minikube to authenticate with Azure AD. 
 
 Once you get the work flow with minikube, it is straight forward to set it up with a K8s cluster hosted elsewhere.
 
@@ -33,20 +33,20 @@ We need two Azure AD apps:
 3. Select App registrations
 4. Click New application registration
 
-[api server azure ad](/images/k8-minikube-azure-ad/api-server-app-new.png)
+[api server azure ad](/images/minikube-azure-ad/api-server-app-new.png)
 
 1. Name: demo-k8s-api-server
 2. Application type: Web app  / API
 3. Sign-on URL: https://localhost
 4. Click Create
 
-[create api app](/images/k8-minikube-azure-ad/api-server-app-create.png)
+[create api app](/images/minikube-azure-ad/api-server-app-create.png)
 
 Copy the application id and make a note of it
 
 Api server = ba75cd2a-26ef-4aae-840c-02a00d0ad4c5
 
-[copy server app id from settings](/images/k8-minikube-azure-ad/api-server-app-id.png)
+[copy server app id from settings](/images/minikube-azure-ad/api-server-app-id.png)
 
 ### Kubectl app
 Same as api server app:
@@ -60,13 +60,13 @@ Application type: Native
 Redirect URI: https://localhost
 Click Create
 
-[create api app](/images/k8-minikube-azure-ad/kubectl-app-create.png)
+[create api app](/images/minikube-azure-ad/kubectl-app-create.png)
 
 Copy the application id and make a note of it
 
 Kubectl = 076e3eaf-cf92-4478-a533-5faf5d5f7c96
 
-[kubectl app id from settings](/images/k8-minikube-azure-ad/kubectl-app-id.png)
+[kubectl app id from settings](/images/minikube-azure-ad/kubectl-app-id.png)
 
 ### App Permissions
 
@@ -77,15 +77,15 @@ In the demo-k8s-kubectl app (from the screen where you copied the application ID
 2. Required Permissions
 3. Add
 
-[grant accesss to the api server](/images/k8-minikube-azure-ad/add-permissions-1.png)
+[grant accesss to the api server](/images/minikube-azure-ad/add-permissions-1.png)
 
 Select the API server previously created
 
-[grant accesss to the api server](/images/k8-minikube-azure-ad/add-permissions-2.png)
+[grant accesss to the api server](/images/minikube-azure-ad/add-permissions-2.png)
 
 Check the box to delegate permissions and click Select,  then Done
 
-[grant access to the api server](/images/k8-minikube-azure-ad/add-permissions-3.png)  
+[grant access to the api server](/images/minikube-azure-ad/add-permissions-3.png)  
 ## Minikube
 
 We need the following info to start the minikube instance so that is will use Azure AD creds and RBAC permissions:
@@ -113,7 +113,7 @@ minikube start `
 --extra-config=apiserver.Authorization.Mode=RBAC
 ```
 
-[start minikube](/images/k8-minikube-azure-ad/start-minikube.png)
+[start minikube](/images/minikube-azure-ad/start-minikube.png)
 
 ### Grant access to the cluster
 
@@ -138,7 +138,7 @@ For the example, I have a user created in my Azure AD called k8-demo
 ```
 kubectl create clusterrolebinding azure-ad-admin --clusterrole=cluster-admin --user=https://sts.windows.net/65d6a2c3-6dcd-476e-82a4-12c230cf80b5/#k8-demo@matthewdavis111.com
 ```
-[add cluster role binding](/images/k8-minikube-azure-ad/cluster-role.png)
+[add cluster role binding](/images/minikube-azure-ad/cluster-role.png)
 
 #### Note 
 To allow the minikube dashboard to run under RBACs, run:
@@ -169,7 +169,7 @@ kubectl config set-credentials k8-demo@matthewdavis111.com `
  --auth-provider-arg=client-id=076e3eaf-cf92-4478-a533-5faf5d5f7c96 `
 --auth-provider-arg=tenant-id=65d6a2c3-6dcd-476e-82a4-12c230cf80b5
 ```
-[kubectl set command](/images/k8-minikube-azure-ad/kubectl-set.png)
+[kubectl set command](/images/minikube-azure-ad/kubectl-set.png)
 
 You can view the user in the kubectl config file:
 
@@ -183,19 +183,19 @@ Now to run and you'll be prompted to open up the Microsoft login site and copy t
 ```
 kubectl get nodes -user=aduser
 ```
-[kubectl get nodes](/images/k8-minikube-azure-ad/get-nodes.png)
+[kubectl get nodes](/images/minikube-azure-ad/get-nodes.png)
 
 Enter the code displayed in the terminal
 
-[device login](/images/k8-minikube-azure-ad/device-loign.png)
+[device login](/images/minikube-azure-ad/device-loign.png)
 
 Login and allow access to the app and close the browser
 
-[grant access from web browser](/images/k8-minikube-azure-ad/grant-access.png)
+[grant access from web browser](/images/minikube-azure-ad/grant-access.png)
 
 Once you have authenticated:
 
-[authenticated](/images/k8-minikube-azure-ad/auth.png)
+[authenticated](/images/minikube-azure-ad/auth.png)
 
 [Kubernetes (K8s)]:https://kubernetes.io/
 [minikube]:https://kubernetes.io/docs/getting-started-guides/minikube/
@@ -206,4 +206,3 @@ Once you have authenticated:
 [here]:https://kubernetes.io/docs/admin/authorization/rbac/#default-roles-and-role-bindings
 
 
-[](/images/k8-minikube-azure-ad/.png)
