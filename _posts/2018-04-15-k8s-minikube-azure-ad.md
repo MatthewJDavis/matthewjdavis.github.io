@@ -4,12 +4,12 @@ author: Matthew Davis
 date: 2018-04-15
 excerpt: I was asked to investigate how to authenticate our proof of concept 
 categories: 
-    - Kubernetes
+    - kubernetes
 tags:
     - active directory
     - minikube
 published: true
-
+---
 
 # Intro
 
