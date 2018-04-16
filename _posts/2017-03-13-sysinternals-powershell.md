@@ -5,7 +5,7 @@ date: 2017-02-05
 categories: 
     - powershell
 tags:
-    - PowerShell
+    - powerShell
     - sysinternals
 ---
 

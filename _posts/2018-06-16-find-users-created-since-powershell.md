@@ -13,7 +13,7 @@ published: true
 
 This will return all the users in the users OU that have bee created in the last 31 days:
 
-``` PowerShell
+```powershell
 $createdSinceDate = ((Get-Date).AddDays(-31)).Date
 $ou = 'OU=users ,OU=Company,DC=matthewdavis111,DC=com'
 
@@ -22,13 +22,12 @@ Get-ADUser -Filter {whenCreated -ge $createdSinceDate} -Properties whenCreated -
 
 Use Sort-Object to sort by created date
 
-``` PowerShell
+```powershell
 Get-ADUser -Filter {whenCreated -ge $createdSinceDate} -Properties whenCreated -SearchBase $ou | Select-Object userprincipalname, whencreated | Sort-Object whencreated
 ```
 
 Output to CSV
 
-``` PowerShell
+```powershell
 Get-ADUser -Filter {whenCreated -ge $createdSinceDate} -Properties whenCreated -SearchBase $ou | Select-Object userprincipalname, whencreated | Sort-Object whencreated | Export-Csv C:\temp\skip-created-users.csv -NoTypeInformation
-
 ```
