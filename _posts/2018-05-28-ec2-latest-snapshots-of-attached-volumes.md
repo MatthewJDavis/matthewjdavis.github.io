@@ -1,5 +1,5 @@
 ---
-title:  Use PowerShell to get EC2 volumes attached to an instance and their snapshots
+title:  Use PowerShell to get the lastest EC2 snapshots of all volumes attached to an instance
 author: Matthew Davis
 date: 2018-05-28
 categories: 
