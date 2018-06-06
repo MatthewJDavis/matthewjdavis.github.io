@@ -43,12 +43,20 @@ chocolatey list /?
 # Show uninstall options
 choco uninstall /?
 ```
-## Installing
+## Basic Installing
 
 ```powershell
+# Install a package - you'll be prompted to accept licences etc
 chocolatey install package name
-
+# Install with licences accepted so no prompt
+choco install 'package name' -y
+# Shorter way to install with confirmation of licence acceptance
+cinst 'package name' -y
 ```
+
+## Uninstalling
+## Searching for Packages
+
 
 
 Package Repos
