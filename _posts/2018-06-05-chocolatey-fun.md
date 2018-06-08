@@ -32,6 +32,8 @@ Chocolatey has a number of commands and the help system is great, just like Powe
 
 The chocolatey command can be abbreviated to choco to save typing!
 
+These commands are all available in chocolatey version 0.10.8
+
 ### help
 ```powershell
 # Show default options and switches
@@ -47,7 +49,7 @@ choco uninstall /?
 
 ```powershell
 # Install a package - you'll be prompted to accept licences etc
-chocolatey install package name
+chocolatey install 'package name'
 # Install with licences accepted so no prompt
 choco install 'package name' -y
 # Shorter way to install with confirmation of licence acceptance
@@ -55,7 +57,26 @@ cinst 'package name' -y
 ```
 
 ## Uninstalling
+
+```powershell
+# Uninstall a package that is managed by chocolatey
+chocolatey uninstall 'package name'
+# Uninstall confirming all prompts
+choco uninstall 'package name' -y
+# Shorter way to uninstall with confirmation of all prompts
+cuninst 'package name' -y
+```
+
 ## Searching for Packages
+
+```powershell
+# List locally installed packages
+choco list -lo
+# Search for a package on a repo (default repo is chocolatey.org)
+choco list 'package name'
+# Find packages that exactly match the search query
+choco list -exact 'package name'
+```
 
 
 
