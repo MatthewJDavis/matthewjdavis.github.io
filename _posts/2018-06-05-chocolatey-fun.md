@@ -2,7 +2,7 @@
 title: Chocolatey fun, Windows package management
 author: Matthew Davis
 date: 2018-06-05
-excerpt: How to find AD users in a specific OU created in the last 31 days
+excerpt: Using package mangent on Windows with Chocolatey and useful commands.
 categories: 
     - chocolatey
 tags:
