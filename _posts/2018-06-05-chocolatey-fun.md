@@ -20,6 +20,8 @@ Chocolatey is a package manager for Windows, it makes automating software instal
 
 Once Chocolatey in installed and providing someone has packaged the software, it's as simple as typing the following to install it:
 
+**Chocolatey should be run from an admin command prompt, but you can run as a non admin by following the official [guide]**
+
 ```powershell
 chocolatey install sysinternals
 ```
@@ -78,10 +80,28 @@ choco list 'package name'
 choco list -exact 'package name'
 ```
 
-
-
 Package Repos
+
+The main chocolatey package repository is currently found at the feed: https://chocolatey.org/api/v2/
+
+You could also host your in-house choco repository using software such as proget, nexus or artifactory. You can also set your chocolatey source to point to a file share and install packages from there.
+
+For hosting files on a share, you can download the nupkg file from the chocolatey website.
+
+```powershell
+# View current source
+choco source
+# Add a local directory as a package source
+choco source add -name="local" -source="c:\choco-packages"
+# List local source the was added above
+choco list -source="local"
+# Install from local source
+choco install notepadplusplus.install -source="local" -y
+```
+
 
 Checking packages / security
 
 Using with Ansible / other configuration management tools
+
+[guide]:https://chocolatey.org/docs/installation#non-administrative-install
