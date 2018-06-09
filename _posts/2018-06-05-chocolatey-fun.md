@@ -99,9 +99,30 @@ choco list -source="local"
 choco install notepadplusplus.install -source="local" -y
 ```
 
-
 Checking packages / security
 
-Using with Ansible / other configuration management tools
+There are a number of ways to verify the integrity of the package and chocolatey professional licence gives you more peace of mind.
+
+On the website you can:
+* View the install.ps1 script
+* Check for this package was approved as a trusted package (date)
+* View the package source (usually a link to the code in source control)
+
+Some packages also have checksum checks that will fail if the package has been changed. You'll see the checksum in the output of the package install from the command line.
+
+
+Using with Ansible
+
+Ansible has the module [win_chocolatey] that will install chocolatey packages from Ansible playbooks. If on the first run through Ansible detects that chocolatey is not installed, it will install chocolatey as part of the task. 
+
+If you don't specify a source, the chocolatey repo will be used
+
+```yaml
+- name: Install notepadplusplus
+  win_chocolatey:
+    name: notepadplusplus
+    source: //fileshare/packages
+```
 
 [guide]:https://chocolatey.org/docs/installation#non-administrative-install
+[win_chocolatey]:https://docs.ansible.com/ansible/latest/modules/win_chocolatey_module.html
