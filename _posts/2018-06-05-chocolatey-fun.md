@@ -7,20 +7,20 @@ categories:
     - chocolatey
 tags:
     - chocolatey
-published: false
+published: true
 ---
 
 # Chocolatey goodness
 
-I seem to be back on the Windows track at work and at home, after a spell away learning AWS and doing lots of work with Ubuntu linux. I've been ticking over with PowerShell but definitely plateaued, mainly learning and using AWS cmdlets but not really scripting and it's funny how some of the knowledge gained over the last few years has slipped to the back of the brain. So it's time to get back into PowerShell, Windows and taking a good look at Chocolatey package manager (after using apt-get in Ubuntu which is great and working with Ansible to invoke apt-get, I've used Chocolatey a bit in the past but want to learn deeper about the project and technology and who knows... might even bring back some of those rooted away PowerShell skills!).
+I seem to be back on the Windows track at work, after a spell away learning AWS and doing lots of work with Ubuntu linux. I've been ticking over with PowerShell but definitely plateaued, mainly learning and using AWS cmdlets but not really scripting and it's funny how some of the knowledge gained over the last few years has slipped to the back of the brain. So it's time to get back into PowerShell, Windows and taking a good look at [Chocolatey package manager] (after using apt-get in Ubuntu which is great and working with Ansible to invoke apt-get, I've used Chocolatey a bit in the past but want to learn deeper about the project and technology and who knows... might even bring back some of those rooted away PowerShell skills!).
 
 Chocolatey what is it?!
 
 Chocolatey is a package manager for Windows, it makes automating software installation, configuration and uninstallation easier by wrapping the underlying installation technologies in an easy to use command line syntax.
 
-Once Chocolatey in installed and providing someone has packaged the software, it's as simple as typing the following to install it:
-
 **Chocolatey should be run from an admin command prompt, but you can run as a non admin by following the official [guide]**
+
+Once Chocolatey in installed and providing someone has packaged the software, it's as simple as typing the following to install it:
 
 ```powershell
 chocolatey install sysinternals
@@ -36,7 +36,8 @@ The chocolatey command can be abbreviated to choco to save typing!
 
 These commands are all available in chocolatey version 0.10.8
 
-### help
+### Help
+
 ```powershell
 # Show default options and switches
 chocolatey /?
@@ -47,7 +48,7 @@ chocolatey list /?
 # Show uninstall options
 choco uninstall /?
 ```
-## Basic Installing
+### Installing
 
 ```powershell
 # Install a package - you'll be prompted to accept licences etc
@@ -58,18 +59,18 @@ choco install 'package name' -y
 cinst 'package name' -y
 ```
 
-## Uninstalling
+### Uninstalling
 
 ```powershell
 # Uninstall a package that is managed by chocolatey
 chocolatey uninstall 'package name'
-# Uninstall confirming all prompts
+# Uninstall confirming prompts
 choco uninstall 'package name' -y
-# Shorter way to uninstall with confirmation of all prompts
+# Shorter way to uninstall with confirmation of prompts
 cuninst 'package name' -y
 ```
 
-## Searching for Packages
+### Searching for Packages
 
 ```powershell
 # List locally installed packages
@@ -84,7 +85,7 @@ Package Repos
 
 The main chocolatey package repository is currently found at the feed: https://chocolatey.org/api/v2/
 
-You could also host your in-house choco repository using software such as proget, nexus or artifactory. You can also set your chocolatey source to point to a file share and install packages from there.
+You could also host your in-house choco repository using software such as [proget], [nexus] or [artifactory]. You can also set your chocolatey source to point to a file share and install packages from there.
 
 For hosting files on a share, you can download the nupkg file from the chocolatey website.
 
@@ -110,8 +111,7 @@ On the website you can:
 
 Some packages also have checksum checks that will fail if the package has been changed. You'll see the checksum in the output of the package install from the command line.
 
-
-Using with Ansible
+### Using with Ansible
 
 Ansible has the module [win_chocolatey] that will install chocolatey packages from Ansible playbooks. If on the first run through Ansible detects that chocolatey is not installed, it will install chocolatey as part of the task. 
 
@@ -124,5 +124,9 @@ If you don't specify a source, the chocolatey repo will be used
     source: //fileshare/packages
 ```
 
+[Chocolatey package manager]:https://chocolatey.org/
 [guide]:https://chocolatey.org/docs/installation#non-administrative-install
+[proget]:https://inedo.com/proget
+[nexus]:https://www.sonatype.com/nexus-repository-oss
+[artifactory]:https://jfrog.com/artifactory/
 [win_chocolatey]:https://docs.ansible.com/ansible/latest/modules/win_chocolatey_module.html
