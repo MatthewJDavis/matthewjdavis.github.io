@@ -22,9 +22,9 @@ Chocolatey is a package manager for Windows, it makes automating software instal
 
 Once Chocolatey in installed and providing someone has packaged the software, it's as simple as typing the following to install it:
 
-```powershell
+{% highlight powershell %}
 chocolatey install sysinternals
-```
+{% endhighlight %}
 
 That's it, Chocolatey will go to the chocolatey.org repository, download and install the software. Sysinternals are standalone executables and Chocolatey uses a 'shim' so the executables are available from the commandline (Chocolatey has a location on the Path, the chocolatey\bin directory) but it works with software that is installed via msi, setup.exe, inno, msu etc.
 
