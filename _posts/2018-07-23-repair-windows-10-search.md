@@ -31,18 +31,8 @@ You can however set registry keys ([details in this msdn article)]) to run every
 
 Adding the following via PowerShell to your registry will run the command every time you log into the computer. You don't need to run PowerShell as an admin on this occasion as you are adding to the current user registry.
 
-```PowerShell
-$keyName = 'run-ctfmon-search-fix'
-$keyValue = 'C:\Windows\system32\ctfmon.exe'
-$keyPath = 'HKCU:Software\Microsoft\Windows\CurrentVersion\run'
+<script src="https://gist.github.com/MatthewJDavis/e46333ba3eab570c3b585cc8ab38e3f6.js"></script>
 
-# Add the ctfmon.exe to the HKey_Current_User run registry key
-New-ItemProperty -Name $keyName -Value $keyValue -Path $keyPath 
-# View the registry keys that run when a user logs in
-Get-ItemProperty -Path $keyPath
-# Remove the key that was added in step one if needed 
-Remove-ItemProperty -Path $keyPath -Name $keyName 
-```
 And there you have it. All was good in the search world of my Windows 10 VM. This may not fix your search problems, as I've seen many out there caused by different errors, but this one fixed mine so it's worth trying and if it does work, then add it to your registry for the next time you login.
 
 
