@@ -2,7 +2,7 @@
 title: Chocolatey fun, Windows package management
 author: Matthew Davis
 date: 2018-06-05
-excerpt: Using package mangent on Windows with Chocolatey and useful commands.
+excerpt: Using package management on Windows with Chocolatey and useful commands.
 categories: 
     - chocolatey
 tags:
@@ -106,6 +106,7 @@ Checking packages / security
 There are a number of ways to verify the integrity of the package and chocolatey professional licence gives you more peace of mind.
 
 On the website you can:
+
 * View the install.ps1 script
 * Check for this package was approved as a trusted package (date)
 * View the package source (usually a link to the code in source control)
