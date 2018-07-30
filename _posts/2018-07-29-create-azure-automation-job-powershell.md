@@ -12,9 +12,9 @@ tags:
 published: false
 ---
 
-I've just completed a task to restart a service when Splunk detects that is not running on a Windows server. When Splunk detects that the service is not running, it sends data to an Azure automation runbook I created via a JSON payload.
+I've just completed a task to restart a service when [splunk] detects that is not running on a Windows server. When Splunk detects that the service is not running, it sends data to an Azure automation runbook I created via a JSON payload.
 
-As it's been a while since I have used Azure automation and runbooks, and after being inspired by recently watching this channel 9 video to complete the task using PowerShell (something I had done previously but not for ages) I've decided to write it up here.
+As it's been a while since I have used Azure automation and runbooks, and after being inspired by recently watching this [channel 9 video] to complete the task using PowerShell (something I had done previously but not for ages) I've decided to write it up here.
 
 If not already installed, install the AzureRM PowerShell module
 
@@ -27,17 +27,22 @@ Connect to Azure and select the correct subscription (if you have more than one)
 ```PowerShell
 Add-AzureRMAccount
 
-
 Get-AzureRMSubscription
 
-Select-AzureRMSubscription -SubscriptionID
+Select-AzureRMSubscription -SubscriptionID [yoursubscriptionID]
+
 ```
 
+## The Runbook
+
+<script src="https://gist.github.com/MatthewJDavis/4598eef65dfb370fb0e1d2306fe03d4d.js"></script>
+
+## Creating the resources
 For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account.
 
 ```PowerShell
 # Creates resource group, automation account, imports a local PowerShell runbook and creates a webhook
-# Update runbookPath var to location of the PowerShell runbook locally
+# Update runbookPath variable to location of where the PowerShell runbook is stored locally
 
 $rgName = 'demo-automation-demo-rg'
 $rgLocation = 'northeurope'
@@ -52,7 +57,8 @@ $webhookName = 'demo-webhook'
 $rg = New-AzureRMResourceGroup -Name $rgName -Location $rgLocation -Tags $tags
 
 ```
-```PoweShell
+
+```PowerShell
 # Create the automation account, splat the params
 $autoAcctParams = @{
   'Name' = $autoAcctName;
@@ -110,6 +116,8 @@ $webhookOutput = New-AzureRmAutomationWebhook @hookParams
 
 ![New webhook](/images/azure-webhook/new-webhook.png)
 
+## Testing the runbook
+
 ```PowerShell
 
 # Send JSON Payload to the webhook with a Service name and host name
@@ -140,9 +148,5 @@ Get-AzureRmAutomationJobOutput -Id $job.JobId -ResourceGroupName $rgName -Automa
 # Tidy up resources
 Remove-AzureRmResourceGroup -Name $rgName -Force
 ```
-
-
-
-
-
-
+[splunk]: https://www.splunk.com/
+[channel 9 video]: https://channel9.msdn.com/Shows/DevOps-Lab/Azure-Automation-Runbooks-with-PowerShell
