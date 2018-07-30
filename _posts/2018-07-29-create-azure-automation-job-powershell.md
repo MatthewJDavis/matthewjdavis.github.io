@@ -9,6 +9,7 @@ tags:
     - azure
     - azure automation
     - powershell runbook
+    - webhook
 published: false
 ---
 
@@ -30,15 +31,28 @@ Add-AzureRMAccount
 Get-AzureRMSubscription
 
 Select-AzureRMSubscription -SubscriptionID [yoursubscriptionID]
-
 ```
 
 ## The Runbook
 
+The runbook takes one parameter, which is an object with the name WebhookData. This object has the following properties from the POST request:
+1.WebhookName = $WebhookData.WebhookName
+2.RequestHeader = $WebhookData.RequestHeader
+3.RequestBody = $ $WebhookData.RequestBody
+
+From the [Microsoft docs on Automation]
+
+The if block on line 12 is needed for testing if you were to use the Azure portal's test pane (shown later). A real webhook recieved will contain data in the $Webhook.RequestBody, however this isn't the case from the test pane so this logic is required for testing from there.
+
+The data is converted from JSON to a PowerShell object and the properties in the RequestBody property is saved to another variable for output.
+
+The service name and host name are outputted from the script.
+
 <script src="https://gist.github.com/MatthewJDavis/4598eef65dfb370fb0e1d2306fe03d4d.js"></script>
 
 ## Creating the resources
-For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account.
+
+For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account. I've broken the script up too so I can include screenshots but this should all be ran in the same PowerShell session where the variables are declared and the authentication is done with Azure.
 
 ```PowerShell
 # Creates resource group, automation account, imports a local PowerShell runbook and creates a webhook
@@ -55,7 +69,6 @@ $webhookName = 'demo-webhook'
 
 # Create the resource group
 $rg = New-AzureRMResourceGroup -Name $rgName -Location $rgLocation -Tags $tags
-
 ```
 
 ```PowerShell
@@ -69,9 +82,7 @@ $autoAcctParams = @{
 }
 
 New-AzureRMAutomationAccount @autoAcctParams
-
 ```
-
 
 ![Create a new automation account](/images/azure-webhook/new-automation-account.png)
 
@@ -89,16 +100,14 @@ $runbookParams = @{
 }
 
 Import-AzureRmAutomationRunbook @runbookParams
-
 ```
 
 ![Import the PowerShell runbook](/images/azure-webhook/import-runbook.png)
 
-
 ```PowerShell
 # Create the webhook with a 5 year expiry date
 # Force to accept the warning that the WebhookURI will only be available once
-# This information is saved in the webhookOutput variable for this demo but should be stored somewhere secure in production because it includes the authorisation token in the URI
+# This information is saved in the webhookOutput variable for this demo but should be stored somewhere secure in production because it includes the security token in the URI and is only available when the webhook is created - it can't be retrieved after
 # View the URI by  $webhookOutput.WebhookURI
 $hookParams = @{
   'AutomationAccountName' = $autoAcctName;
@@ -111,7 +120,6 @@ $hookParams = @{
 }
 
 $webhookOutput = New-AzureRmAutomationWebhook @hookParams
-
 ```
 
 ![New webhook](/images/azure-webhook/new-webhook.png)
@@ -127,7 +135,6 @@ $json = '{
 }'
 
 Invoke-WebRequest -Uri $webhookOutput.WebhookURI -UseBasicParsing -Method Post -Body $json
-
 ```
 
 ![JSON data saved to a variable](/images/azure-webhook/json-var.png)
@@ -148,5 +155,7 @@ Get-AzureRmAutomationJobOutput -Id $job.JobId -ResourceGroupName $rgName -Automa
 # Tidy up resources
 Remove-AzureRmResourceGroup -Name $rgName -Force
 ```
+
 [splunk]: https://www.splunk.com/
 [channel 9 video]: https://channel9.msdn.com/Shows/DevOps-Lab/Azure-Automation-Runbooks-with-PowerShell
+[Microsoft Docs on automation]: https://docs.microsoft.com/en-us/azure/automation/automation-webhooks
