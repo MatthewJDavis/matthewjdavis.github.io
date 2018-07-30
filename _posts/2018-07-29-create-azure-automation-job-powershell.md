@@ -25,7 +25,7 @@ Install-Module -Name AzureRM
 
 Connect to Azure and select the correct subscription (if you have more than one)
 
-```PowerShell
+```powershell
 Add-AzureRMAccount
 
 Get-AzureRMSubscription
@@ -54,7 +54,7 @@ The service name and host name are outputted from the script.
 
 For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account. I've broken the script up too so I can include screenshots but this should all be ran in the same PowerShell session where the variables are declared and the authentication is done with Azure.
 
-```PowerShell
+```powershell
 # Creates resource group, automation account, imports a local PowerShell runbook and creates a webhook
 # Update runbookPath variable to location of where the PowerShell runbook is stored locally
 
@@ -71,7 +71,7 @@ $webhookName = 'demo-webhook'
 $rg = New-AzureRMResourceGroup -Name $rgName -Location $rgLocation -Tags $tags
 ```
 
-```PowerShell
+```powershell
 # Create the automation account, splat the params
 $autoAcctParams = @{
   'Name' = $autoAcctName;
@@ -86,7 +86,7 @@ New-AzureRMAutomationAccount @autoAcctParams
 
 ![Create a new automation account](/images/azure-webhook/new-automation-account.png)
 
-```PowerShell
+```powershell
 # Import the local runbook
 $runbookParams = @{
   'Path' = $runbookPath;
@@ -104,7 +104,7 @@ Import-AzureRmAutomationRunbook @runbookParams
 
 ![Import the PowerShell runbook](/images/azure-webhook/import-runbook.png)
 
-```PowerShell
+```powershell
 # Create the webhook with a 5 year expiry date
 # Force to accept the warning that the WebhookURI will only be available once
 # This information is saved in the webhookOutput variable for this demo but should be stored somewhere secure in production because it includes the security token in the URI and is only available when the webhook is created - it can't be retrieved after
@@ -126,7 +126,7 @@ $webhookOutput = New-AzureRmAutomationWebhook @hookParams
 
 ## Testing the runbook
 
-```PowerShell
+```powershell
 
 # Send JSON Payload to the webhook with a Service name and host name
 $json = '{
@@ -140,7 +140,7 @@ Invoke-WebRequest -Uri $webhookOutput.WebhookURI -UseBasicParsing -Method Post -
 ![JSON data saved to a variable](/images/azure-webhook/json-var.png)
 ![Invoke the web request to send the data to the webhook](/images/azure-webhook/invoke-webrequest.png)
 
-```PowerShell
+```powershell
 # Get the output of the job. Once the job status is completed, we need the job id (saved in the variable job, then we can get the output
 Get-AzureRmAutomationJob -RunbookName $runbookName -ResourceGroupName $rgName -AutomationAccountName $autoAcctName
 $job = Get-AzureRmAutomationJob -RunbookName $runbookName -ResourceGroupName $rgName -AutomationAccountName $autoAcctName
@@ -183,7 +183,7 @@ You can also access this data via PowerShell by running the Get-AzureRmAutomatio
 
 That's it, no all that is left to do is clean up.
 
-```PowerShell
+```powershell
 # Tidy up resources
 Remove-AzureRmResourceGroup -Name $rgName -Force
 ```
