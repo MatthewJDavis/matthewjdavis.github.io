@@ -19,9 +19,8 @@ As it's been a while since I have used Azure automation and runbooks, and after 
 
 If not already installed, install the AzureRM PowerShell module
 
-```PowerShell
+```powershell
 Install-Module -Name AzureRM
-
 ```
 
 Connect to Azure and select the correct subscription (if you have more than one)
