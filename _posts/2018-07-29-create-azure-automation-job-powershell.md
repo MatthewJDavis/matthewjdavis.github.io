@@ -10,7 +10,7 @@ tags:
     - azure automation
     - powershell runbook
     - webhook
-published: publish
+published: true
 ---
 
 I've just completed a task to restart a service when [splunk] detects that is not running on a Windows server. When Splunk detects that the service is not running, it sends data to an Azure automation runbook I created via a JSON payload.
