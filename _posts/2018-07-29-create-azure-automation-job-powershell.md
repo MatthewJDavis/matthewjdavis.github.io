@@ -21,6 +21,7 @@ If not already installed, install the AzureRM PowerShell module
 
 ```PowerShell
 Install-Module -Name AzureRM
+
 ```
 
 Connect to Azure and select the correct subscription (if you have more than one)
