@@ -162,6 +162,13 @@ From the top menu, click *Test Panel*.
 
 In the test panel, enter the JSON data
 
+```JSON
+{
+  "WebhookName": "service-host-webhook",
+  "RequestBody": "{\"Service\": \"xbgm\",\"Host\": \"vm01\" }"
+}
+```
+
 Click *Start*
 
 ![Test panel Azure automation](/images/azure-webhook/test-panel.png)
