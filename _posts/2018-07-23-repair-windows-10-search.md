@@ -21,7 +21,7 @@ While talking with a friend about the problem, he found the following [post in t
 
 Run the ctfmon.exe found:
 
-## C:\Windows\system32\ctfmon.exe
+**C:\Windows\system32\ctfmon.exe**
 
 This worked straight away, I could now search from the Windows menu, search in edge and Windows explorer.
 
