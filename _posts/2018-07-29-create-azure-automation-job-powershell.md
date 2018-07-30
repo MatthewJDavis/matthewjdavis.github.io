@@ -2,7 +2,7 @@
 title: Create Azure Automation Job triggered by a webhook with PowerShell
 author: Matthew Davis
 date: 2018-07-29
-excerpt: How to create an Azure automation job that is triggered by a webhook with PowerShell
+excerpt: Create an Azure automation job that is triggered by a POST to a webhook with PowerShell and output data from the JSON payload
 categories: 
     - azure
 tags:
