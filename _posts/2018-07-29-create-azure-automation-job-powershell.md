@@ -189,7 +189,7 @@ The request will be queued up and the results will be displayed in the test pane
 
 ![Test result](/images/azure-webhook/test-result.png)
 
-You will see the Write-Output from within the if block that is true because there is not a value in $WebhookData.Request property.
+You will see the Write-Output value from within the if block because there is not a value in $WebhookData.Request property.
 
 You can also access this data via PowerShell by running the Get-AzureRmAutomationJob and Get-AzureRmAutomationJobOutput as above.
 
