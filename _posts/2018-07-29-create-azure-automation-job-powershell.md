@@ -168,7 +168,7 @@ Select your runbook in the Azure automation account and click **Edit**.
 
 ![Test panel Azure automation](/images/azure-webhook/edit-runbook.png)
 
-From the top menu, click **Test Panel**.
+From the top menu, click **Test Pane**.
 
 ![Test panel Azure automation](/images/azure-webhook/test-pane-button.png)
 
