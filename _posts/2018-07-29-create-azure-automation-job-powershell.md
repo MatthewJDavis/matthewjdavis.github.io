@@ -36,9 +36,10 @@ Select-AzureRMSubscription -SubscriptionID [yoursubscriptionID]
 ## The Runbook
 
 The runbook takes one parameter, which is an object with the name WebhookData. This object has the following properties from the POST request:
-1.WebhookName = $WebhookData.WebhookName
-2.RequestHeader = $WebhookData.RequestHeader
-3.RequestBody = $ $WebhookData.RequestBody
+
+1. WebhookName = $WebhookData.WebhookName
+2. RequestHeader = $WebhookData.RequestHeader
+3. RequestBody = $ $WebhookData.RequestBody
 
 From the [Microsoft docs on Automation]
 
