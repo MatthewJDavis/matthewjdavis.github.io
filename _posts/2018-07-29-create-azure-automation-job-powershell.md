@@ -153,6 +153,7 @@ Get-AzureRmAutomationJobOutput -Id $job.JobId -ResourceGroupName $rgName -Automa
 ```
 
 ![Get automation job](/images/azure-webhook/get-automationjob.png)
+
 ![Get output from the automation job](/images/azure-webhook/get-automationjoboutput.png)
 
 ## Testing from the portal
@@ -161,8 +162,9 @@ You can do all of this manually from the portal if you like (the portal interact
 
 I'm not going to go through setting up the resource group, automation account, uploading the runbook and creating the webhook (if you upload the runbook, make sure you publish it otherwise you won't be able to create the webhook) but will show how to run the test.
 
-Select your runbook in the Azure automation account and *click edit*.
-From the top menu, click *Test Panel*.
+Select your runbook in the Azure automation account and **click edit**.
+
+From the top menu, click **Test Panel**.
 
 In the test panel, enter the JSON data
 
@@ -173,7 +175,7 @@ In the test panel, enter the JSON data
 }
 ```
 
-Click *Start*
+Click **Start**
 
 ![Test panel Azure automation](/images/azure-webhook/test-panel.png)
 
