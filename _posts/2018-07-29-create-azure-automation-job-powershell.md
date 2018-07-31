@@ -164,9 +164,13 @@ You can do all of this manually from the portal if you like (the portal interact
 
 I'm not going to go through setting up the resource group, automation account, uploading the runbook and creating the webhook (if you upload the runbook, make sure you publish it otherwise you won't be able to create the webhook) but will show how to run the test.
 
-Select your runbook in the Azure automation account and **click edit**.
+Select your runbook in the Azure automation account and click **Edit**.
+
+![Test panel Azure automation](/images/azure-webhook/edit-runbook.png)
 
 From the top menu, click **Test Panel**.
+
+![Test panel Azure automation](/images/azure-webhook/test-pane-button.png)
 
 In the test panel, enter the JSON data
 
