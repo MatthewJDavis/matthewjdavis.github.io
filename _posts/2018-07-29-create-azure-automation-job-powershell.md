@@ -43,7 +43,7 @@ The runbook takes one parameter, which is an object with the name WebhookData. T
 
 (From the [Microsoft docs on Automation])
 
-The if block on line 12 is needed for testing if you were to use the Azure portal's test pane (shown later). A real webhook recieved will contain data in the $Webhook.RequestBody, however this isn't the case from the test pane so this logic is required for testing from there.
+The if block on line 12 is needed for testing if you were to use the Azure portal's test pane (shown later). A real webhook received will contain data in the $Webhook.RequestBody, however this isn't the case from the test pane so this logic is required for testing data passed from there.
 
 The data is converted from JSON to a PowerShell object and the properties in the RequestBody property is saved to another variable for output.
 
@@ -53,7 +53,7 @@ The service name and host name are outputted from the script.
 
 ## Creating the resources
 
-For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account. I've broken the script up too so I can include screenshots but this should all be ran in the same PowerShell session where the variables are declared and the authentication is done with Azure.
+For the purposes of this post, I'm going to create a brand new Resource Group and Automation Account. I've broken the script up so I can include screenshots but this should all be ran in the same PowerShell session where the variables are declared and the authentication is done with Azure.
 
 ```powershell
 # Creates resource group, automation account, imports a local PowerShell runbook and creates a webhook
@@ -105,6 +105,8 @@ Import-AzureRmAutomationRunbook @runbookParams
 
 ![Import the PowerShell runbook](/images/azure-webhook/import-runbook.png)
 
+**Important= The URI returned from the following command contains the security token. It is displayed only once and can't be retrieved at a later time. In production you would save this URI in a safe location such as an encrypted password manager. For this demo I am storing it in the webhookOutput variable but it would be lost as soon as the session is closed or the variables are cleared. Make a note of it if you need it in the future otherwise you will have to recreate the webhook**
+
 ```powershell
 # Create the webhook with a 5 year expiry date
 # Force to accept the warning that the WebhookURI will only be available once
@@ -139,6 +141,7 @@ Invoke-WebRequest -Uri $webhookOutput.WebhookURI -UseBasicParsing -Method Post -
 ```
 
 ![JSON data saved to a variable](/images/azure-webhook/json-var.png)
+
 ![Invoke the web request to send the data to the webhook](/images/azure-webhook/invoke-webrequest.png)
 
 ```powershell
