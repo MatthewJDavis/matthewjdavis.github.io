@@ -41,7 +41,7 @@ The runbook takes one parameter, which is an object with the name WebhookData. T
 2. RequestHeader = $WebhookData.RequestHeader
 3. RequestBody = $ $WebhookData.RequestBody
 
-From the [Microsoft docs on Automation]
+(From the [Microsoft docs on Automation])
 
 The if block on line 12 is needed for testing if you were to use the Azure portal's test pane (shown later). A real webhook recieved will contain data in the $Webhook.RequestBody, however this isn't the case from the test pane so this logic is required for testing from there.
 
