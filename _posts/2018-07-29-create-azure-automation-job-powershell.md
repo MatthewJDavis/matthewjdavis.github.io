@@ -13,7 +13,7 @@ tags:
 published: true
 ---
 
-I've just completed a task to restart a Windows service when [splunk] detects that is not running on a Windows server. Once the service is detected as not running, splunk sends an https POST with a JSON payload to an Azure Automation runbook webhook.
+I've just completed a task to restart a Windows service when [splunk] detects that is not running on a Windows server. Once the service is detected as not running, splunk sends an https POST with a JSON payload to an Azure Automation runbook webhook. This post shows how to get the data from a JSON payload and is the platform of how I built the script to start the service from the data sent from splunk.
 
 As it's been a while since I have used Azure automation and runbooks, and after being inspired by recently watching this [channel 9 video] to complete the task with PowerShell (something I had done previously but not for ages), I've decided to write it up here.
 
