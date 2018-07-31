@@ -17,7 +17,7 @@ I've just completed a task to restart a Windows service when [splunk] detects th
 
 As it's been a while since I have used Azure automation and runbooks, and after being inspired by recently watching this [channel 9 video] to complete the task with PowerShell (something I had done previously but not for ages), I've decided to write it up here.
 
-If not already installed, install the AzureRM PowerShell module
+Install the AzureRM PowerShell module if it is not already on the system
 
 ```powershell
 Install-Module -Name AzureRM
