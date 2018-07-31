@@ -185,7 +185,7 @@ You will see the Write-Output from within the if block that is true because ther
 
 You can also access this data via PowerShell by running the Get-AzureRmAutomationJob and Get-AzureRmAutomationJobOutput as above.
 
-That's it, no all that is left to do is clean up.
+That's it, all that is left to do is clean up.
 
 ```powershell
 # Tidy up resources
