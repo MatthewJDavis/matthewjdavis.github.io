@@ -17,13 +17,13 @@ I've just completed a task to restart a Windows service when [splunk] detects th
 
 As it's been a while since I have used Azure automation and runbooks, and after being inspired by recently watching this [channel 9 video] to complete the task with PowerShell (something I had done previously but not for ages), I've decided to write it up here.
 
-Install the AzureRM PowerShell module if it is not already on the system
+Install the AzureRM PowerShell module if it is not already on the system.
 
 ```powershell
 Install-Module -Name AzureRM
 ```
 
-Connect to Azure and select the correct subscription (if you have more than one)
+Connect to Azure and select the correct subscription (if you have more than one).
 
 ```powershell
 Add-AzureRMAccount
@@ -185,7 +185,7 @@ Click **Start**
 
 ![Test panel Azure automation](/images/azure-webhook/test-panel.png)
 
-The request will be queued up and the results will be displayed in the test pane
+The request will be queued up and the results will be displayed in the test pane.
 
 ![Test result](/images/azure-webhook/test-result.png)
 
