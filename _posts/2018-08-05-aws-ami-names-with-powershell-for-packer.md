@@ -12,8 +12,6 @@ tags:
 published: true
 ---
 
-# How to find the name of an AWS AMI using PowerShell that can be then used for a filter by Packer
-
 I have been using Packer again and went back through the [packer getting started] documents that use the example with a Ubuntu server AMI for AWS. This works great and got me back up and running with Packer but I needed to do the same using the latest Windows 1803 AMI. The goal was to create a small Windows DNS server using 1803.
 
 I need the **name** and **owner** values for Windows Server 1803 so Packer will use that as the base AMI (I also need to change from ssh and use winrm for configuring the AMI, but that is not in the scope of this post).
