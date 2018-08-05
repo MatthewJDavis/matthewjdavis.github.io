@@ -37,7 +37,7 @@ In the past, I have used the [Get-EC2ImageByName Cmdlet] to get Windows AMI deta
 ### Get-EC2Image -Filter
 
 To get the information I require, I will use the [Get-EC2Image Cmdlet] with the [Filter] parameter.
-There are a number of parameters that can be filtered on that can be found on the [API documentation], the two that made sense to me are the platform and name.
+There are a number of parameters that can be filtered on and those parameters can be found on the [API documentation], the two that made sense to me are the platform and name.
 
 Here's the code:
 
@@ -45,15 +45,15 @@ Here's the code:
 
 First, the filterPlatform variable is created with the object type of Amazon.EC2.Model.Filter. This has two properties, name and value. In this case, they are:
 
-Name = 'platform'
-Value = 'windows'
+* Name = 'platform'
+* Value = 'windows'
 
 *I noticed that the results return the platform as Windows with an uppercase W, however using Windows for the filter does not work, I needed to use windows with a lowercase w, strange.*
 
 Second, another variable is created with the object type of Amazon.EC2.Model.Filter. The same two properties are filled out:
 
-Name='name'
-Value = '*Windows*1803*Base*'
+* Name='name'
+* Value = '*Windows*1803*Base*'
 
 *This was also case sensitive but this time matches the output displayed.*
 
