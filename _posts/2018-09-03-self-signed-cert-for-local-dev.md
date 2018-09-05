@@ -42,6 +42,7 @@ Now that I've created the PEM file, I've applied it to the HAProxy in front of J
 
 ![Update hosts file](/images/self-signed-cert/update-host-file.png)
 
+![Jenkins running locally with SSL cert but not trusted](/images/self-signed-cert/https-not-trusted.png)
 
 # Create cer cert from the pem for Windows root store
 ```bash
@@ -50,15 +51,13 @@ openssl x509 -outform der -in jenkins.pem -out $domain.cer
 
 ![Create PEM and CER files](/images/self-signed-cert/create-pem-cer.png)
 
-
 Copy the cer file to a location Windows can access (you can access the file from within Windows, but it is reccommended not to modify any of them and to make it easier, I just copy to a temp location at the root of the c directory which is found in the directory path of /mnt/c in WSL) https://www.howtogeek.com/261383/how-to-access-your-ubuntu-bash-files-in-windows-and-your-windows-system-drive-in-bash/
 
-```
+```bash
 cp $domain.cer /mnt/c/TEMP/
 ```
 
 ![Create CER file](/images/self-signed-cert/copy-cer.png)
-
 
 To import the certificate to the Windows store, use PowerShell running as an administrator
 
