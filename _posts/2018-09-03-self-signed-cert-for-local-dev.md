@@ -38,25 +38,45 @@ Note: because this file contains the private key, extra care should be taken wit
 cat $domain.crt $domain.key >> jenkins.pem
 ```
 
+Now that I've created the PEM file, I've applied it to the HAProxy in front of Jenkins running locally and update the host file on my computer to point my jenkins domain name to local host.
+
+![Update hosts file](/images/self-signed-cert/update-host-file.png)
+
+
 # Create cer cert from the pem for Windows root store
 ```bash
-openssl x509 -outform der -in jenkins.pem -out jenkins.matthewdavis111.cer
+openssl x509 -outform der -in jenkins.pem -out $domain.cer
 ```
+
+![Create PEM and CER files](/images/self-signed-cert/create-pem-cer.png)
+
 
 Copy the cer file to a location Windows can access (you can access the file from within Windows, but it is reccommended not to modify any of them and to make it easier, I just copy to a temp location at the root of the c directory which is found in the directory path of /mnt/c in WSL) https://www.howtogeek.com/261383/how-to-access-your-ubuntu-bash-files-in-windows-and-your-windows-system-drive-in-bash/
 
 ```
-cp jenkins.matthewdavis111.cer /mnt/c/TEMP/
+cp $domain.cer /mnt/c/TEMP/
 ```
+
+![Create CER file](/images/self-signed-cert/copy-cer.png)
+
 
 To import the certificate to the Windows store, use PowerShell running as an administrator
 
-```
+```powershell
+#path and name of cer file that was copied from WSL
+$file = 'C:\TEMP\jenkins.matthewdavis111.com.cer'
+
 #Import self signed cert to trusted root
-Import-Certificate -FilePath C:\TEMP\jenkins.matthewdavis111.cer -CertStoreLocation Cert:\LocalMachine\Root\
+Import-Certificate -FilePath $file -CertStoreLocation Cert:\LocalMachine\Root\
 ```
 
+![Import certificate to Windows store](/images/self-signed-cert/import-certificate.png)
+
 Now you'll be able to use the pem file with HAProxy (or whatever you are testing) and the connection will be trusted over SSL when using Google Chrome (you'll need to shutdown and restart chrome). This doesn't work with Firefox which has it's own separate certificate store.
+
+Here is Jenkins now running locally with the PEM file created confiured in HAProxy and showing trusted because the cer file has been added to the Windows certificate store.
+
+![Jenkins running locally with a trusted certificate](/images/self-signed-cert/https-secure.png)
 
 Finally to tidy up and remove the self signed cert after testing has finished, run the following in PowerShell as an administrator
 
