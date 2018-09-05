@@ -19,14 +19,16 @@ This shows how to do it using Windows 10 with Windows Subsytem for Linux (WSL) i
 
 In WSL, create the certificate and private key using open-ssl (this is taken directly from the let's encrypt article)
 ```bash
+#variable to hold domain name, replace with desired domain
+domain='jenkins.matthewdavis111.com' 
 
-openssl req -x509 -out jenkins.matthewdavis111.crt -keyout jenkins.matthewdavis111.key \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=jenkins.matthewdavis111.com' -extensions EXT -config <( \
-   printf "[dn]\nCN=jenkins.matthewdavis111.com\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:jenkins.matthewdavis111.com\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
-
-
+#create the certificate and private key
+openssl req -x509 -out $domain.crt -keyout $domain.key \
+  -newkey rsa:2048 -nodes -sha256  \
+  -subj "/CN=$domain" -extensions EXT -config <( \printf "[dn]\nCN=$domain\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:$domain\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
+
+![Creating the certificate and private key using Windows Subsystem for Linux](/images/self-signed-cert/create-cert.png)
 
 Create the PEM file by combining the certificate and the private key
 
