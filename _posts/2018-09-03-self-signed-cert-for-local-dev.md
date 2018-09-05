@@ -84,3 +84,5 @@ Finally to tidy up and remove the self signed cert after testing has finished, r
 #Clean up the cert from the root store
 Get-ChildItem Cert:\LocalMachine\Root\ | Where-Object -FilterScript {$_.subject -like "*jenkins.matthewdavis111.com*"} | Remove-Item
 ```
+
+![Remove certificate with PowerShell](/images/self-signed-cert/remove-cert.png)
