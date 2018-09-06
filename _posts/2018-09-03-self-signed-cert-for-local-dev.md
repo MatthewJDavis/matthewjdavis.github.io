@@ -12,15 +12,20 @@ tags:
 published: false
 ---
 
-I have been creating a Jenkins runbook with Ansible to configure a Jenkins server and wanted to make this installation as realistic as possible so that meant using https to connect to Jenkins. To achieve this I installed HAProxy loadbalancer on the same linux machine to do the SSL termination. I needed a PEM certificate to apply to the loadbalancer but as I didn't want to pay for a certificate for just testing locally and you can't use let's encrypt on localhost, I followed the let's encrypt guide on how to create a self signed certificate.
+# Intro
 
-I have written down the process on creating the certificate and how to extract the PEM from the created certificate and also creating the certificate that can then be imported into the Windows keystore so the self signed certificate is trusted.
+In this post I will cover creating a self-signed certificate for local development and then create a PEM file from that to apply to HAProxy and a Cer file to import into the Windows certificate store so the PEM file applied to HAProxy is trusted when connecting to the application behind HAProxy over https.
 
-The process can be adapted to create other certificate types instead of the PEM format, see the openssl man page for details.
+I have been creating a Jenkins runbook with Ansible to configure a Jenkins server and wanted to make this installation as realistic as possible so that meant using https to connect to Jenkins. To achieve this I installed HAProxy loadbalancer on the same linux machine to take care of the TLS termination. I needed a PEM certificate to apply to the loadbalancer but as I didn't want to pay for a certificate for testing locally and you can't use [Let's Encrypt] excellent free certificates that automatically renew themselves on localhost, I followed the [Let's Encrypt guide] on how to create a self signed certificate.
 
-This shows how to do it using Windows 10 with Windows Subsytem for Linux (WSL) in stalled.
+The process can be adapted to create other certificate types instead of the PEM format that your application needs with the [OpenSSL] application.
 
-In WSL, create the certificate and private key using open-ssl (this is taken directly from the let's encrypt article)
+For this post, I used a Windows 10 Laptop, taking advantage of having [Windows Subsystem (WSL)] for Linux installed, but all openssl commands work on a regular Linux distro with openssl installed.
+
+## Certificate and private key
+
+In WSL, create the certificate and private key using open-ssl (this is taken directly from the let's encrypt article with a variable thrown in for good measure)
+
 ```bash
 #variable to hold domain name, replace with desired domain
 domain='jenkins.matthewdavis111.com' 
@@ -33,7 +38,7 @@ openssl req -x509 -out $domain.crt -keyout $domain.key \
 
 ![Creating the certificate and private key using Windows Subsystem for Linux](/images/self-signed-cert/create-cert.png)
 
-Create the PEM file by combining the certificate and the private key
+## Create the PEM file by combining the certificate and the private key
 
 Note: because this file contains the private key, extra care should be taken with it and should be treated as a password.
 
@@ -41,9 +46,11 @@ Note: because this file contains the private key, extra care should be taken wit
 cat $domain.crt $domain.key >> jenkins.pem
 ```
 
-Now that I've created the PEM file, I've applied it to the HAProxy in front of Jenkins running locally and updated the host file on my computer to point my jenkins domain name to local host.
+## Edit the host file
 
-To edit the hosts file, run PowerShell as admin and open notepad:
+Now that I've created the PEM file, I've applied it to the HAProxy in front of Jenkins running locally and updated the host file on my computer to point my Jenkins domain name to local host.
+
+To edit the hosts file, run PowerShell as admin and open the host file in notepad:
 
 ```PowerShell
 # safety first, back up the hosts file
@@ -54,11 +61,12 @@ notepad $hostFile
 
 ![Update hosts file](/images/self-signed-cert/update-host-file.png)
 
-When I access Jenkins locally over https, it connects however rightly, the certificate is not trusted.
+When I access Jenkins locally over https, it connects and the certificate is rightly not trusted.
 
 ![Jenkins running locally with SSL cert but not trusted](/images/self-signed-cert/https-not-trusted.png)
 
-# Create cer cert from the pem for Windows root store
+## Create cer cert from the pem for Windows root store
+
 ```bash
 openssl x509 -outform der -in jenkins.pem -out $domain.cer
 ```
@@ -72,6 +80,8 @@ cp $domain.cer /mnt/c/TEMP/
 ```
 
 ![Create CER file](/images/self-signed-cert/copy-cer.png)
+
+## Import certificate to Windows
 
 To import the certificate to the Windows certificate store, use PowerShell running as an administrator
 
@@ -87,9 +97,11 @@ Import-Certificate -FilePath $file -CertStoreLocation Cert:\LocalMachine\Root\
 
 Now you'll be able to use the pem file with HAProxy (or whatever you are testing) and the connection will be trusted over SSL when using Google Chrome (you'll need to shutdown and restart chrome). This doesn't work with Firefox which has it's own separate certificate store.
 
-Here is Jenkins now running locally with the PEM file created confiured in HAProxy and showing trusted because the cer file has been added to the Windows certificate store.
+Here is Jenkins now running locally with the PEM file created configured in HAProxy and showing trusted because the cer file has been added to the Windows certificate store.
 
 ![Jenkins running locally with a trusted certificate](/images/self-signed-cert/https-secure.png)
+
+## Tidy up
 
 Finally to tidy up and remove the self signed cert after testing has finished, run the following in PowerShell as an administrator
 
@@ -108,3 +120,7 @@ Creating a self-signed certificate for local testing doesn't take long and lets 
 
 It's made a lot easier now on Windows platforms with the WSL which I think is great!
 
+[Let's Encrypt]: https://letsencrypt.org/docs/certificates-for-localhost/
+[Let's Encrypt guide]: https://letsencrypt.org/docs/certificates-for-localhost/
+[OpenSSL]: https://www.openssl.org/
+[Windows Subsystem for Linux]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
