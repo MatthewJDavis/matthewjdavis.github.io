@@ -67,7 +67,7 @@ When I access Jenkins locally over https, it connects and the certificate is rig
 
 ![Jenkins running locally with SSL cert but not trusted](/images/self-signed-cert/https-not-trusted.png)
 
-## Create certificate for Windows
+## Windows certificate
 
 To make Chrome trust the self-signed certificate, the certificate created earlier needs to be installed in the trusted roots location of the Windows certificate store.
 
