@@ -38,7 +38,9 @@ openssl req -x509 -out $domain.crt -keyout $domain.key \
 
 ![Creating the certificate and private key using Windows Subsystem for Linux](/images/self-signed-cert/create-cert.png)
 
-## Create the PEM file by combining the certificate and the private key
+## Create the PEM 
+
+The PEM certificate is required for HAProxy, the file is created by combining the certificate and the private key.
 
 Note: because this file contains the private key, extra care should be taken with it and should be treated as a password.
 
@@ -65,21 +67,15 @@ When I access Jenkins locally over https, it connects and the certificate is rig
 
 ![Jenkins running locally with SSL cert but not trusted](/images/self-signed-cert/https-not-trusted.png)
 
-## Create cer cert from the pem for Windows root store
+## Create certificate for Windows
+
+Copy the crt Certificate file create earlier to a location Windows can access ( I just copy to a temp location at the root of the c directory which is found in the directory path of /mnt/c in WSL) 
 
 ```bash
-openssl x509 -outform der -in jenkins.pem -out $domain.cer
+cp $domain.crt /mnt/c/TEMP/
 ```
 
-![Create PEM and CER files](/images/self-signed-cert/create-pem-cer.png)
-
-Copy the cer file to a location Windows can access ( I just copy to a temp location at the root of the c directory which is found in the directory path of /mnt/c in WSL) 
-
-```bash
-cp $domain.cer /mnt/c/TEMP/
-```
-
-![Create CER file](/images/self-signed-cert/copy-cer.png)
+![copy crt file](/images/self-signed-cert/copy-crt.png)
 
 ## Import certificate to Windows
 
@@ -87,7 +83,7 @@ To import the certificate to the Windows certificate store, use PowerShell runni
 
 ```powershell
 #path and name of cer file that was copied from WSL
-$file = 'C:\TEMP\jenkins.matthewdavis111.com.cer'
+$file = 'C:\TEMP\jenkins.matthewdavis111.com.crt'
 
 #Import self signed cert to trusted root
 Import-Certificate -FilePath $file -CertStoreLocation Cert:\LocalMachine\Root\
