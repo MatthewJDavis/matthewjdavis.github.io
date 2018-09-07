@@ -84,7 +84,7 @@ cp $domain.crt /mnt/c/TEMP/
 To import the certificate to the Windows certificate store, use PowerShell running as an administrator to import to the LocalMachine store (for all users) or to the CurrentUser certificate store (for current user, you'll need to accept the dialogue pop up).
 
 ```powershell
-#path and name of cer file that was copied from WSL
+#path and name of crt file that was copied from WSL
 $file = 'C:\TEMP\jenkins.matthewdavis111.com.crt'
 
 #Import self signed cert to trusted root for the current user - accept the dialogue pop up.
@@ -93,9 +93,9 @@ Import-Certificate -FilePath $file -CertStoreLocation Cert:\CurrentUser\Root\
 
 ![Import certificate to Windows store](/images/self-signed-cert/import-certificate.png)
 
-Now you'll be able to use the pem file with HAProxy (or whatever you are testing) and the connection will be trusted over SSL when using Google Chrome (you'll need to shutdown and restart chrome). This doesn't work with Firefox which has it's own separate certificate store.
+Now the connection will be trusted over https when using Google Chrome (you'll need to shutdown and restart chrome). This doesn't work with Firefox which uses its own separate certificate store.
 
-Here is Jenkins now running locally with the PEM file created configured in HAProxy and showing trusted because the cer file has been added to the Windows certificate store.
+Here is Jenkins now running locally with the PEM file created configured in HAProxy and showing trusted because the crt file has been added to the Windows certificate store.
 
 ![Jenkins running locally with a trusted certificate](/images/self-signed-cert/https-secure.png)
 
