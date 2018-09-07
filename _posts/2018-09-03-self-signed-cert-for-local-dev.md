@@ -9,7 +9,7 @@ tags:
     - certificates
     - haproxy
     - powershell
-published: false
+published: true
 ---
 
 # Intro
@@ -24,7 +24,7 @@ For this post, I used a Windows 10 Laptop, taking advantage of having [Windows S
 
 ## Certificate and private key
 
-In WSL, create the certificate and private key using open-ssl (this is taken directly from the let's encrypt article with a variable thrown in for good measure)
+In WSL, create the certificate and private key using open-ssl (this is taken directly from the let's encrypt article with a variable thrown in for good measure).
 
 ```bash
 #variable to hold domain name, replace with desired domain
@@ -38,7 +38,7 @@ openssl req -x509 -out $domain.crt -keyout $domain.key \
 
 ![Creating the certificate and private key using Windows Subsystem for Linux](/images/self-signed-cert/create-cert.png)
 
-## Create the PEM 
+## Create the PEM
 
 The PEM certificate is required for HAProxy, the file is created by combining the certificate and the private key.
 
@@ -50,7 +50,7 @@ cat $domain.crt $domain.key >> jenkins.pem
 
 ## Edit the host file
 
-Now that I've created the PEM file, I've applied it to the HAProxy in front of Jenkins running locally and updated the host file on my computer to point my Jenkins domain name to local host.
+Now that I've created the PEM file, I've applied it to HAProxy in front of Jenkins running locally and updated the host file on my computer to point my Jenkins domain name to local host address.
 
 To edit the hosts file, run PowerShell as admin and open the host file in notepad:
 
@@ -63,13 +63,15 @@ notepad $hostFile
 
 ![Update hosts file](/images/self-signed-cert/update-host-file.png)
 
-When I access Jenkins locally over https, it connects and the certificate is rightly not trusted.
+When I access Jenkins locally over https, it connects and the certificate is rightly not trusted and the connection is marked as not secure.
 
 ![Jenkins running locally with SSL cert but not trusted](/images/self-signed-cert/https-not-trusted.png)
 
 ## Create certificate for Windows
 
-Copy the crt Certificate file create earlier to a location Windows can access ( I just copy to a temp location at the root of the c directory which is found in the directory path of /mnt/c in WSL) 
+To make Chrome trust the self-signed certificate, the certificate created earlier needs to be installed in the trusted roots location of the Windows certificate store.
+
+Copy the crt Certificate file create earlier to a location Windows can access (I copy to a TEMP directory I've created at the root of the C directory which is found in the directory path of /mnt/c in WSL).
 
 ```bash
 cp $domain.crt /mnt/c/TEMP/
@@ -79,14 +81,14 @@ cp $domain.crt /mnt/c/TEMP/
 
 ## Import certificate to Windows
 
-To import the certificate to the Windows certificate store, use PowerShell running as an administrator
+To import the certificate to the Windows certificate store, use PowerShell running as an administrator to import to the LocalMachine store (for all users) or to the CurrentUser certificate store (for current user, you'll need to accept the dialogue pop up).
 
 ```powershell
 #path and name of cer file that was copied from WSL
 $file = 'C:\TEMP\jenkins.matthewdavis111.com.crt'
 
-#Import self signed cert to trusted root
-Import-Certificate -FilePath $file -CertStoreLocation Cert:\LocalMachine\Root\
+#Import self signed cert to trusted root for the current user - accept the dialogue pop up.
+Import-Certificate -FilePath $file -CertStoreLocation Cert:\CurrentUser\Root\
 ```
 
 ![Import certificate to Windows store](/images/self-signed-cert/import-certificate.png)
@@ -103,7 +105,7 @@ Finally to tidy up and remove the self signed cert after testing has finished, r
 
 ```powershell
 #Clean up the cert from the root store
-Get-ChildItem Cert:\LocalMachine\Root\ | Where-Object -FilterScript {$_.subject -like "*jenkins.matthewdavis111.com*"} | Remove-Item
+Get-ChildItem Cert:\CurrentUser\Root\ | Where-Object -FilterScript {$_.subject -like "*jenkins.matthewdavis111.com*"} | Remove-Item
 ```
 
 ![Remove certificate with PowerShell](/images/self-signed-cert/remove-cert.png)
