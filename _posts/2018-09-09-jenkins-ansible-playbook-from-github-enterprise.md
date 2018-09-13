@@ -20,7 +20,7 @@ The playbook is hosted in a public repository on the server, however authenticat
 
 ## Prerequists
 
-An SSH key should be stored in the Jenkins credential store for a user that has rights to github enterprise. If the repo the playbook is stored in is private, make sure the user has at least read rights the repo.
+A SSH key should be stored in the Jenkins credential store for a user that has rights to github enterprise. If the repo the playbook is stored in is private, make sure the user has at least read rights the repo.
 
 ## Install SSH Agent plugin
 
