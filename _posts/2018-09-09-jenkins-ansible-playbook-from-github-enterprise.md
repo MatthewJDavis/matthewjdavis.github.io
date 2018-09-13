@@ -2,7 +2,7 @@
 title: Using an Ansible role from github enterprise where authentication is required in a Jenkins job 
 author: Matthew Davis
 date: 2018-09-09
-excerpt: 
+excerpt: How to use the SSH Agent plugin for Jenkins to authenticate to a Github Enterprise server to install an Ansible role
 categories: 
     - ansible
 tags:
