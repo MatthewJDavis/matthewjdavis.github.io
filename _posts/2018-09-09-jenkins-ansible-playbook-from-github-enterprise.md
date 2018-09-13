@@ -36,6 +36,8 @@ Now when you open a freestyle project, the build environment section has and opt
 
 Check the box for SSH Agent and select the SSH key for the user that has rights to login to github enterprise.
 
+![Checked ssh agent plugin box and selected ssh key](/images/jenkins-github-enterprise/ssh-key.png)
+
 ## Shell build step
 
 Now that the build will be able to authenticate to github enterprise via SSH, you'll be able to download the Ansible role using the [ansible-galaxy] command.
