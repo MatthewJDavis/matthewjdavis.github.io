@@ -31,7 +31,9 @@ A hashtable is used to define users who are allowed to actually perform the rese
 
 The runbook connects to AzureAD with the Connect-MSOLService (MSOL [module should be installed] in the Azure automation account) Cmdlet using the credentials stored in Azure automation of a service account that is a global admin (had a long strong random password and only a few users have access to password).
 
+Slack sends the data separated with the ampersand symbol (&), so the split method is used to save the separated data in a new variable.
 
+Next, the UPN, SlackID and return URL (where you send the JSON payload responses) is extracted from the data sent by Slack. The data is sent in [percent encoding], so needs to be transformed back into ASCII.
 
 We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the offical guide is [here from Microsoft].
 
@@ -57,6 +59,7 @@ After entering all of that you'll get a preview.
 [Global Admin]: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles
 [Azure feedback request]: https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/10072839-allow-the-user-admin-role-to-enable-disable-mfa-fo
 [module should be installed]: https://docs.microsoft.com/en-us/azure/automation/automation-runbook-gallery#to-import-a-module-from-the-automation-module-gallery-with-the-azure-portal
+[percent encoding]: https://en.wikipedia.org/wiki/Percent-encoding
 [post here]: https://matthewdavis111.com/azure/create-azure-automation-job-powershell/
 [here from Microsoft]: https://docs.microsoft.com/en-us/azure/automation/automation-creating-importing-runbook
 [Slack slash command]: https://api.slack.com/slash-commands
