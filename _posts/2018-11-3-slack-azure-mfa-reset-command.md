@@ -158,9 +158,41 @@ We need the following to run the runbook via a webhook sent by Slack
 - MSOL Module installed
 - Upload the runbook and set to run via a Webhook
 
-We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the official guide is [here from Microsoft].
+### Automation Account
+
+If you don't already have one, set up a [new Azure automation account] either in the portal or via PowerShell [New-AzureRmAutomationAccount]. You get 500 minutes of job run time free per month a present.
+
+### Service Account
+
+Create a service account and give it the Global Admin role in Azure (if you don't already have one). This may need to be created in your on premises directory and then synced to Azure AD or directly in Azure AD depending on how your directory is configured / how you prefer to manager your users.
+
+Save the service account's credentials in the Azure Automation account so the runbook will be able to access them to authenticate with Azure AD.
 
 ![Azure automation credentials](/images/slack-azure-mfa-reset/service-account-creds.png)
+
+### Install MSOL Module
+
+In the automation account, select *Modules* then click on Browse Gallery under the *More* menu
+
+![Azure automation credentials](/images/slack-azure-mfa-reset/browse-module.png)
+
+Search for MSOnline and click on *Import* and then *OK*. The import process will take a couple of minutes and now the PowerShell Cmdlets will be available to the automation account runbooks.
+
+![Azure automation credentials](/images/slack-azure-mfa-reset/msol-module.png)
+
+### Upload Runbook and set to run via a webhook
+
+We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the official guide is [here from Microsoft].
+
+Quick overview
+
+Save the runbook somewhere local and use either PowerShell or the portal to import it.
+
+Click on the runbook and select the webhook (if the webhook option is not displaying, make sure that the runbook is published)
+
+![Azure automation credentials](/images/slack-azure-mfa-reset/runbook-webook.png)
+
+Make a note of the webhook URL somewhere secure. This is only shown once and also contains the security token to run the webhook so needs to be stored securely and will be required to use in the request URL of the Slack Slash Command.
 
 ## Slack Slash Command
 
@@ -189,3 +221,5 @@ After entering all of that you'll get a preview.
 [here from Microsoft]: https://docs.microsoft.com/en-us/azure/automation/automation-creating-importing-runbook
 [Link to full script on Github]: https://github.com/MatthewJDavis/Azure/blob/master/Automation/runbooks/slack/Reset-Azure-MFA.ps1
 [Slack slash command]: https://api.slack.com/slash-commands
+[new Azure automation account]: https://docs.microsoft.com/en-us/azure/automation/automation-create-standalone-account
+[New-AzureRmAutomationAccount]: https://docs.microsoft.com/en-us/powershell/module/azurerm.automation/new-azurermautomationaccount?view=azurermps-6.11.0
