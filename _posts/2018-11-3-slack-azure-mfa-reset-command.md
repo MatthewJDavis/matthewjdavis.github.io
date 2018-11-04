@@ -13,11 +13,19 @@ tags:
 published: false
 ---
 
-Currently only users in the [Global Admin] role can reset the Azure Multi Factor Authenticate (MFA) details of users which is used as two factor authentication for Azure, D365 and Office 365. There has been an [Azure feedback request] (I've been monitoring this for a while now and have voted) with Mircrosoft to open this up to other roles for over 3 years with no movement, it would make sense that the Password/ Helpdesk Administrator role would be able to reset the MFA. and was a big pain point for us recently, sometimes getting up to 5 requests a day for resets from the helpdesk because we couldn't give them Global Admin rights to our Azure tenant!
+# Reset Azure MFA with Slack - the need.
+
+Currently only users in the [Global Admin] role can reset the Azure Multi Factor Authenticate (MFA) details of users which is used as two factor authentication for Azure, D365 and Office 365. There has been an [Azure feedback request] (I've been monitoring this for a while now and have voted) with Mircrosoft to open this up to other roles for over 3 years with no movement, it would make sense that the Password/ Helpdesk Administrator role would be able to reset the MFA. This was a big pain point for us recently, sometimes getting up to 5 requests a day for resets from the helpdesk because we couldn't give them Global Admin rights to our Azure tenant!
 
 Having recently moved to Slack, I decided to have a look to see if it would be possible for the helpdesk to use Slack to reset Azure MFA so they no longer had to escalate it to our team.
 
 What I came up with was a [Slack slash command] that send the UPN of the user to reset their MFA to an Azure runbook that then ran a PowerShell command to reset MFA using a service account (the service account has to be a global admin).
+
+Notes
+
+1. This uses the [MSOnline] (MSOL) PowerShell module which is version 1 of the Azure Active Directory modules and there is a newer module that Microsoft encourage you to use. However, the V2 module (AzureAD) does not have the ability to reset Azure MFA for some reason and I have found the features of V2 lacking compared to V1.
+
+2. A service account is required with Global Admin priviladges. This is a security trade off so limit the users that have access to the credentials of this account. When Microsoft finally implement a less privileged role to reset MFA, then the service account can be removed from Global Admins to the less privileged role.
 
 ## Azure Automation Runbook
 
@@ -215,6 +223,7 @@ After entering all of that you'll get a preview.
 
 [Global Admin]: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles
 [Azure feedback request]: https://feedback.azure.com/forums/169401-azure-active-directory/suggestions/10072839-allow-the-user-admin-role-to-enable-disable-mfa-fo
+[MSOL]: https://docs.microsoft.com/en-us/powershell/module/msonline/?view=azureadps-1.0
 [module should be installed]: https://docs.microsoft.com/en-us/azure/automation/automation-runbook-gallery#to-import-a-module-from-the-automation-module-gallery-with-the-azure-portal
 [percent encoding]: https://en.wikipedia.org/wiki/Percent-encoding
 [post here]: https://matthewdavis111.com/azure/create-azure-automation-job-powershell/
