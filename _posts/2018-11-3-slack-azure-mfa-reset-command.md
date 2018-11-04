@@ -23,19 +23,82 @@ What I came up with was a [Slack slash command] that send the UPN of the user to
 
 I'll start with the runbook that makes all of this happen.
 
-<script src="https://gist.github.com/MatthewJDavis/25196e589860f557180883050dce7eb9"></script>
-
 It has one parameter that takes the input of the webhook data.
 
 A hashtable is used to define users who are allowed to actually perform the reset. I could not find a way to lock the Slack command down to certain users, so any user can run the command, however only users who has their SlackID in this hash table will be allowed to actually execute the Reset-MsolStrongAuthenticationMethodByUpn PowerShell cmdlet.
 
+```powershell
+param
+(
+  [object] $WebhookData
+)
+
+#Hashtable of authorised users to run the command - add users and slack ID to this hashtable to allow them to reset Azure MFA
+$authorisedUsers = @{
+  'helpdesk.user1' = 'USlackID1'
+  'helpdesk.user2' = 'USlackID2'
+  'helpdesk.user3' = 'USlackID3'
+  'helpdesk.user4' = 'USlackID4'
+}
+```
+
 The runbook connects to AzureAD with the Connect-MSOLService (MSOL [module should be installed] in the Azure automation account) Cmdlet using the credentials stored in Azure automation of a service account that is a global admin (had a long strong random password and only a few users have access to password).
+
+```powershell
+Import-Module -name MSOnline
+$creds = Get-AutomationPSCredential -Name 'Azure-AD-MFA-Reset'
+Connect-MsolService -Credential $creds
+```
 
 Slack sends the data separated with the ampersand symbol (&), so the split method is used to save the separated data in a new variable.
 
+```powershell
+$slackData = $WebhookData.RequestBody.Split('&')
+```
+
 Next, the UPN, SlackID and return URL (where you send the JSON payload responses) is extracted from the data sent by Slack. The data is sent in [percent encoding], so needs to be transformed back into ASCII.
 
+```powershell
+ # Get the UPN supplied from Slack
+  $upnData = $slackData | Where-Object {$_ -like 'text*'}
+  $upnSplit = $upnData.Split('=')
+  $upnToReset = $upnSplit[1].Replace('%40', '@')
+  Write-Output "UPNToReset = $upnToReset"
+
+  # Get the user who requested the reset
+  $userData = $slackData | Where-Object {$_ -like 'user_id*'}
+  $userSplit = $userData.Split('=')
+  $userWhoSentRequest = $userSplit[1]
+  Write-Output "User who sent request = $userWhoSentRequest"
+
+  # Response URL
+  $uri = $slackData | Where-Object {$_ -like 'response_url*'}
+  $uriSplit = $uri.Split('=')
+  $responseUri = $uriSplit[1]
+  $responseUri = $responseUri.Replace('%3A', ':')
+  $responseUri = $responseUri.Replace('%2F', '/')
+  Write-Output "Response URI = $responseUri"
+```
+
+Now we have the data, we need to check that a UPN has been sent. I'm doing a basic check for the @ and . symbols are sent. Also form the JSON payload to send back to Slackg
+
+```powershell
+  # Check that a full UPN has been sent
+  if (-Not ($upnToReset.Contains('@') -and $upnToReset.Contains('.'))) {
+    Write-Output 'Please provide a full UPN i.e. firstname.surname@domain.com'
+    # No @ or . found in provided UPN so send message and break
+    $json = "
+      {
+          'response_type': 'ephemeral',
+          'text': 'Reset-Azure-MFA The provided UPN was not in the UPN format of firstname.surename@domain. UPN sent was: $upnToReset'
+      }
+      "
+```
+
 We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the offical guide is [here from Microsoft].
+
+<script src="https://gist.github.com/MatthewJDavis/25196e589860f557180883050dce7eb9"></script>
+
 
 ## Slack Slash Command
 
