@@ -21,7 +21,7 @@ What I came up with was a [Slack slash command] that send the UPN of the user to
 
 ## Azure Automation Runbook
 
-I'll start with the runbook that makes all of this happen.
+I'll start with a run through of the runbook that makes all of this happen, [Link to full script on Github.]
 
 It has one parameter that takes the input of the webhook data.
 
@@ -150,10 +150,17 @@ Now that we know the UPN is in the correct format, check that the user who sent 
   }    
 ```
 
-We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the offical guide is [here from Microsoft].
+## Azure Automation Job
 
-<script src="https://gist.github.com/MatthewJDavis/25196e589860f557180883050dce7eb9"></script>
+We need the following to run the runbook via a webhook sent by Slack
+- Azure Automation Account
+- Service account added to Global Admin role, with credentials added to Azure automation 
+- MSOL Module installed
+- Upload the runbook and set to run via a Webhook
 
+We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the official guide is [here from Microsoft].
+
+![Azure automation credentials](/images/slack-azure-mfa-reset/service-account-creds.png)
 
 ## Slack Slash Command
 
@@ -180,4 +187,5 @@ After entering all of that you'll get a preview.
 [percent encoding]: https://en.wikipedia.org/wiki/Percent-encoding
 [post here]: https://matthewdavis111.com/azure/create-azure-automation-job-powershell/
 [here from Microsoft]: https://docs.microsoft.com/en-us/azure/automation/automation-creating-importing-runbook
+[Link to full script on Github]: https://github.com/MatthewJDavis/Azure/blob/master/Automation/runbooks/slack/Reset-Azure-MFA.ps1
 [Slack slash command]: https://api.slack.com/slash-commands
