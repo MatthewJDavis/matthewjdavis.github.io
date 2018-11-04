@@ -1,16 +1,16 @@
 ---
 title: Reset Azure MFA settings with a slack command
 author: Matthew Davis
-date: 2018-11-11
+date: 2018-11-03
 excerpt: How to delegate the resetting of Azure MFA to others via a Slack command without the need for elevating their user account to Global Admin
 categories: 
     - powershell
 tags:
-    - poweshell
+    - powershell
     - azure
     - slack
     - mfa
-published: false
+published: true
 ---
 
 # Reset Azure MFA with Slack - the need.
@@ -41,7 +41,7 @@ param
   [object] $WebhookData
 )
 
-#Hashtable of authorised users to run the command - add users and slack ID to this hashtable to allow them to reset Azure MFA
+# Hashtable of authorised users to run the command - add users and slack ID to this hashtable to allow them to reset Azure MFA
 $authorisedUsers = @{
   'helpdesk.user1' = 'USlackID1'
   'helpdesk.user2' = 'USlackID2'
@@ -113,7 +113,7 @@ Now that we know the UPN is in the correct format, check that the user who sent 
   if ($authorisedUsers.ContainsValue($userWhoSentRequest)) {
     if (Get-MsolUser -SearchString $upnToReset) {
 
-      # Found user, reset MFA      
+      # Found user, reset MFA 
       Reset-MsolStrongAuthenticationMethodByUpn -UserPrincipalName $upnToReset
 
       # Check the MFA settings have been cleared for the user
@@ -155,12 +155,13 @@ Now that we know the UPN is in the correct format, check that the user who sent 
       }
       "
     Invoke-WebRequest -UseBasicParsing -Uri $responseUri -Method Post -Body $json
-  }    
+  }
 ```
 
 ## Azure Automation Job
 
 We need the following to run the runbook via a webhook sent by Slack
+
 - Azure Automation Account
 - Service account added to Global Admin role, with credentials added to Azure automation 
 - MSOL Module installed
@@ -196,7 +197,7 @@ Search for MSOnline and click on *Import* and then *OK*. The import process will
 
 We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the official guide is [here from Microsoft].
 
-**Quick overview**
+#### Quick overview
 
 Save the runbook somewhere local and use either PowerShell or the portal to import it.
 
