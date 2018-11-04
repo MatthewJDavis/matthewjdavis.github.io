@@ -80,7 +80,7 @@ Next, the UPN, SlackID and return URL (where you send the JSON payload responses
   Write-Output "Response URI = $responseUri"
 ```
 
-Now we have the data, we need to check that a UPN has been sent. I'm doing a basic check for the @ and . symbols are sent. Also form the JSON payload to send back to Slackg
+Now we have the data, we need to check that a UPN has been sent. I'm doing a basic check for the @ and . symbols are sent. Also form the JSON payload to send back to Slack and send it to the response URL which will post a message back to the user.
 
 ```powershell
   # Check that a full UPN has been sent
@@ -93,6 +93,61 @@ Now we have the data, we need to check that a UPN has been sent. I'm doing a bas
           'text': 'Reset-Azure-MFA The provided UPN was not in the UPN format of firstname.surename@domain. UPN sent was: $upnToReset'
       }
       "
+    Invoke-WebRequest -UseBasicParsing -Uri $responseUri -Method Post -Body $json
+    break
+  }
+```
+
+Now that we know the UPN is in the correct format, check that the user who sent the Slack slash command is in the authorised users hashtable, check there is a user with the UPN supplied, if so reset the MFA setting and then check that the setting has been cleared and send response to Slack. If the user is not in the authorised users hashtable, the UPN can not be found or there was a problem removing the MFA settings, send the appropriate response to Slack.
+
+```powershell
+  # Check user who sent request is allowed to reset MFA
+  if ($authorisedUsers.ContainsValue($userWhoSentRequest)) {
+    if (Get-MsolUser -SearchString $upnToReset) {
+
+      # Found user, reset MFA      
+      Reset-MsolStrongAuthenticationMethodByUpn -UserPrincipalName $upnToReset
+
+      # Check the MFA settings have been cleared for the user
+      if ((Get-MsolUser -SearchString $upnToReset| Select-Object -ExpandProperty  StrongAuthenticationMethods | Measure-Object).Count -eq 0) {
+        $json = "
+          {
+              'response_type': 'ephemeral',
+              'text': 'Reset-Azure-MFA has reset Azure MFA for: $upnToReset'
+          }
+          "
+      }
+      else {
+        # Problem with clearing MFA settings
+        $json = "
+          {
+              'response_type': 'ephemeral',
+              'text': 'Reset-Azure-MFA There was a problem with the reset of Azure MFA for: $upnToReset. Please try again.'
+          }
+          "
+      }
+      Invoke-WebRequest -UseBasicParsing -Uri $responseUri -Method Post -Body $json
+    }
+    else {
+      # User not found via the supplied UPN
+      $json = "
+        {
+            'response_type': 'ephemeral',
+            'text': 'Reset-Azure-MFA could not find the UPN for: $upnToReset in Azure. Please check the UPN supplied'
+        }
+        "
+      Invoke-WebRequest -UseBasicParsing -Uri $responseUri -Method Post -Body $json
+    } 
+  }
+  else {
+    $json = "
+      {
+        'response_type': 'ephemeral',
+        'text': '$userWhoSentRequest Slack User ID is not authorised to reset Azure MFA. Please contact ask to have your Slack ID added.'
+      }
+      "
+    Invoke-WebRequest -UseBasicParsing -Uri $responseUri -Method Post -Body $json
+  }    
 ```
 
 We need to create an Azure Automation Runbook that is triggered via a webhook. I've written a [post here] on how to do it and the offical guide is [here from Microsoft].
