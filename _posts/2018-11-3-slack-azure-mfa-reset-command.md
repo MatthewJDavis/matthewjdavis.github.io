@@ -13,7 +13,7 @@ tags:
 published: true
 ---
 
-# Reset Azure MFA with Slack - the need.
+# The need for resetting Azure MFA with Slack
 
 At present, only users in the [Global Admin] role can reset the Azure Multi Factor Authenticate (MFA) details of users which is used as two factor authentication for Azure, D365 and Office 365. There has been an [Azure feedback request] (I've been monitoring this for a while now and have voted) with Mircrosoft to open this up to other roles for over 3 years with no movement, it would make sense that the Password/ Helpdesk Administrator role would be able to reset the MFA. This was a big pain point for us recently, sometimes getting up to 5 requests a day for resets from the helpdesk because we couldn't give them Global Admin rights to our Azure tenant!
 
