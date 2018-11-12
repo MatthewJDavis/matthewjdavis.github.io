@@ -40,7 +40,46 @@ $app.ApplicationId.Guid
 
 ```
 
-After the application is created, the permissions need to be granted. I could not find a way to do this via PowerShell so had to resort going back to the portal and doing manually
+After the application is created, the permissions need to be granted. I could not find a way to do this via PowerShell so had to resort going back to the portal and doing manually. You need to be an administrator to set application level permissions for the whole tenant or request that an administrator does it for you.
+
+Login to the main Azure portal and navigate to Azure Active Directory or go directly to the Azure AD portal: https://aad.portal.azure.com/
+
+1. Click Azure Active Directory
+2. Click App registrations (preview)
+3. Click All Applications
+4. Search (if needed) and then click on the created applications
+
+![Azure AD application registration](/images/ms-graph-powershell/app-reg.png)
+
+1. Click API permissions
+2. Click Add a permission
+
+![API permission blade](/images/ms-graph-powershell/api-permissions.png)
+
+1. Click on Microsoft Graph
+
+![API Microsoft Graph tile](/images/ms-graph-powershell/api-ms-graph.png)
+
+1. Click on Application Permissions
+
+![API application permissions tile](/images/ms-graph-powershell/app-permissions.png)
+
+1. Select User
+2. Check User.Read.All 
+3. Click Add Permission
+
+![API User Read All permissions button](/images/ms-graph-powershell/user-read-all.png)
+
+See [permissions reference]
+
+1. Click Grant admin consent for...
+2. Click Yes
+
+![API admin consent button](/images/ms-graph-powershell/admin-consent.png)
+
+Now you wil see that admin consent has been granted:
+
+![API admin consent granted](/images/ms-graph-powershell/admin-consent-granted.png)
 
 ## PowerShell script
 
@@ -82,3 +121,5 @@ Write-Output $users.value.displayName
 ```
 
 [Identity, Application, and Network Services on Microsoft Azure]: https://www.pluralsight.com/courses/microsoft-azure-identity-application-network-services
+
+[permissions reference]: https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
