@@ -14,17 +14,22 @@ published: false
 
 # PowerShell and the Microsoft Graph
 
-This post is in introduction on how to query the Microsoft Graph with PowerShell. 
-Intro about the graph
+This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an autorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look. 
+
+I found the [Identity, Application, and Network Services on Microsoft Azure] course on Pluralsight and watched the Microsoft Graph sections of the 'Integrating app with Azure AD' module which was really helpful in understanding how to authenticate to the graph to get an access token and was able to test using Postman and then convert that to PowerShell.
 
 ## Azure AD application
 
+First we need to create an Azure AD application. This will be used by the client (PowerShell) to authenticate with and get an access token. It is also used to set the relevant permissions to the directory.
+
+Here's the PowerShell to create an application. The client secret will be used by PowerShell to get an access token that can then be used to query the graph.
+
 ```powershell
 
-$AppName = 'GraphDemo2'
+$AppName = 'GraphDemo'
 $ReplyUrl = 'http://localhost'
-$IdUri = 'http://GraphDemo2'
-$ClientSecret = '09j32amgi£*madsfmkaf'
+$IdUri = 'http://GraphDemo'
+$ClientSecret = '09j32amgio*madsfmkaf'
 
 $SecureStringPassword = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
 $app = New-AzureRmADApplication -DisplayName $AppName -ReplyUrls $ReplyUrl -Password $SecureStringPassword -IdentifierUris $IdUri
@@ -34,6 +39,8 @@ $app.ApplicationId.Guid
 # User.ReadAll for application permissions
 
 ```
+
+After the application is created, the permissions need to be granted. I could not find a way to do this via PowerShell so had to resort going back to the portal and doing manually
 
 ## PowerShell script
 
@@ -73,3 +80,5 @@ $users = Invoke-RestMethod -Method Get -Uri $queryUrl -Headers $getHeaders
 Write-Output $users.value.displayName
 
 ```
+
+[Identity, Application, and Network Services on Microsoft Azure]: https://www.pluralsight.com/courses/microsoft-azure-identity-application-network-services
