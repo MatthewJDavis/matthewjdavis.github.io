@@ -14,9 +14,11 @@ published: false
 
 # PowerShell and the Microsoft Graph
 
-This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an autorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look. 
+This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an authorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look. 
 
 I found the [Identity, Application, and Network Services on Microsoft Azure] course on Pluralsight and watched the Microsoft Graph sections of the 'Integrating app with Azure AD' module which was really helpful in understanding how to authenticate to the graph to get an access token and was able to test using Postman and then convert that to PowerShell.
+
+The below Cmdlets should be run in a single PowerShell session because the output of the commands are saved as variables and their properties are used in the script to call the Microsoft Graph. If the session is exited and the variables lost, the $ClientSecret and $ApplicationClientID variables will have to be added again manually.
 
 ## Azure AD application
 
@@ -25,18 +27,21 @@ First we need to create an Azure AD application. This will be used by the client
 Here's the PowerShell to create an application. The client secret will be used by PowerShell to get an access token that can then be used to query the graph.
 
 ```powershell
+# Login to AzureRM
+Add-AzureRmAccount
+
+# Variables for Cmdlets
+# ClientSecret will be used to authenticate with the Azure AD application and should be stored securely.
 
 $AppName = 'GraphDemo'
 $ReplyUrl = 'http://localhost'
 $IdUri = 'http://GraphDemo'
-$ClientSecret = '09j32amgio*madsfmkaf'
+$ClientSecret = 'RandomStringHere'
 
 $SecureStringPassword = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
 $app = New-AzureRmADApplication -DisplayName $AppName -ReplyUrls $ReplyUrl -Password $SecureStringPassword -IdentifierUris $IdUri
 
-$app.ApplicationId.Guid
-
-# User.ReadAll for application permissions
+# Need to add User.ReadAll for application permissions in https://add.portal.azure.com
 
 ```
 
@@ -83,9 +88,9 @@ Now you wil see that admin consent has been granted:
 
 ## PowerShell script
 
+Here's the full script that will get the access token to the graph, then use that token to make an API call to the graph and get all of the users for that tenant. It will then output the display names of the returned users. The script should be run in the same PowerShell session as the Azure AD application was created in to use the $app.ApplicationId.Guid property, otherwise look at the script break down below to see another way to obtain this if the $app variable is no longer available.
+
 ```powershell
-
-
 $tenantID =  (Get-AzureRmTenant).Id
 $ApplicationClientID = $app.ApplicationId.Guid
 $graphUrl = 'https://graph.microsoft.com'
@@ -106,20 +111,96 @@ $tokenBody = @{
 $response = Invoke-RestMethod -Method Post -Uri $tokenEndpoint -Headers $tokenHeaders -Body $tokenBody
 
 # Create the headers to send with the access token obtained from the above post
-$getHeaders = @{
+$queryHeaders = @{
   "Content-Type" = "application/json"
   "Authorization" = "Bearer $($response.access_token)"
 }
 
 # Create the URL to access all the users and send the query to the URL along with authorization headers
 $queryUrl = $graphUrl + "/v1.0/users"
-$users = Invoke-RestMethod -Method Get -Uri $queryUrl -Headers $getHeaders
+$userList = Invoke-RestMethod -Method Get -Uri $queryUrl -Headers $queryHeaders
 
 # Output the displaynames
-Write-Output $users.value.displayName
-
+Write-Output $userList.value.displayName
 ```
+
+### Script break down
+
+The variables are set as followed
+
+1. TenantID is set from the output of Get-AzureRMTenant
+2. ApplicationClientID is set from the variable app, that was the output from the New-AzureRmADApplication
+3. This is the url of the graph
+4. Create the token endpoint from the tenantID variable value and the URL provided by Microsoft
+
+Note: if you had to restart the session, you can populate the ApplicationClientID variable by running the following (if you named the Azure AD application GraphDemo). You'll also have to set the ClientSecret string again.
+
+```powershell
+$ApplicationClientID = (Get-AzureRmADApplication -DisplayName GraphDemo).ApplicationId.Guid
+$ClientSecret = 'RandomStringThatWasSavedSecurelyHere'
+```
+
+Now the headers are created along with the body that is sent to Azure AD. If all details are valid, the response is returned which contains the access token.
+
+```powershell
+# Login to AzureRM if needed with Add-AzureRmAccount
+$tenantID =  (Get-AzureRmTenant).Id
+$ApplicationClientID = $app.ApplicationId.Guid
+$graphUrl = 'https://graph.microsoft.com'
+$tokenEndpoint = "https://login.microsoftonline.com/$tenantID/oauth2/token"
+
+$tokenHeaders = @{
+  "Content-Type" = "application/x-www-form-urlencoded";
+}
+
+$tokenBody = @{
+  "grant_type"    = "client_credentials";
+  "client_id"     = "$ApplicationClientID";
+  "client_secret" = "$ClientSecret";
+  "resource"      = "$graphUrl";
+}
+
+# Post request to get the access token so we can query the Microsoft Graph (valid for 1 hour)
+$response = Invoke-RestMethod -Method Post -Uri $tokenEndpoint -Headers $tokenHeaders -Body $tokenBody
+```
+
+Now that the access token has been received, it is added to the headers that will be sent to the query URL. The query URL is the URL of the graph, along with the data that you want to receive (See the [graph explorer] to view the URLs that can be appended to get different data back).
+
+The results are stored in the userList variable.
+
+```powershell
+# Create the headers to send with the access token obtained from the above post
+$queryHeaders = @{
+  "Content-Type" = "application/json"
+  "Authorization" = "Bearer $($response.access_token)"
+}
+
+# Create the URL to access all the users and send the query to the URL along with authorization headers
+$queryUrl = $graphUrl + "/v1.0/users"
+$userList = Invoke-RestMethod -Method Get -Uri $queryUrl -Headers $queryHeaders
+```
+
+The Get-Member Cmdlet shows the properties of the pscustomobject that stores the results from the API call to the graph.
+
+![UserList variable pscustomobject properties](/images/ms-graph-powershell/pscustom-object.png)
+
+The value Noteproperty contains an object, so expanding that value property gives the data requested.
+
+Piping that to Get-Member shows all of the available data received.
+
+![UserList value property output](/images/ms-graph-powershell/value-properties.png)
+
+Finally the display names of the users in the tenants are written to the output stream.
+
+```powershell
+# Output the displaynames
+Write-Output $userList.value.displayName
+```
+
+![Output of display names](/images/ms-graph-powershell/display-name.png)
+
 
 [Identity, Application, and Network Services on Microsoft Azure]: https://www.pluralsight.com/courses/microsoft-azure-identity-application-network-services
 
 [permissions reference]: https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
+[graph explorer]: https://developer.microsoft.com/en-us/graph/graph-explorer
