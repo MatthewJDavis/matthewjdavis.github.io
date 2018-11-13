@@ -14,11 +14,13 @@ published: false
 
 # PowerShell and the Microsoft Graph
 
-This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an authorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look. 
+This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an authorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look.
 
 I found the [Identity, Application, and Network Services on Microsoft Azure] course on Pluralsight and watched the Microsoft Graph sections of the 'Integrating app with Azure AD' module which was really helpful in understanding how to authenticate to the graph to get an access token and was able to test using Postman and then convert that to PowerShell.
 
 The below Cmdlets should be run in a single PowerShell session because the output of the commands are saved as variables and their properties are used in the script to call the Microsoft Graph. If the session is exited and the variables lost, the $ClientSecret and $ApplicationClientID variables will have to be added again manually.
+
+Note: There is currently V1 and V2 of the graph and a comparison can be found on [Microsoft Docs], I use V1 in this example.
 
 ## Azure AD application
 
@@ -180,13 +182,13 @@ $queryUrl = $graphUrl + "/v1.0/users"
 $userList = Invoke-RestMethod -Method Get -Uri $queryUrl -Headers $queryHeaders
 ```
 
-The Get-Member Cmdlet shows the properties of the pscustomobject that stores the results from the API call to the graph.
+The [Get-Member] Cmdlet shows the properties of the pscustomobject that stores the results from the API call to the graph.
 
 ![UserList variable pscustomobject properties](/images/ms-graph-powershell/pscustom-object.png)
 
 The value Noteproperty contains an object, so expanding that value property gives the data requested.
 
-Piping that to Get-Member shows all of the available data received.
+Piping that to [Get-Member] shows all of the available data received.
 
 ![UserList value property output](/images/ms-graph-powershell/value-properties.png)
 
@@ -199,8 +201,18 @@ Write-Output $userList.value.displayName
 
 ![Output of display names](/images/ms-graph-powershell/display-name.png)
 
+## Summary
+
+This post has shown how to set up an Azure AD application and then use it to authorise against to gain access to the Microsoft graph API using PowerShell. The graph holds a rich collection of data and being able to query with PowerShell is useful to allow integration with other applications such as [Slack], [Azure Automation Runbooks], [Azure functions] (V1 of functions still currently support PowerShell) etc. With the correct permissions and query URLs you could adapt the above script to send put requests to update entities in Azure AD.
+Version 2 of the graph is a work in progress and hopefully even more of the API will be exposed soon.
+
+For me personally, this was a fun start to the project and wanted to get it written down here for future use and the up and coming hackathon.
 
 [Identity, Application, and Network Services on Microsoft Azure]: https://www.pluralsight.com/courses/microsoft-azure-identity-application-network-services
-
+[Microsoft Docs]: https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison
 [permissions reference]: https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
 [graph explorer]: https://developer.microsoft.com/en-us/graph/graph-explorer
+[Get-Member]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-member?view=powershell-6
+[slack]: https://slack.com
+[Azure Automation Runbooks]: https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
+[Azure Functions]: https://docs.microsoft.com/en-us/azure/azure-functions/
