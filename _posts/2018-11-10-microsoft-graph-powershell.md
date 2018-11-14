@@ -9,7 +9,7 @@ tags:
     - powershell
     - azure
     - graph
-published: false
+published: true
 ---
 
 # PowerShell and the Microsoft Graph
