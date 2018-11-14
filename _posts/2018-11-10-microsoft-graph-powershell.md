@@ -14,17 +14,21 @@ published: false
 
 # PowerShell and the Microsoft Graph
 
-This post is in introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions, get an authorisation token and query the graph for user data. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work, it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look.
+> You can use the Microsoft Graph API to build apps for organizations and consumers that interact with the data of millions of users. With Microsoft Graph, you can connect to a wealth of resources, relationships, and intelligence, all through a single endpoint: https://graph.microsoft.com.
 
-I found the [Identity, Application, and Network Services on Microsoft Azure] course on Pluralsight and watched the Microsoft Graph sections of the 'Integrating app with Azure AD' module which was really helpful in understanding how to authenticate to the graph to get an access token and was able to test using Postman and then convert that to PowerShell.
+From [Overview of Microsoft Graph]
 
-The below Cmdlets should be run in a single PowerShell session because the output of the commands are saved as variables and their properties are used in the script to call the Microsoft Graph. If the session is exited and the variables lost, the $ClientSecret and $ApplicationClientID variables will have to be added again manually.
+This post is an introduction on how to query the Microsoft Graph with PowerShell. It shows how to set up an Azure AD application and set permissions to allow you to retrieve user information, get an authorisation token and query the graph API. I've been interested in learning about the Microsoft graph for sometime put was put off by the lack of documentation on how to do it with PowerShell. Recently at work it has become apparent that we could make good use of some of the data that is exposed by the graph so thought I'd take a second look.
+
+I found the [Identity, Application, and Network Services on Microsoft Azure] course on Pluralsight and watched the Microsoft Graph sections of the 'Integrating app with Azure AD' module which was really helpful in understanding how to authenticate to the graph to get an access token. I as able to test using [Postman] like in the video and then convert that to use PowerShell.
+
+The below Cmdlets should be run in a single PowerShell session because the output of the commands are saved as variables and their properties are used in the script to call the Microsoft Graph. If the session is exited and the variables lost, the $ClientSecret and $ApplicationClientID variables will have to be added again.
 
 Note: There is currently V1 and V2 of the graph and a comparison can be found on [Microsoft Docs], I use V1 in this example.
 
 ## Azure AD application
 
-First we need to create an Azure AD application. This will be used by the client (PowerShell) to authenticate with and get an access token. It is also used to set the relevant permissions to the directory.
+First we need to create an Azure AD application. This will be used by the client (PowerShell) to authenticate with and get an access token. The app is also used to set the relevant permissions to the directory. When the PowerShell authenticates successfully to the application endpoint it receives an access token that includes a list of claims. These claims are sent in the call to the graph and contain the authentication along with the authorisation for what resources can be accessed and what actions can be taken on them.
 
 Here's the PowerShell to create an application. The client secret will be used by PowerShell to get an access token that can then be used to query the graph.
 
@@ -47,7 +51,7 @@ $app = New-AzureRmADApplication -DisplayName $AppName -ReplyUrls $ReplyUrl -Pass
 
 ```
 
-After the application is created, the permissions need to be granted. I could not find a way to do this via PowerShell so had to resort going back to the portal and doing manually. You need to be an administrator to set application level permissions for the whole tenant or request that an administrator does it for you.
+After the application is created, the permissions need to be granted. I could not find a way to do this via PowerShell so had to resort going back to the portal and doing it manually. You need to be an administrator to set application level permissions for the whole tenant or request that an administrator does it for you.
 
 Login to the main Azure portal and navigate to Azure Active Directory or go directly to the Azure AD portal: https://aad.portal.azure.com/
 
@@ -203,12 +207,14 @@ Write-Output $userList.value.displayName
 
 ## Summary
 
-This post has shown how to set up an Azure AD application and then use it to authorise against to gain access to the Microsoft graph API using PowerShell. The graph holds a rich collection of data and being able to query with PowerShell is useful to allow integration with other applications such as [Slack], [Azure Automation Runbooks], [Azure functions] (V1 of functions still currently support PowerShell) etc. With the correct permissions and query URLs you could adapt the above script to send put requests to update entities in Azure AD.
+This post has shown how to set up an Azure AD application and then use it to authenticate against the application to gain access to the Microsoft graph API using PowerShell. The graph holds a rich collection of data and being able to query with PowerShell is useful to allow integration with other applications such as [Slack], [Azure Automation Runbooks], [Azure functions] (V1 of functions still currently support PowerShell) etc. With the correct permissions and query URLs you could adapt the above script to get lots of different data and alos send put requests to update entities in Azure AD.
 Version 2 of the graph is a work in progress and hopefully even more of the API will be exposed soon.
 
 For me personally, this was a fun start to the project and wanted to get it written down here for future use and the up and coming hackathon.
 
+[Overview of Microsoft Graph]: https://developer.microsoft.com/en-us/graph/docs/concepts/overview
 [Identity, Application, and Network Services on Microsoft Azure]: https://www.pluralsight.com/courses/microsoft-azure-identity-application-network-services
+[Postman]: https://www.getpostman.com/
 [Microsoft Docs]: https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison
 [permissions reference]: https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
 [graph explorer]: https://developer.microsoft.com/en-us/graph/graph-explorer
