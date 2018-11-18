@@ -16,6 +16,8 @@ published: false
 
 # Overview
 
+Using PowerShell Desktop Version 5.1 on Windows 10 1803.
+
 ## Service Principal
 
 From https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
