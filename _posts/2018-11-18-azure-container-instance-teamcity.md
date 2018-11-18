@@ -1,7 +1,7 @@
 ---
 title: Create and remove Azure Container Instances from a TeamCity build
 author: Matthew Davis
-date: 2018-11-03
+date: 2018-11-18
 excerpt: 
 categories:
     - powershell
@@ -68,16 +68,34 @@ The examples in this post was carried out using PowerShell Desktop Version 5.1 o
 
 ## Service Principal
 
+First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before.
+Here's the code to create the Service Principal, it creates a certificate locally that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
+
 From https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
 
 ```powershell
 # Create an Azure Service principal with a cert for authentication
-$cert = New-SelfSignedCertificate -CertStoreLocation "cert:\CurrentUser\My" -Subject "CN=tcContainerTestCert" -KeySpec KeyExchange
+$certStoreLoc = 'cert:\CurrentUser\My'
+$certSubject = 'CN=teamCityAzureContainerSP'
+$servicePrincipalName = 'azure-container-instances-teamcity-testing'
+
+# Create local self-signed cert - use cert authority in production
+$cert = New-SelfSignedCertificate -CertStoreLocation $certStoreLoc -Subject $certSubject -KeySpec KeyExchange
 $keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())
 
-$servicePrincipal = New-AzureRMADServicePrincipal -DisplayName 'azure-container-instances-teamcity-testing' -CertValue $keyValue -EndDate $cert.NotAfter -StartDate $cert.NotBefore
+Connect-AzureRMAccount
+
+# Create the service principal with the certificate just created
+$servicePrincipal = New-AzureRMADServicePrincipal -DisplayName $servicePrincipalName -CertValue $keyValue -EndDate $cert.NotAfter -StartDate $cert.NotBefore
 Start-Sleep 20
 ```
+
+[pic of cert output]
+
+[pic of sp output]
+
+This creates the AzureAD application and Service Principal the will be used by the TeamCity build step to authenticate to Azure.
+
 
 ## Create a custom role
 
