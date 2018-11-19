@@ -161,6 +161,8 @@ https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provid
 
 ## Assign roles to the Service Principal
 
+Be patient after assign in the role, usually it takes place instantly but I have been caught out a couple of times when it took a little longer to propagate through. A good sign that it has propagated is if it shows up in the portal under the resource group IAM blade.
+
 ```powershell
 # Apply custom role and reader role at the resource group level
 $roleDefName = 'Container Instance Container Group Manager'
