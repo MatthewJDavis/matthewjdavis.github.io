@@ -96,8 +96,21 @@ Start-Sleep 20
 
 This creates the AzureAD application and Service Principal the will be used by the TeamCity build step to authenticate to Azure.
 
+Don't forget that you'll have to import he certificate to the build agent.
+
+Export the cert with the private key
+
+[pic of export]
+
+Import the cert using the password used to export it
+
+[pic of import]
 
 ## Create a custom role
+
+Next step is to limit what the Service Principal can do in the Azure subscription(s). I like to limit to a specific resource group and will create a custom role that limits the Service Principal to be able to take actions on container instance groups within the resource group and nothing else.
+
+First the policy below should be saved as a JSON document and in the Assingnable Scope property, update with the subscription ID. This policy allows the Principal to carry out any action against the container groups but could be locked down even further if required.
 
 Update subscription-id-here with Azure SubscriptionID ```Get-AzureRmSubscription```
 
@@ -119,29 +132,192 @@ Update subscription-id-here with Azure SubscriptionID ```Get-AzureRmSubscription
 ```
 
 ```powershell
-New-AzureRmRoleDefinition -InputFile
+New-AzureRmRoleDefinition -InputFile .\ContainerInstanceContainerGroupManagerRole.json
 ```
 
+[Pic of role output]
+
 ### How to find the namespace for roles
+
+```powershell
+Get-AzureRmProviderOperation | where-object {$_.Operation -like "Microsoft.ContainerInstance/containerGroups*"} | select-object -property operation
+```
+
+```powershell
+Operation
+---------
+Microsoft.ContainerInstance/containerGroups/read
+Microsoft.ContainerInstance/containerGroups/write
+Microsoft.ContainerInstance/containerGroups/delete
+Microsoft.ContainerInstance/containerGroups/restart/action
+Microsoft.ContainerInstance/containerGroups/stop/action
+Microsoft.ContainerInstance/containerGroups/start/action
+Microsoft.ContainerInstance/containerGroups/containers/logs/read
+```
 
 https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles-powershell
 
 https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftcontainerinstance
 
-```powershell
-Get-AzureRmProviderOperation | Where-Object {$_.ProviderNamespace -like "*container*"} | Select-Object -Property ProviderNamespace -Unique
-```
-
-## Assign Service Principal
+## Assign roles to the Service Principal
 
 ```powershell
-# Give service principal contribute at resource group level
-New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinitionName 'Container Instance Container Group Manager' -ResourceGroupName 'test-iam'
-New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinitionName 'reader' -ResourceGroupName 'test-iam'
+# Apply custom role and reader role at the resource group level
+$roleDefName = 'Container Instance Container Group Manager'
+$resourceGroup = 'tc-containers'
+
+New-AzureRmRoleAssignment -ObjectId $servicePrincipal.Id -RoleDefinitionName $roleDefName -ResourceGroupName $resourceGroup
+New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinitionName 'reader' -ResourceGroupName $resourceGroup
 ```
 
-## Test Script
+[role assingment pic]
+
+## Scripts
+
+Below are the PowerShell script that correspond with the TeamCity build steps. The parameters are passed through the scripts by TeamCity at build time.
+
+The scripts and build do the following:
+
+1. Authenticate with Azure using the sevice principal
+2. Create a container instance group with the specified container
+3. Run a simple test against the container
+4. Remove the container
+5. Remove the authenticated Azure session
+
+1. Authenticate to Azure with the service principal.
+
+```powershell
+param(
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ApplicationId,
+  [Parameter(Mandatory = $true)]
+  [String]
+  $TenantId,
+  [Parameter(Mandatory = $true)]
+  [String]
+  $Thumbprint,
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ContextName
+  
+)
+
+$authParams = @{
+  'ServicePrincipal'      = $true;
+  'CertificateThumbprint' = $Thumbprint;
+  'ApplicationId'         = $ApplicationId;
+  'Tenant'                = $TenantId;
+  'ContextName'           = $ContextName
+}
+
+Connect-AzureRmAccount @authParams
+```
+
+2. Create the Container Group Instance
+
+```powershell
+param(
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ResourceGroup
+)
+
+$prefix = -join ((97..122) | Get-Random -Count 5 | ForEach-Object {[char]$_})
+$date = Get-Date -Format yyyyMMddHHMMss
+$ContainerGroupName = "tc-testing-containers-$date"
+$DnsName = "$prefix-$date"
+$OsType = 'Linux'
+$Port = '80'
+$ContainerImage = 'nginx'
+
+
+$containerGroupParams = @{
+  'ResourceGroupName' = $ResourceGroup;
+  'Name'              = $ContainerGroupName;
+  'Image'             = $ContainerImage;
+  'DnsNameLabel'      = $DnsName;
+  'OsType'            = $OsType;
+  'Port'              = $Port
+}
+
+$containerGroup = New-AzureRmContainerGroup @containerGroupParams
+
+while ((Get-AzureRmContainerGroup -ResourceGroupName $ResourceGroup -Name $ContainerGroupName).State -ne 'running') {
+  Write-Output "Container state is: $((Get-AzureRmContainerGroup -ResourceGroupName $ResourceGroup -Name $ContainerGroupName).State)"
+  Start-Sleep -Seconds 5
+}
+
+Write-Output "Container is: $((Get-AzureRmContainerGroup -ResourceGroupName $ResourceGroup -Name $ContainerGroupName).State)"
+
+# Test that the after the container is running, wait until we can get a TCP connection on the container
+while ((Test-NetConnection -ComputerName $containerGroup.Fqdn -Port $Port).TcpTestSucceeded -ne 'True') {
+  Write-Output 'Waiting for Nginx'
+  Start-Sleep -Seconds 5
+}
+
+# Update the TeamCity build parameters for use in later build steps
+"##teamcity[setParameter name='containerGroupName' value='$ContainerGroupName']"
+"##teamcity[setParameter name='containerUrl' value='$($containerGroup.Fqdn)']"
+```
+
+3. Run a simple test against the container
+
+```powershell
+param(
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ContainerUri
+)
+
+Write-Output $ContainerUri
+
+$result = Invoke-WebRequest -UseBasicParsing -Uri $ContainerUri
+
+Write-Output $result
+
+if ($result.Content.Contains('Thank you for using nginx.')) {
+  Write-Output 'Success, the website has the correct wording'
+  Return 0
+} else {
+  Write-Output 'Failure, the wording on the website is wrong'
+  Return 1
+}
+```
+
+4. Remove the container instance group
+
+```powershell
+param(
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ResourceGroup,
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ContainerGroupName
+)
+
+Remove-AzureRmContainerGroup -ResourceGroupName $ResourceGroup -Name $ContainerGroupName
+```
+
+5. Remove the session
+
+```powershell
+param(
+  [Parameter(Mandatory = $true)]
+  [String]
+  $ContextName
+)
+
+Disconnect-AzureRmAccount -ContextName $ContextName
+```
 
 ## TeamCity Build Job
+
+Here are the screen shots of the build steps and parameters
+
+Parameters
+
+
 
 http://ralbu.com/teamcity-build-parameters-for-powershell
