@@ -100,9 +100,20 @@ Don't forget that you'll have to import he certificate to the build agent.
 
 Export the cert with the private key
 
+```powershell
+$password = read-host -AsSecureString
+Export-PfxCertificate -Cert $cert -FilePath C:\TEMP\cert-test.pfx -Password $password -Force
+```
+
 [pic of export]
 
 Import the cert using the password used to export it
+
+```powershell
+ # Local machine so build agent account can access it
+ $password = Read-Host -AsSecureString
+ Import-PfxCertificate -FilePath .\cert.pfx -Password $password -CertStoreLocation Cert:\LocalMachine\My\
+```
 
 [pic of import]
 
