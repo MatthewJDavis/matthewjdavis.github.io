@@ -12,7 +12,7 @@ tags:
     - teamcity
     - aci
     - azure container instances
-published: true
+published: false
 ---
 
 ## Introduction
@@ -23,7 +23,7 @@ The requirement came up recently to be able to test certain steps of a build aga
 
 I looked around at some other solutions and watched the [channel9 video on Azure container instances] and thought they could fit the need.
 
-After checking the [Azure Container Instances docs] then the how to get started with [PowerShell section] and giving it a go, it is simple to get a container up and running and remove it:
+After checking the [Azure Container Instances docs] and the how to get started with [PowerShell section] and giving it a go, it is simple to get a container up and running and remove it:
 
 ```powershell
 # Create Nginx Container with date time for unique DNS name
@@ -71,8 +71,6 @@ The examples in this post was carried out using PowerShell Desktop Version 5.1 o
 First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before.
 Here's the code to create the Service Principal, it creates a certificate locally that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
 
-From https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
-
 ```powershell
 # Create an Azure Service principal with a cert for authentication
 $certStoreLoc = 'cert:\CurrentUser\My'
@@ -89,6 +87,8 @@ Connect-AzureRMAccount
 $servicePrincipal = New-AzureRMADServicePrincipal -DisplayName $servicePrincipalName -CertValue $keyValue -EndDate $cert.NotAfter -StartDate $cert.NotBefore
 Start-Sleep 20
 ```
+
+Above code adapted from the [Service Principal Docs]
 
 ![Creating the certificate in the terminal](/images/tc-azure-container-instances/create-cert.png)
 
@@ -406,5 +406,6 @@ Azure Container Instances make it really easy to spin up a container without the
 [Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
 [channel9 video on Azure container instances]: https://channel9.msdn.com/Shows/Tuesdays-With-Corey/More-info-on-Azure-Container-Instances
 [PowerShell section]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart-powershell
+[Service Principal Docs]: https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
 [blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
 [managed identities]: https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
