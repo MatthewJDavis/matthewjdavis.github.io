@@ -396,8 +396,13 @@ The rest of the build steps have a similar setup as build 1, with different file
 
 This [blog post] was extremely helpful in working out how to pass the build parameters to the PowerShell scripts.
 
+# Summary
+
+Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is create for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity but it would be just as simple to use Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, managed identities can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
+
 [hyper-v to be installed]: https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
 [Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
 [channel9 video on Azure container instances]: https://channel9.msdn.com/Shows/Tuesdays-With-Corey/More-info-on-Azure-Container-Instances
 [PowerShell section]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart-powershell
 [blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
+[managed identities]: https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
