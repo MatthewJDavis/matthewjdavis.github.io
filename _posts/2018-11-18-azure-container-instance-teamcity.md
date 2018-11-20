@@ -12,7 +12,7 @@ tags:
     - teamcity
     - aci
     - azure container instances
-published: false
+published: true
 ---
 
 # Introduction
