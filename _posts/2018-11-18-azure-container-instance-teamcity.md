@@ -2,6 +2,7 @@
 title: Create and remove Azure Container Instances from a TeamCity build
 author: Matthew Davis
 date: 2018-11-18
+toc: true
 excerpt: 
 categories:
     - powershell
@@ -14,7 +15,7 @@ tags:
 published: false
 ---
 
-# Overview
+# Introduction
 
 Create a container in Azure Container Instance Groups from a TeamCity build job for testing.
 
@@ -354,11 +355,11 @@ The Configuration Parameters configured are as follows:
 10. Script File: Container-Instance/teamcity-build/1AuthenticateToAzure.ps1
 11. Script execution mode: Execute .ps1 file from external file
 12. Script arguments:
-  * -ApplicationId:%applicationId%
-  * -TenantId:%tenantId%
-  * -Thumbprint:%thumbprint%
-  * -ContextName:%contextName%
-13. Options: Add -NoProfile Arguement = checked
+    1. -ApplicationId:%applicationId%
+    2. -TenantId:%tenantId%
+    3. -Thumbprint:%thumbprint%
+    4. -ContextName:%contextName%
+13. Options: Add -NoProfile argument = checked
 14. Additional command line parameters: blank
 15. Run Step with docker container: blank
 
@@ -369,34 +370,35 @@ The rest of the build steps have a similar setup as build 1, with different file
 ### Build Step 2
 
 1. Script Arguments:
-  * -ResourceGroup:%resourceGroup%
+    * -ResourceGroup:%resourceGroup%
 
 ![TeamCity build step 2](/images/tc-azure-container-instances/build-step2.png)
 
 ### Build Step 3
 
 1. Script Arguments:
-  * -ContainerUri:%containerUrl%
+    * -ContainerUri:%containerUrl%
 
 ![TeamCity build step 3](/images/tc-azure-container-instances/build-step3.png)
 
 ### Build Step 4
 
 1. Script Arguments:
-  * -ResourceGroup:%resourceGroup%
-  * -ContainerGroupName:%containerGroupName%
+    * -ResourceGroup:%resourceGroup%
+    * -ContainerGroupName:%containerGroupName%
 
 ![TeamCity build step 4](/images/tc-azure-container-instances/build-step4.png)
 
 ### Build Step 5
 
 1. Script Arguments:
-  * -ContextName:%contextName%
+    * -ContextName:%contextName%
+
 ![TeamCity build step 5](/images/tc-azure-container-instances/build-step5.png)
 
 This [blog post] was extremely helpful in working out how to pass the build parameters to the PowerShell scripts.
 
-# Summary
+## Summary
 
 Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is create for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity but it would be just as simple to use Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, managed identities can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
 
