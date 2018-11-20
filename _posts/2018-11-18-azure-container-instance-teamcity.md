@@ -18,12 +18,11 @@ published: false
 
 Create a container in Azure Container Instance Groups from a TeamCity build job for testing.
 
-The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents used run on EC2 and couldn't do nested virtualisation so the original plan of using docker on the agent to run a linux container to test against didn't work due to running linux containers on Windows requires hyper-v to be installed.
-https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
-I looked around at some other solutions and watched the channel9 video on Azure container instances and thought they could fit the need.
-https://channel9.msdn.com/Shows/Tuesdays-With-Corey/More-info-on-Azure-Container-Instances
+The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents used run on EC2 and couldn't do nested virtualisation so the original plan of using docker on the agent to run a linux container to test against didn't work due to running linux containers on Windows requires [hyper-v to be installed].
 
-After checking the PowerShell docs and giving it a go, it is simple to get a container up and running and remove it:
+I looked around at some other solutions and watched the [channel9 video on Azure container instances] and thought they could fit the need.
+
+After checking the [Azure Container Instances docs] then the how to get started with [PowerShell section] and giving it a go, it is simple to get a container up and running and remove it:
 
 ```powershell
 # Create Nginx Container with date time for unique DNS name
@@ -66,7 +65,7 @@ Because the build agents are running in AWS, I had to create a service principal
 
 The examples in this post was carried out using PowerShell Desktop Version 5.1 on Windows 10 1803.
 
-## Service Principal
+## Azure Service Principal with Certificate
 
 First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before.
 Here's the code to create the Service Principal, it creates a certificate locally that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
@@ -117,7 +116,7 @@ Import the cert using the password used to export it
 
 ![Importing the certificate to where the principal will run](/images/tc-azure-container-instances/import-cert.png)
 
-## Create a custom role
+## Azure custom role for Container Instances
 
 Next step is to limit what the Service Principal can do in the Azure subscription(s). I like to limit to a specific resource group and will create a custom role that limits the Service Principal to be able to take actions on container instance groups within the resource group and nothing else.
 
@@ -185,7 +184,7 @@ New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinit
 
 ![Assign the custom Azure role](/images/tc-azure-container-instances/assign-role.png)
 
-## Scripts
+## PowerShell Scripts
 
 Below are the PowerShell script that correspond with the TeamCity build steps. The parameters are passed through the scripts by TeamCity at build time.
 
@@ -197,7 +196,7 @@ The scripts and build do the following:
 4. Remove the container
 5. Remove the authenticated Azure session
 
-1. Authenticate to Azure with the service principal.
+1: Authenticate to Azure with the service principal.
 
 ```powershell
 param(
@@ -227,7 +226,7 @@ $authParams = @{
 Connect-AzureRmAccount @authParams
 ```
 
-2. Create the Container Group Instance
+2: Create the Container Group Instance
 
 ```powershell
 param(
@@ -274,7 +273,7 @@ while ((Test-NetConnection -ComputerName $containerGroup.Fqdn -Port $Port).TcpTe
 "##teamcity[setParameter name='containerUrl' value='$($containerGroup.Fqdn)']"
 ```
 
-3. Run a simple test against the container
+3: Run a simple test against the container
 
 ```powershell
 param(
@@ -298,7 +297,7 @@ if ($result.Content.Contains('Thank you for using nginx.')) {
 }
 ```
 
-4. Remove the container instance group
+4: Remove the container instance group
 
 ```powershell
 param(
@@ -313,7 +312,7 @@ param(
 Remove-AzureRmContainerGroup -ResourceGroupName $ResourceGroup -Name $ContainerGroupName
 ```
 
-5. Remove the session
+5: Remove the session
 
 ```powershell
 param(
@@ -327,11 +326,42 @@ Disconnect-AzureRmAccount -ContextName $ContextName
 
 ## TeamCity Build Job
 
-Here are the screen shots of the build steps and parameters
+### Parameters
 
-Parameters
+The Configuration Parameters configured are as follows:
+
+1. applicationId - password - The ID of the Service Principal
+2. containerGroup - string - Empty = updated by the PowerShell scripts using the service message to be used in later build steps
+3. containerUrl - string - Empty = updated by the PowerShell scripts using the service message to be used in later build steps
+4. contextName - string - Name of the context used for the authentication to Azure
+5. resourceGroup - string - Name of the resource group the Service Principal has authorisation to create and remove container instances
+6. tenantId - secure password - tenant ID of the Azure subscription
+7. thumbprint - secure password - thumbprint of the certificate
+
+### Build Step 1
+
+1. Runner Type: PowerShell
+2. Name: Authenticate to Azure
+3. Execute step: If all previous steps finished successfully
+4. PowerShell Version: left blank
+5. Platform: Auto
+6. Edition: Desktop
+7. Format stderr output as: Warning
+8. Working directory: Container-Instance/teamcity-build
+9. Script: File
+10. Script File: Container-Instance/teamcity-build/1AuthenticateToAzure.ps1
+11. Script execution mode: Execute .ps1 file from external file
+12. Script arguments:
+  * -ApplicationId:%applicationId%
+  * -TenantId:%tenantId%
+  * -Thumbprint:%thumbprint%
+  * -ContextName:%contextName%
+13. Options: Add -NoProfile Arguement = checked
+14. Additional command line parameters: blank
+15. Run Step with docker container: blank
 
 ![TeamCity build parameters](/images/tc-azure-container-instances/build-params.png)
+
 
 ![TeamCity build step 1](/images/tc-azure-container-instances/build-step1.png)
 
@@ -347,4 +377,8 @@ Parameters
 This [blog post] was extremely valuable in working out how to pass the build parameters to the PowerShell scripts.
 
 
+[hyper-v to be installed]: https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
+[Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
+[channel9 video on Azure container instances]: https://channel9.msdn.com/Shows/Tuesdays-With-Corey/More-info-on-Azure-Container-Instances
+[PowerShell section]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart-powershell
 [blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
