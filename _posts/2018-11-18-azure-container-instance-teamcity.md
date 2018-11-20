@@ -2,7 +2,6 @@
 title: Create and remove Azure Container Instances from a TeamCity build
 author: Matthew Davis
 date: 2018-11-18
-toc: true
 excerpt: 
 categories:
     - powershell
@@ -12,18 +11,19 @@ tags:
     - teamcity
     - aci
     - azure container instances
-published: false
+published: true
+toc: true
 ---
 
-## Introduction
+# Introduction
 
-Create a container in Azure Container Instance Groups from a TeamCity build job for testing.
+This post will go through the process of how to create a container in an Azure Container Instance Groups from a TeamCity build job.
 
-The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents used run on EC2 and couldn't do nested virtualisation so the original plan of using docker on the agent to run a linux container to test against didn't work due to running linux containers on Windows requires [hyper-v to be installed].
+The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents are Windows hosts (to build full DotNet applications) run on EC2. The original plan of using docker on the agent to run a linux container to test against didn't work because running linux containers on a Windows host requires [hyper-v to be installed], which after contacting AWS support was informed couldn't be done. There was a work around in place but it was reported that this had mixed results.
 
-I looked around at some other solutions and watched the [channel9 video on Azure container instances] and thought they could fit the need.
+I looked around at some other solutions and watched the [channel9 video on Azure container instances] which perked my interest.
 
-After checking the [Azure Container Instances docs] and the how to get started with [PowerShell section] and giving it a go, it is simple to get a container up and running and remove it:
+After checking the [Azure Container Instances docs] and the how to get started with [PowerShell section], I created, connected to and removed the container and was please at how simple it was:
 
 ```powershell
 # Create Nginx Container with date time for unique DNS name
@@ -57,18 +57,19 @@ With it being that easy, I came up with the plan to use this as part of a TeamCi
 4. Removing the container
 5. Removing the Azure session
 
-Because the build agents are running in AWS, I had to create a service principal to connect to Azure and run the PowerShell commands. This post will cover:
+Because the build agents are running in AWS, I had to create a service principal to connect to Azure and run the PowerShell commands. I will cover:
 
 1. Creating a Service Principal with a Certificate
 2. Giving the service principal just enough permissions to a resource group via a custom Azure role to create and remove containers
 3. Setting up TeamCity build steps and parameters to connect to Azure, create, test against and remove then container the remove the Azure session
 4. The PowerShell scripts to run in item 3.
 
-The examples in this post was carried out using PowerShell Desktop Version 5.1 on Windows 10 1803.
+The examples in this post were carried out using PowerShell Desktop Version 5.1 on Windows 10 1803.
 
 ## Azure Service Principal with Certificate
 
-First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before.
+First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before and wanted to learn the process. Jetbrains also advise to avoid storing passwords for external accounts in [TeamCity in this response from support]. There's also this [issue tracker] that shows they are working on improving security of secrets held.
+
 Here's the code to create the Service Principal, it creates a certificate locally that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
 
 ```powershell
@@ -96,7 +97,7 @@ Above code adapted from the [Service Principal Docs]
 
 This creates the AzureAD application and Service Principal the will be used by the TeamCity build step to authenticate to Azure.
 
-Don't forget that you'll have to import he certificate to the build agent.
+Don't forget that you'll have to import the certificate to the build agent or other machines where you want the Service Principal to be able to authenticate to Azure.
 
 Export the cert with the private key
 
@@ -407,5 +408,7 @@ Azure Container Instances make it really easy to spin up a container without the
 [channel9 video on Azure container instances]: https://channel9.msdn.com/Shows/Tuesdays-With-Corey/More-info-on-Azure-Container-Instances
 [PowerShell section]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart-powershell
 [Service Principal Docs]: https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
+[TeamCity in this response from support]: https://teamcity-support.jetbrains.com/hc/en-us/community/posts/115000105330-Password-parameters-scrambled-HOW-
+[issue tracker]: https://youtrack.jetbrains.com/issue/TW-45181
 [blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
 [managed identities]: https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
