@@ -338,6 +338,8 @@ The Configuration Parameters configured are as follows:
 6. tenantId - secure password - tenant ID of the Azure subscription
 7. thumbprint - secure password - thumbprint of the certificate
 
+![TeamCity build parameters](/images/tc-azure-container-instances/build-params.png)
+
 ### Build Step 1
 
 1. Runner Type: PowerShell
@@ -360,22 +362,39 @@ The Configuration Parameters configured are as follows:
 14. Additional command line parameters: blank
 15. Run Step with docker container: blank
 
-![TeamCity build parameters](/images/tc-azure-container-instances/build-params.png)
-
-
 ![TeamCity build step 1](/images/tc-azure-container-instances/build-step1.png)
+
+The rest of the build steps have a similar setup as build 1, with different file paths etc. For brevity I will just list the script arguments of the following steps.
+
+### Build Step 2
+
+1. Script Arguments:
+  * -ResourceGroup:%resourceGroup%
 
 ![TeamCity build step 2](/images/tc-azure-container-instances/build-step2.png)
 
+### Build Step 3
+
+1. Script Arguments:
+  * -ContainerUri:%containerUrl%
+
 ![TeamCity build step 3](/images/tc-azure-container-instances/build-step3.png)
+
+### Build Step 4
+
+1. Script Arguments:
+  * -ResourceGroup:%resourceGroup%
+  * -ContainerGroupName:%containerGroupName%
 
 ![TeamCity build step 4](/images/tc-azure-container-instances/build-step4.png)
 
+### Build Step 5
+
+1. Script Arguments:
+  * -ContextName:%contextName%
 ![TeamCity build step 5](/images/tc-azure-container-instances/build-step5.png)
 
-
-This [blog post] was extremely valuable in working out how to pass the build parameters to the PowerShell scripts.
-
+This [blog post] was extremely helpful in working out how to pass the build parameters to the PowerShell scripts.
 
 [hyper-v to be installed]: https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
 [Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
