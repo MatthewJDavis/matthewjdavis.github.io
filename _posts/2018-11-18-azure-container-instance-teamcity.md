@@ -15,7 +15,7 @@ tags:
 published: true
 ---
 
-# Introduction
+## Introduction
 
 Create a container in Azure Container Instance Groups from a TeamCity build job for testing.
 
