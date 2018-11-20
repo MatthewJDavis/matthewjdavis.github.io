@@ -90,9 +90,9 @@ $servicePrincipal = New-AzureRMADServicePrincipal -DisplayName $servicePrincipal
 Start-Sleep 20
 ```
 
-[pic of cert output]
+![Creating the certificate in the terminal](/images/tc-azure-container-instances/create-cert.png)
 
-[pic of sp output]
+![Creating the service principal in the terminal](/images/tc-azure-container-instances/create-sp.png)
 
 This creates the AzureAD application and Service Principal the will be used by the TeamCity build step to authenticate to Azure.
 
@@ -105,7 +105,7 @@ $password = read-host -AsSecureString
 Export-PfxCertificate -Cert $cert -FilePath C:\TEMP\cert-test.pfx -Password $password -Force
 ```
 
-[pic of export]
+![Exporting the certificate from the certificate store](/images/tc-azure-container-instances/export-cert.png)
 
 Import the cert using the password used to export it
 
@@ -115,7 +115,7 @@ Import the cert using the password used to export it
  Import-PfxCertificate -FilePath .\cert.pfx -Password $password -CertStoreLocation Cert:\LocalMachine\My\
 ```
 
-[pic of import]
+![Importing the certificate to where the principal will run](/images/tc-azure-container-instances/import-cert.png)
 
 ## Create a custom role
 
@@ -146,7 +146,7 @@ Update subscription-id-here with Azure SubscriptionID ```Get-AzureRmSubscription
 New-AzureRmRoleDefinition -InputFile .\ContainerInstanceContainerGroupManagerRole.json
 ```
 
-[Pic of role output]
+![Creating the Azure role in the terminal](/images/tc-azure-container-instances/create-role.png)
 
 ### How to find the namespace for roles
 
@@ -183,7 +183,7 @@ New-AzureRmRoleAssignment -ObjectId $servicePrincipal.Id -RoleDefinitionName $ro
 New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinitionName 'reader' -ResourceGroupName $resourceGroup
 ```
 
-[role assingment pic]
+![Assign the custom Azure role](/images/tc-azure-container-instances/assign-role.png)
 
 ## Scripts
 
@@ -331,6 +331,20 @@ Here are the screen shots of the build steps and parameters
 
 Parameters
 
+![TeamCity build parameters](/images/tc-azure-container-instances/build-params.png)
+
+![TeamCity build step 1](/images/tc-azure-container-instances/build-step1.png)
+
+![TeamCity build step 2](/images/tc-azure-container-instances/build-step2.png)
+
+![TeamCity build step 3](/images/tc-azure-container-instances/build-step3.png)
+
+![TeamCity build step 4](/images/tc-azure-container-instances/build-step4.png)
+
+![TeamCity build step 5](/images/tc-azure-container-instances/build-step5.png)
 
 
-http://ralbu.com/teamcity-build-parameters-for-powershell
+This [blog post] was extremely valuable in working out how to pass the build parameters to the PowerShell scripts.
+
+
+[blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
