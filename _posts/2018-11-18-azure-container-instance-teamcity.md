@@ -2,7 +2,7 @@
 title: Create and remove Azure Container Instances from a TeamCity build
 author: Matthew Davis
 date: 2018-11-18
-excerpt: 
+excerpt: Create Azure container instances from a TeamCity build job to run tests against. Use a service principal to authenticate and carry out actions against an Azure resource group.
 categories:
     - powershell
 tags:
