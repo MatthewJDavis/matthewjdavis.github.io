@@ -122,9 +122,9 @@ Import the cert using the password used to export it
 
 Next step is to limit what the Service Principal can do in the Azure subscription(s). I like to limit to a specific resource group and will create a custom role that limits the Service Principal to be able to take actions on container instance groups within the resource group and nothing else.
 
-First the policy below should be saved as a JSON document and in the Assingnable Scope property, update with the subscription ID. This policy allows the Principal to carry out any action against the container groups but could be locked down even further if required.
+First the policy below should be saved as a JSON document. In the Assignable Scope property, update with the subscription ID. This policy allows the Principal to carry out any action against the container groups but could be locked down even further if required.
 
-Update subscription-id-here with Azure SubscriptionID ```Get-AzureRmSubscription```
+Update subscription-id-here with Azure SubscriptionID (You can use to following Cmdlet to get it: ```Get-AzureRmSubscription```).
 
 ```json
 {
@@ -167,9 +167,9 @@ Microsoft.ContainerInstance/containerGroups/start/action
 Microsoft.ContainerInstance/containerGroups/containers/logs/read
 ```
 
-https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles-powershell
+[Custom Roles Azure Docs]
 
-https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftcontainerinstance
+[Container Instance Action Types]
 
 ## Assign roles to the Service Principal
 
@@ -188,11 +188,11 @@ New-AzureRmRoleAssignment -ObjectId $servicePrincipal.ApplicationId -RoleDefinit
 
 ## PowerShell Scripts
 
-Below are the PowerShell script that correspond with the TeamCity build steps. The parameters are passed through the scripts by TeamCity at build time.
+Below are the PowerShell scripts that correspond with the TeamCity build steps. The parameters are passed to the scripts by TeamCity at build time.
 
 The scripts and build do the following:
 
-1. Authenticate with Azure using the sevice principal
+1. Authenticate with Azure using the service principal
 2. Create a container instance group with the specified container
 3. Run a simple test against the container
 4. Remove the container
@@ -213,8 +213,7 @@ param(
   $Thumbprint,
   [Parameter(Mandatory = $true)]
   [String]
-  $ContextName
-  
+  $ContextNameS
 )
 
 $authParams = @{
@@ -244,7 +243,6 @@ $DnsName = "$prefix-$date"
 $OsType = 'Linux'
 $Port = '80'
 $ContainerImage = 'nginx'
-
 
 $containerGroupParams = @{
   'ResourceGroupName' = $ResourceGroup;
@@ -330,7 +328,7 @@ Disconnect-AzureRmAccount -ContextName $ContextName
 
 ### Parameters
 
-The Configuration Parameters configured are as follows:
+The Configuration Parameters are set as follows:
 
 1. applicationId - password - The ID of the Service Principal
 2. containerGroup - string - Empty = updated by the PowerShell scripts using the service message to be used in later build steps
@@ -401,7 +399,7 @@ This [blog post] was extremely helpful in working out how to pass the build para
 
 ## Summary
 
-Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is create for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity but it would be just as simple to use Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, managed identities can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
+Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is great for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity but it would be just as simple to use Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, [managed identities] can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
 
 [hyper-v to be installed]: https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
 [Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
@@ -410,5 +408,7 @@ Azure Container Instances make it really easy to spin up a container without the
 [Service Principal Docs]: https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-authenticate-service-principal-powershell
 [TeamCity in this response from support]: https://teamcity-support.jetbrains.com/hc/en-us/community/posts/115000105330-Password-parameters-scrambled-HOW-
 [issue tracker]: https://youtrack.jetbrains.com/issue/TW-45181
+[Custom Roles Azure Docs]: https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles-powershell
+[Container Instance Action Types]:https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftcontainerinstance
 [blog post]: http://ralbu.com/teamcity-build-parameters-for-powershell
 [managed identities]: https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
