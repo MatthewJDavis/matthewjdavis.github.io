@@ -19,11 +19,11 @@ toc: true
 
 This post will go through the process of how to create a container in an Azure Container Instance Groups from a TeamCity build job.
 
-The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents are Windows hosts (to build full DotNet applications) run on EC2. The original plan of using docker on the agent to run a linux container to test against didn't work because running linux containers on a Windows host requires [hyper-v to be installed], which after contacting AWS support was informed couldn't be done. There was a work around in place but it was reported that this had mixed results.
+The requirement came up recently to be able to test certain steps of a build against an application running in a linux container. The build agents are Windows hosts (to build full DotNet applications) that run on EC2. The original plan of using docker on the agent to run a linux container to test against didn't work because running linux containers on a Windows host requires [hyper-v to be installed], which after contacting AWS support was informed couldn't be done. There was a work around in place but it was reported that this had mixed results.
 
 I looked around at some other solutions and watched the [channel9 video on Azure container instances] which perked my interest.
 
-After checking the [Azure Container Instances docs] and the how to get started with [PowerShell section], I created, connected to and removed the container and was please at how simple it was:
+After checking the [Azure Container Instances docs] and the how to get started with [PowerShell section], I created, connected to and removed the container and was pleased at how simple it was:
 
 ```powershell
 # Create Nginx Container with date time for unique DNS name
@@ -64,7 +64,7 @@ Because the build agents are running in AWS, I had to create a service principal
 3. Setting up TeamCity build steps and parameters to connect to Azure, create, test against and remove then container the remove the Azure session
 4. The PowerShell scripts to run in item 3.
 
-The examples in this post were carried out using PowerShell Desktop Version 5.1 on Windows 10 1803.
+> The examples in this post were carried out using PowerShell Desktop Version 5.1 on Windows 10 1803.
 
 ## Azure Service Principal with Certificate
 
