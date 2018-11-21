@@ -70,7 +70,7 @@ Because the build agents are running in AWS, I had to create a service principal
 
 First I create the Azure Service Principal following the documentation. I wanted to use a certificate for the Service Principal authentication because I had not done this before and wanted to learn the process. Jetbrains also advise to avoid storing passwords for external accounts in [TeamCity in this response from support]. There's also this [issue tracker] that shows they are working on improving security of secrets held.
 
-Here's the code to create the Service Principal, it creates a certificate locally that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
+Here's the code to create the Service Principal, it creates a local self-signed certificate that is used for the Service Principal to connect. This certificate should be copied (included the private key) to where you want the service principal to be able to login (i.e. the build agents).
 
 ```powershell
 # Create an Azure Service principal with a cert for authentication
@@ -95,11 +95,11 @@ Above code adapted from the [Service Principal Docs]
 
 ![Creating the service principal in the terminal](/images/tc-azure-container-instances/create-sp.png)
 
-This creates the AzureAD application and Service Principal the will be used by the TeamCity build step to authenticate to Azure.
+This creates the AzureAD application and Service Principal that will be used by the TeamCity build step to authenticate to Azure.
 
 Don't forget that you'll have to import the certificate to the build agent or other machines where you want the Service Principal to be able to authenticate to Azure.
 
-Export the cert with the private key
+### Export the cert with the private key
 
 ```powershell
 $password = read-host -AsSecureString
@@ -108,7 +108,7 @@ Export-PfxCertificate -Cert $cert -FilePath C:\TEMP\cert-test.pfx -Password $pas
 
 ![Exporting the certificate from the certificate store](/images/tc-azure-container-instances/export-cert.png)
 
-Import the cert using the password used to export it
+### Import the cert using the password used to export it
 
 ```powershell
  # Local machine so build agent account can access it
@@ -173,7 +173,7 @@ Microsoft.ContainerInstance/containerGroups/containers/logs/read
 
 ## Assign roles to the Service Principal
 
-Be patient after assign in the role, usually it takes place instantly but I have been caught out a couple of times when it took a little longer to propagate through. A good sign that it has propagated is if it shows up in the portal under the resource group IAM blade.
+Be patient after assigning the role, usually it takes place instantly but I have been caught out a couple of times when it took a little longer to propagate through. A good sign that it has propagated is if it shows up in the portal under the resource group IAM blade.
 
 ```powershell
 # Apply custom role and reader role at the resource group level
@@ -399,7 +399,7 @@ This [blog post] was extremely helpful in working out how to pass the build para
 
 ## Summary
 
-Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is great for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity but it would be just as simple to use Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, [managed identities] can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
+Azure Container Instances make it really easy to spin up a container without the overhead of setting up and managing the underlying hardware. The service is great for this use case of spinning up a container and running tests. This example showed how to do it in TeamCity however it would follow a similar set up in Jenkins. If the TeamCity build agents were running in Azure then instead of creating the service principal, [managed identities] can be used. The service principal allows you to take advantage of container instances if the TeamCity server is running on-prem or elsewhere which gives great flexibility. I really like the container instance service and it's a great addition to the resources offered by Microsoft on Azure.
 
 [hyper-v to be installed]: https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
 [Azure Container Instances docs]: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
