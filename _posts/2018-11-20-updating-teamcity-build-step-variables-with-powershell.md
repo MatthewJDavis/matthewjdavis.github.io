@@ -1,15 +1,15 @@
 ---
 title: Updating TeamCity build step parameters using PowerShell
 author: Matthew Davis
-date: 2018-11-20
+date: 2018-11-24
 toc: true
-excerpt: 
+excerpt: How to pass variable between build steps in TeamCity using PowerShell
 categories:
     - powershell
 tags:
     - powershell
     - teamcity
-published: false
+published: true
 ---
 
 # Overview
