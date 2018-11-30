@@ -28,15 +28,19 @@ After checking the [Azure Container Instances docs] and the how to get started w
 ```powershell
 # Create Nginx Container with date time for unique DNS name
 
+$ResourceGroupName = 'container-demo'
+$Location = 'northeurope'
 $date = Get-Date -Format yyyyMMddHHMMss
-$ContainerGroupName = "demoContainer"
+$ContainerGroupName = "nginx"
 $DnsName = "demoContainer-$date"
 $OsType = 'Linux'
 $Port = '80'
 $ContainerImage = 'nginx'
 
+New-AzureRMResourceGroup -Name $ResourceGroupName -location $location
+
 $containerGroupParams = @{
-  'ResourceGroupName' = $ResourceGroup;
+  'ResourceGroupName' = $ResourceGroupName;
   'Name'              = $ContainerGroupName;
   'Image'             = $ContainerImage;
   'DnsNameLabel'      = $DnsName;
