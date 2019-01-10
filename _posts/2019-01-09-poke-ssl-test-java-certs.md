@@ -15,14 +15,14 @@ published: false
 
 # Overview
 
-Java uses the cacerts file as its certificate authority to validate https connections made with Java application to sites. It is useful to be able to verify that the cacerts file has the correct certificates added to it to connect securely to internal sites (when using internal PKI to issue certificates). 
-Atalassian has created a small Java program to test connectivty.
+Java uses the cacerts file as its certificate authority to validate https connections made with Java application to sites. It is useful to be able to verify that the cacerts file has the correct certificates added to it to connect securely to internal sites (when using internal PKI to issue certificates).
+Atalassian has created a small Java program to test connectivity.
 
 Here's how to use it.
 
 This is tested on Ubuntu with Java default-jdk 1.7 installed and on the user's path.
 
-# Create SSLPoke.java and paste the code below into it.
+# Create SSLPoke.java and paste the code below into it
 
 vim SSLPoke.java
 
@@ -55,7 +55,7 @@ java SSLPoke hostname port
 java SSLPoke google.com 443
 ```
 
-Here is a successful connection to google.com 
+Here is a successful connection to google.com.
 
 ![Connecting successfully to google.com with SSL Poke](/images/java-ssl-poke/connection-success.png)
 
@@ -66,3 +66,7 @@ java SSLPoke google.com 443
 ```
 
 ![Connection failed to my test Jenkins instance with SSL Poke](/images/java-ssl-poke/connection-failed.png)
+
+Below is the same Jenkins instance being trusted by chrome because I added it into the Windows certificate store. To get Java to trust it, I would have to do the same with the cacerts file.
+
+![Connection to Jenkins ok with chrome](/images/java-ssl-poke/jenkins-cert-trusted.png)
