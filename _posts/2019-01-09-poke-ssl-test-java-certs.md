@@ -55,4 +55,14 @@ java SSLPoke hostname port
 java SSLPoke google.com 443
 ```
 
+Here is a successful connection to google.com 
+
 ![Connecting successfully to google.com with SSL Poke](/images/java-ssl-poke/connection-success.png)
+
+And here is the error if the cert is not in the cacerts file (this is my test Jenkins instance running with a self signed certificate)
+
+```bash jenkins.matthewdavis111.com 443
+java SSLPoke google.com 443
+```
+
+![Connection failed to my test Jenkins instance with SSL Poke](/images/java-ssl-poke/connection-failed.png)
