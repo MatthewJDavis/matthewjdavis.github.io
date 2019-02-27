@@ -21,7 +21,7 @@ The docs lists the commands needed using the [dsacls] cmd.exe program to set the
 
 All the script does is build the dsacls command syntax and save each one to a PowerShell ArrayList, then pipe each of the dsacls to cmd to be executed in a foreach loop.
 
-```PowerShell
+```powershell
 # Set the permissions on the Users OU for the Okta agent as per docs:
 # https://help.okta.com/en/prod/Content/Topics/Directory/ad-agent-install.htm
 # Using a group managed service account for the Okta agent so the account name has a $ 
