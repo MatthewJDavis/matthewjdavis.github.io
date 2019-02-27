@@ -9,7 +9,7 @@ categories:
 tags:
     - okta
     - dsacls
-    - cacerts
+    - powershell
 published: true
 ---
 
