@@ -3,7 +3,7 @@ title: Configure OU permissions for Okta Active Directory agent
 author: Matthew Davis
 date: 2019-02-26
 toc: true
-excerpt: User PowerShell and dsacls to update the OU permission for the Okta Active Directory agent.
+excerpt: User PowerShell and dsacls to update the OU permissions for the Okta Active Directory agent.
 categories:
     - PowerShell
 tags:
