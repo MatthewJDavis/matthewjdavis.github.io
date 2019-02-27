@@ -1,5 +1,5 @@
 ---
-title: Configure OU permissions for Okta sync agent
+title: Configure OU permissions for Okta Active Directory agent
 author: Matthew Davis
 date: 2019-02-26
 toc: true
