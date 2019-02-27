@@ -3,7 +3,7 @@ title: Configure OU permissions for Okta sync agent
 author: Matthew Davis
 date: 2019-02-26
 toc: true
-excerpt: 
+excerpt: User PowerShell and dsacls to update the OU permission for the Okta Active Directory agent.
 categories:
     - PowerShell
 tags:
@@ -15,7 +15,7 @@ published: true
 
 # Overview
 
-The user that runs the Okta sync agent requires a number of different permissions to the desired OU(s) that are set out in the [docs] under the *Minimum Okta Service Account permission requirements* section (you may not need to give all permission depending on what you want Okta to do with your users but this example takes the full permissions outlined in the docs).
+The user that runs the Okta Active Directory agent requires a number of different permissions to the desired OU(s) that are set out in the [docs] under the *Minimum Okta Service Account permission requirements* section (you may not need to give all permission depending on what you want Okta to do with your users but this example takes the full permissions outlined in the docs).
 
 The docs lists the commands needed using the [dsacls] cmd.exe program to set the Organisational Unit permissions. You can use the [Set-ACL] PowerShell cmdlet to update the permissions, but seeing as Okta has done the work, it makes sense to wrap the dsacls in PowerShell to make it easy to update for target OUs, service account names etc.
 
