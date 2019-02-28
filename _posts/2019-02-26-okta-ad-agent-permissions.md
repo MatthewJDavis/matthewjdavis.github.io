@@ -30,33 +30,33 @@ $OU = '"OU=Users,DC=ad,DC=matthewdavis111,DC=com"'
 $ServiceAccount = 'gmsa-okta-sync$'
 $Domain = 'ad.matthewdavis111'
 
-$dsaclsCmd = "dsacls $OU /I:S /G $Domain\$ServiceAccount"
+$dsaclsCmd = "dsacls $OU /I:S /G `"$Domain\$ServiceAccount"
 
 # Array list to hold all of the dsacls commands for the various permissions for Okta
 $commandList = New-Object System.Collections.ArrayList
 
 # Create or Update user
 # include additional attributes that are mapped in your org within Okta
-$commandList.Add($dsaclsCmd + ':WP;mail;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;userPrincipalName;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;sAMAccountName;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;givenName;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;sn;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;userAccountControl;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;pwdLastSet;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;lockoutTime;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;cn;user') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;name;user') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;mail;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;userPrincipalName;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;sAMAccountName;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;givenName;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;sn;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;userAccountControl;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;pwdLastSet;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;lockoutTime;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;cn;user"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;name;user"') | Out-Null
 # Create user/Password Reset
-$commandList.Add($dsaclsCmd + ':CA;Reset Password;user') | Out-Null
+$commandList.Add($dsaclsCmd + ':CA;Reset Password;user"') | Out-Null
 #Group Push
-$commandList.Add($dsaclsCmd + ':CCDC;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;sAMAccountName;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;description;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;groupType;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;member;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;cn;group') | Out-Null
-$commandList.Add($dsaclsCmd + ':WP;name;group') | Out-Null
+$commandList.Add($dsaclsCmd + ':CCDC;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;sAMAccountName;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;description;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;groupType;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;member;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;cn;group"') | Out-Null
+$commandList.Add($dsaclsCmd + ':WP;name;group"') | Out-Null
 
 # Run the commands piping to cmd
 foreach ($command in $commandList) {
