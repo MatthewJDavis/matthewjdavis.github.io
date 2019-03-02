@@ -222,7 +222,9 @@ The last part of the function outputs the values of the created instance as a ps
 }
 ```
 
+## Summary
 
+Creating an EC2 instance with PowerShell is straightforward enough, however sometimes you need to customise the volume size (and potentially numbers of volumes) and it is also important to tag your resources. The function outlined in this post shows how this can be all achieved and this function can be modified to be run from a build system to deploy EC2 instances into an AWS account for testing.
 
 [Amazon.EC2.Model.Tag]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TTag.html
 [Amazon.EC2.Model.BlockDeviceMapping]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TBlockDeviceMapping.html
