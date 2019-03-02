@@ -90,15 +90,6 @@ function New-MDEC2Instance {
         $ebsBlockDevice.VolumeType = 'standard'
         $blockDeviceMapping.Ebs = $ebsBlockDevice
 
-        # Create the tags
-        # EC2
-        $InstanceNameTag = New-MDEC2Tag -key 'Name' -value $InstanceName
-        # OS Volume
-        $OSVolName = New-MDEC2Tag -key 'Name' -value "$InstanceName-os-volume"
-        $OSVolDesc = New-MDEC2Tag -key 'Description' -value "$InstanceName OS Volume"
-
-
-
         $params = @{
             'ImageId'          = $ImageId
             'KeyName'          = $KeyName
@@ -111,9 +102,14 @@ function New-MDEC2Instance {
 
         $ec2Instance = New-EC2Instance @params
 
+        # Create the tags: EC2 Instance
+        $InstanceNameTag = New-MDEC2Tag -key 'Name' -value $InstanceName
+        # OS Volume
+        $OSVolName = New-MDEC2Tag -key 'Name' -value "$InstanceName-os-volume"
+        $OSVolDesc = New-MDEC2Tag -key 'Description' -value "$InstanceName OS Volume"
+
         # Tag the EC2 Instance
         New-EC2Tag -Resource $ec2Instance.Instances.InstanceId -Tag $InstanceNameTag
-
         # Tag the OS volume
         $osVolume = Get-EC2Volume -Filter @{ Name='attachment.instance-id' ; Values="$($ec2Instance.Instances.InstanceId)"}
         New-EC2Tag -Resource $osVolume.VolumeId -Tag $OSVolName
@@ -181,6 +177,52 @@ The type [Amazon.EC2.Model.EbsBlockDevice] has seven properties that can be set 
 ![get member of amazon.ec2.model.ebsblockdevice](/images/ec2-instance-powershell/ebs-device-mapping.png)
 
 After creating the EbsBlockDevice type, we can set the Block Device Mapping EBS property with it, so now we have our OS volume configured and ready to be applied.
+
+Now the OS volume is ready, the parameters are splatted to make it easier to read and the instance is created with the details saved to a variable.
+
+```powershell
+        $params = @{
+            'ImageId'          = $ImageId
+            'KeyName'          = $KeyName
+            'SecurityGroupId'  = $SecurityGroupId
+            'AvailabilityZone' = $AvailabilityZone
+            'SubnetId'         = $SubnetId
+            'InstanceType'     = $InstanceType
+            'BlockDeviceMapping' = $blockDeviceMapping
+        }
+
+        $ec2Instance = New-EC2Instance @params
+```
+
+As the instance is creating, we use the helper function to create the tags for the instance and OS volume and apply them using the instanceId property from the variable that the result of the New-EC2Instance was assigned to.
+
+```powershell
+# Create the tags: EC2 Instance
+$InstanceNameTag = New-MDEC2Tag -key 'Name' -value $InstanceName
+# OS Volume
+$OSVolName = New-MDEC2Tag -key 'Name' -value "$InstanceName-os-volume"
+$OSVolDesc = New-MDEC2Tag -key 'Description' -value "$InstanceName OS Volume"
+
+# Tag the EC2 Instance
+New-EC2Tag -Resource $ec2Instance.Instances.InstanceId -Tag $InstanceNameTag
+# Tag the OS volume
+$osVolume = Get-EC2Volume -Filter @{ Name='attachment.instance-id' ; Values="$($ec2Instance.Instances.InstanceId)"}
+New-EC2Tag -Resource $osVolume.VolumeId -Tag $OSVolName
+New-EC2Tag -Resource $osVolume.VolumeId -Tag $OSVolDesc
+```
+
+The last part of the function outputs the values of the created instance as a pscustomobject.
+
+```powershell
+# Output a custom object with the Instance details
+[PSCustomObject]@{
+    'Name' = $InstanceName
+    'PrivateIP' = $ec2Instance.Instances.PrivateIpAddress
+    'InstanceId' = $ec2Instance.Instances.InstanceId
+}
+```
+
+
 
 [Amazon.EC2.Model.Tag]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TTag.html
 [Amazon.EC2.Model.BlockDeviceMapping]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TBlockDeviceMapping.html
