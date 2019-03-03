@@ -176,7 +176,7 @@ The type [Amazon.EC2.Model.BlockDeviceMapping] has four properties that can be s
 
 The type [Amazon.EC2.Model.EbsBlockDevice] has seven properties that can be set including the volume size which we pass a parameter value to and the type of volume. AS I am using this script to create test instances, the volume type is set to standard but it could be paramaterised with a validate set of options of gp2, io1, st1, sc2 or standard. Other properties to check out for production are the encryption, Iops and delete on termination.
 
-![get member of amazon.ec2.model.ebsblockdevice](/images/ec2-instance-powershell/ebs-device-mapping.png)
+![get member of amazon.ec2.model.ebsblockdevice](/images/ec2-instance-powershell/ebs-block-device.png)
 
 After creating the EbsBlockDevice type, we can set the Block Device Mapping EBS property with it, so now we have our OS volume configured and ready to be applied.
 
