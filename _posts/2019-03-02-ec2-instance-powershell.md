@@ -1,27 +1,27 @@
 ---
-title: Create AWS EC2 instance with custom volume size
+title: Create AWS EC2 instance with a custom volume size
 author: Matthew Davis
 date: 2019-03-02
 toc: true
-excerpt: Create an AWS EC2 instance with a volume size instead of the default size and tag with a Name and Description tag.
+excerpt: Create an AWS EC2 instance with a specified volume size instead of the default size and tag with a Name and Description tag.
 categories:
     - aws
 tags:
     - ec2
     - aws
     - powershell
-published: false
+published: true
 ---
 
 # Overview
 
 There are plenty of examples on how to create a basic EC2 instance with PowerShell in AWS, the built in help from the AWS module gives a perfect example on how to quickly get one up and running. However creating an EC2 instance this way means you get the default volume size of the specified AMI, usually 8GB for Linux or 30GB for Windows and the volume created is not tagged.
 
-I like to provision a larger volume for an O/S drive (and will also provision one or more volumes to use as data drive(s)) so below is a guide on how to specify the size of the volume to be used for the EC2 O/S drive and also tag the volume.
+I like to provision a larger volume for an O/S drive so below is a function I use to specify the size of the volume to be used for the EC2 O/S drive and also tag the volume.
 
 Here's the full function if you just want to see how it's done (don't forget to update the params or specify them when running the function) and I'll go through it below.
 
-The example is using PowerShell core 6.1.2 with the AWS PowerShell core module installed
+The example is using PowerShell core 6.1.2 with the AWS PowerShell core module installed (it should also work with the PowerShell desktop edition AWS PowerShell module with a slight modification of the module that is imported).
 
 Code below is saved as a script module called EC2CustomVolSiz.psm1.
 
@@ -128,6 +128,8 @@ function New-MDEC2Instance {
 }
 ```
 
+The following code creates an EC2 instance called MyInstance with a Volume Size of 75GB using the default param values in the script.
+
 ```powershell
 # Import the script module then run
 Import-Module .\EC2CustomVolSize.psm1
@@ -136,11 +138,11 @@ New-MDEC2Instance -InstanceName 'MyInstance' -VolumeSize '75'
 
 ```
 
-The above code creates an EC2 instance called MyInstance with a Volume Size of 75GB using the default param values in the script.
-
 The parameter block contains basic AWS related parameters with default values relating to my account that can be overridden as required.
 
-A helper function is declared in the begin block to create the tags for the EC2 instance and the volumes 
+## EC2 Tag helper function
+
+A helper function is declared in the begin block to create the tags for the EC2 instance and the volumes.
 
 ```powershell
         Function New-MDEC2Tag ($Key, $Value) {
@@ -156,7 +158,7 @@ The type [Amazon.EC2.Model.Tag] has two properties, Key and value that are used 
 
 ![get member of amazon.ec2.model.tag](/images/ec2-instance-powershell/tag-object.png)
 
-Now we get on to the part of the code that creates and maps a volume to the instance.
+Now we get to the part of the code that creates and maps a volume to the instance.
 
 ```powershell
 # Set volume size and block mappings of OS drive
@@ -172,13 +174,13 @@ The type [Amazon.EC2.Model.BlockDeviceMapping] has four properties that can be s
 
 ![get member of amazon.ec2.model.blockdevicemapping](/images/ec2-instance-powershell/block-device-mapping.png)
 
-The type [Amazon.EC2.Model.EbsBlockDevice] has seven properties that can be set including the volume size which we pass a parameter value to and the type of volume. AS I am using this script to create test instances, the volume type is set to standard but it could be paramaterised with a validate set of options of gp2, io1, st1, sc2 or standard which is what is chosen. Other properties to check out for production are the encryption, Iops and delete on termination.
+The type [Amazon.EC2.Model.EbsBlockDevice] has seven properties that can be set including the volume size which we pass a parameter value to and the type of volume. AS I am using this script to create test instances, the volume type is set to standard but it could be paramaterised with a validate set of options of gp2, io1, st1, sc2 or standard. Other properties to check out for production are the encryption, Iops and delete on termination.
 
 ![get member of amazon.ec2.model.ebsblockdevice](/images/ec2-instance-powershell/ebs-device-mapping.png)
 
 After creating the EbsBlockDevice type, we can set the Block Device Mapping EBS property with it, so now we have our OS volume configured and ready to be applied.
 
-Now the OS volume is ready, the parameters are splatted to make it easier to read and the instance is created with the details saved to a variable.
+Now the OS volume is ready, the parameters are splatted to make it easier to read and the instance is created with the output saved to a variable.
 
 ```powershell
         $params = @{
@@ -194,7 +196,7 @@ Now the OS volume is ready, the parameters are splatted to make it easier to rea
         $ec2Instance = New-EC2Instance @params
 ```
 
-As the instance is creating, we use the helper function to create the tags for the instance and OS volume and apply them using the instanceId property from the variable that the result of the New-EC2Instance was assigned to.
+As the instance is intialising, we use the helper function to create the tags for the instance and OS volume and apply them using the instanceId property from the variable that the result of the New-EC2Instance was assigned to.
 
 ```powershell
 # Create the tags: EC2 Instance
@@ -224,7 +226,7 @@ The last part of the function outputs the values of the created instance as a ps
 
 ## Summary
 
-Creating an EC2 instance with PowerShell is straightforward enough, however sometimes you need to customise the volume size (and potentially numbers of volumes) and it is also important to tag your resources. The function outlined in this post shows how this can be all achieved and this function can be modified to be run from a build system to deploy EC2 instances into an AWS account for testing.
+Creating an EC2 instance with PowerShell is straightforward enough, however sometimes you need to customise the volume size and it is also important to tag your resources. The function outlined in this post shows how this can be all achieved and this function can be modified to be run from a build system to deploy EC2 instances into an AWS account for testing.
 
 [Amazon.EC2.Model.Tag]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TTag.html
 [Amazon.EC2.Model.BlockDeviceMapping]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/EC2/TBlockDeviceMapping.html
