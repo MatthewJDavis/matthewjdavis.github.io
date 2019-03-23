@@ -10,13 +10,13 @@ tags:
     - iam
     - aws
     - powershell
-published: false
+published: true
 ---
 
 # Overview
 
 AWS offers the familiar users, groups and polices via Identity Access Management (IAM).
-These can be managed via the console, the AWS CLI or the AWS PowerShell module.
+These can be managed via the console, the AWS CLI or the AWS PowerShell module. I'll run through a demo of creating an IAM user, a group, adding the user to the group, create a policy and attach it to the group so the user will have the access the policy specifies by being a member of a group.
 
 I am using PowerShell core version 6.1.3 with the AWSPowerShell.NetCore version 3.3.462.0 installed which are the latest versions at time of writing. The operating system is Windows 10.
 
@@ -25,15 +25,18 @@ I am using PowerShell core version 6.1.3 with the AWSPowerShell.NetCore version 
 Easiest way is to use the Install-Module Cmdlet.
 
 ``` powershell
-Install-Module -Name AWSPowerShell.NetCore
+Install-Module -Name AWSPowerShell.NetCore -Scope CurrentUser
 ```
 
 ## Set the credentials
 
-See the [AWS credential documents] for setting up the credentials. The IAM user used to connect to the AWS account will need to have access keys created. These should be kept secured and never shared. I created my profile by using the Set-AWSCredential cmdlet which stores the credential in an encrypted JSON file stored in the app data location:
+The IAM user used to connect to the AWS account will need to have credentials created for API access (AccessKey and SecretKey). These should be kept secured and never shared. 
+I created my local AWS profile by using the Set-AWSCredential cmdlet which stores the credential in an encrypted JSON file stored in the app data location.
+
+See the [AWS credential documents] for more details on setting up the credentials.
 
 ```powershell
-Set-AWSCredential -AccessKey 'exampleKey' -SecretKey 'exampleKey' -StoreAs 'default'
+Set-AWSCredential -AccessKey 'exampleKey' -SecretKey 'exampleKey' -StoreAs 'demo'
 
 ls C:\Users\Demo\AppData\Local\AWSToolkit\
 
@@ -45,7 +48,7 @@ Mode                LastWriteTime         Length Name
 -a----       23/03/2019     15:40           1360 RegisteredAccounts.json
 ```
 
-This file is file is encrypted with the Windows cryptographic APIs and on Linux and Mac the credentials are stored in plaintext in the ~/.aws/credentials file and should be protected using another method.
+This file is encrypted with the Windows cryptographic APIs and on Linux and Mac the credentials are stored in plaintext in the ~/.aws/credentials file and should be protected using another method (you can specify alternative path to a credential file when setting the credentials).
 
 ### Users
 
@@ -65,7 +68,7 @@ New-IAMUser -UserName 'Jack' -Tag @{Key='Project';Value='Demo'}
 # Give console access
 New-IAMLoginProfile -UserName 'Jack' -PasswordResetRequired $true -Password (read-host)
 
-# Give API access - the access key and secret key will be displayed so can redirect the output to a file to securely give to the user.
+# Give API access - the access key and secret key will be displayed so the output could be redirected to a file to securely send to the user.
 New-IAMAccessKey -UserName Jack
 ```
 
@@ -75,7 +78,7 @@ To get the IAM Users
 Get-IAMUserList | Select-Object -Property UserName
 ```
 
-![List of users](/images/aws-iam/get-iam-users-list.png)
+![List of users](/images/aws-iam/get-iam-user-list.png)
 
 ### Groups
 
@@ -129,6 +132,7 @@ $policy = @'
      ]
  }
  '@
+
 $p = New-IAMPolicy -PolicyName 'DemoUploadPolicy' -Description 'Allow upload to the demo bucket' -PolicyDocument $policy
 
 # Make a note of the policy arn or save to a variable like above to use later
@@ -138,7 +142,7 @@ $p = New-IAMPolicy -PolicyName 'DemoUploadPolicy' -Description 'Allow upload to 
 
 Register the policy to the group
 
-``powershell
+```powershell
 Register-IAMGroupPolicy -GroupName 'S3DemoUpload' -PolicyArn $p.Arn
 ```
 
@@ -167,7 +171,7 @@ Remove-IAMGroup -GroupName 'S3DemoUpload' -force
 
 ## Summary
 
-Manage IAM users, groups and policies is relatively straightforward with PowerShell core and allows you to manage users by adding them to groups, similar to Active Directory and then applying policies to those groups. You could also apply policies directly to a group by creating an in-line policy but I like to have separate policies that could also be attached elsewhere such as an EC2 IAM role or a role that is used for cross account access, just one place to update the policy.
+Managing IAM users, groups and policies is relatively straightforward with PowerShell core and allows you to manage users by adding them to groups, similar to Active Directory and then applying policies to those groups. You could also apply policies directly to a group by creating an in-line policy but I like to have separate policies that could also be attached elsewhere such as an EC2 IAM role or a role that is used for cross account access, just one place to update the policy.
 
 Protecting the access and secret key should be a priority, it is encrypted on Windows, but extra measures are needed on Mac or Linux, I usually create an encrypted directory and store the creds in there and only decrypt and mount when they are needed.
 
