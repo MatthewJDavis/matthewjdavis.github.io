@@ -256,3 +256,5 @@ defaults:
       comments: # true
       share: false
       related: false
+
+theme: jekyll-theme-slate
