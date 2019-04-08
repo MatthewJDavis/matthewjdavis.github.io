@@ -16,6 +16,7 @@ published: false
 # Overview
 
 The [AWS Backup] service that was announced in January 2019 in this [AWS blog post] provides a centralised way to manage backups across a number of AWS  services which are currently (April 2019): Amazon EBS volumes, Amazon RDS databases, Amazon DynamoDB tables, Amazon EFS file systems, and AWS Storage Gateway volumes (allows backup of on prem systems via the storage gateway).
+As of April 2019, there is not a charge for setting up the backup vaults and plans. You [pay] for the amount of data stored and the amount of data restored.
 
 ```powershell
 PSVersion: 6.1.3
@@ -27,7 +28,7 @@ O/S: Windows 10
 
 ## Prerequisites
 
-[AWS PowerShell Module] installed and [credentials configured] to allow you to access AWS via PowerShell (and have the appropriate permissions to carry out the commands successfully).
+[AWS PowerShell Module] installed and [credentials configured] to allow you to access AWS via PowerShell (and have the appropriate permissions to the AWS backup service).
 
 ## Cmdlets
 
@@ -47,34 +48,52 @@ New-BAKBackupVault
 
 ## Create a Vault
 
+A vault is a container that the backups are stored in. It is encrypted (this can be done with AWS Key management service) and policies can be applied to the vault to control access. There is a vault created called 'default' and you can create new vaults if you wanted to use different encryption keys are set different access policies for certain backups.
+
+Before creating any resources, the console looks like the image below.
+
 ![AWS backup before vault creation](/images/aws-backup/new-backup-console.png)
 
+Below is the PowerShell code to create a new vault.
+
 <script src="https://gist.github.com/MatthewJDavis/f975b48e1ad41a665d817c50e910658b.js"></script>
+
+Now a vault called 'demo' has been created.
 
 ![demo vault created](/images/aws-backup/demo-vault.png)
 
 ## Create a backup plan
 
-<script src="https://gist.github.com/MatthewJDavis/3a56103be8bfd3bbd62c799625fd79c2.js"></script>
+A backup plan defines when backups take place, retention range and backup lifecycle (you can move old backups to Glacier cold storage or expire them).
 
+Below is how to create a backup plan with PowerShell. The backup is set to run at 4AM daily and keeps backups for 7 days.
+
+<script src="https://gist.github.com/MatthewJDavis/3a56103be8bfd3bbd62c799625fd79c2.js"></script>
 
 ![AWS backup plan](/images/aws-backup/backup-plan.png)
 
 ![AWS backup rule](/images/aws-backup/backup-rule.png)
 
+A [Lifecycle object] needs to be created to set how long the backups should be kept for and if they are moved to cold storage.  If you wanted to move the backup to cold storage, you would set the MoveToColdStorageAfterDays property.
 
-Adds the tag to the snapshot 'created:by:aws:backup:plan', '4-AM-7-Day-Retention' (can be used to run lambdas for tagging up snapshots with the volume names).
+```powershell
+$BackupLifeCycle = New-Object -TypeName Amazon.Backup.Model.Lifecycle
+$BackupLifeCycle.DeleteAfterDays = 7
+# $BackupLifeCycle.MoveToColdStorageAfterDays = 0 no cold storage
+```
+
+Tagging is important and the below code adds the tag to the snapshot 'created:by:aws:backup:plan', '4-AM-7-Day-Retention' (can be used to run lambdas for tagging up snapshots with the volume names).
 
 ```powershell
 $RecoveryTags = New-Object -TypeName 'system.collections.generic.dictionary[string,string]'
 $RecoveryTags.Add('created:by:aws:backup:plan', '4-AM-7-Day-Retention')
 ```
 
-Schedule is set by an AWS cron expression:
+Schedule is set by an [AWS cron expression] and is set to run with 60 mins of the designated start time:
 
 ```powershell
-$BackupRule.ScheduleExpression = 'cron(0 4 * * ? *)' # https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
-
+$BackupRule.ScheduleExpression = 'cron(0 4 * * ? *)'
+$BackupRule.StartWindowMinutes = 60
 ```
 
 ## Assign resources to the rule
@@ -92,10 +111,27 @@ $BackupCondition.ConditionValue = '4AM-7-Day-Retention'
 $BackupCondition.ConditionType = 'STRINGEQUALS'
 ```
 
+Now that the vault and plan have been created and resources assigned, any resources that match the value of the tag specified will be backed up at 4AM daily and have the backups kept for 7 days. I did notice that for EC2 instances, the volumes had to be tagged and it wouldn't work with just tagging the instance.
+
+The full created plan in the console can be seen below.
+
 ![AWS backup full plan](/images/aws-backup/full-plan.png)
 
+##
+
+## Snapshot naming
+
+At the present, the snapshots are not named when the are created. I am working on a lambda to run through the account, find any snapshots that don't have a name and then create a tag containing a name of the volume they were created from. The idea is that the lambda will run through and check all of the snapshots created by AWS backup using the custom Key I assign to the snapshot: 'created:by:aws:backup:plan'. It will then check to see if it has name, if not it will look up the volume it was created from and create a tag from the volume name.
+
+## Summary
+
+AWS backup is a relatively new service that lets you manage backups of your AWS resources in one location. It still needs work doing to it such as naming the created snapshots but it's a solid start and you can work around some of the limitations / annoyances of it with PowerShell and lambdas.
+Managing the backup policies and rules with PowerShell is straight forward once you read through the docs and understand the objects that are required to create the backup plans and I'm planning on creating a function in the future to standardise the creation of backup plans and assigning resources for when it is used in production.
 
 [AWS backup]: https://aws.amazon.com/backup/
+[pay]: https://aws.amazon.com/backup/pricing/
 [AWS blogpost]: https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
 [AWS PowerShell Module]: https://docs.aws.amazon.com/powershell/latest/userguide/pstools-getting-set-up-windows.html
 [Credentials Configured]: https://docs.aws.amazon.com/powershell/latest/userguide/specifying-your-aws-credentials.html
+[Lifecycle object]:  https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/Backup/TLifecycle.html
+[AWS cron expression]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
