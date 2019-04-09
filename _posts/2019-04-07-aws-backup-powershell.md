@@ -15,7 +15,7 @@ published: true
 
 # Overview
 
-The [AWS Backup] service that was announced in January 2019 in this [AWS blog post] provides a centralised way to manage backups across a number of AWS  services which are currently (April 2019): Amazon EBS volumes, Amazon RDS databases, Amazon DynamoDB tables, Amazon EFS file systems, and AWS Storage Gateway volumes (allows backup of on prem systems via the storage gateway).
+The [AWS Backup] service announced in January 2019 in this [AWS blog post] provides a centralised way to manage backups across a number of AWS  services which are currently: Amazon EBS volumes, Amazon RDS databases, Amazon DynamoDB tables, Amazon EFS file systems, and AWS Storage Gateway volumes (allows backup of on premises systems via the storage gateway).
 As of April 2019, there is not a charge for setting up the backup vaults and plans. You [pay] for the amount of data stored and the amount of data restored.
 
 ```powershell
