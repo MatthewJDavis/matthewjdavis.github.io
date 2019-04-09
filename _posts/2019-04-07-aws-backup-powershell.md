@@ -128,7 +128,7 @@ Managing the backup policies and rules with PowerShell is straight forward once 
 
 [AWS backup]: https://aws.amazon.com/backup/
 [pay]: https://aws.amazon.com/backup/pricing/
-[AWS blogpost]: https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
+[AWS blog post]: https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
 [AWS PowerShell Module]: https://docs.aws.amazon.com/powershell/latest/userguide/pstools-getting-set-up-windows.html
 [Credentials Configured]: https://docs.aws.amazon.com/powershell/latest/userguide/specifying-your-aws-credentials.html
 [Lifecycle object]:  https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/Backup/TLifecycle.html
