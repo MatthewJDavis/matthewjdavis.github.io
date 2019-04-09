@@ -3,7 +3,7 @@ title: Create AWS Backup Vault, Plan & Rule with PowerShell
 author: Matthew Davis
 date: 2019-04-07
 toc: true
-excerpt: Overview of managing IAM Users and Roles in AWS using PowerShell
+excerpt: How to use PowerShell to create a backup strategy with AWS backup.
 categories:
     - aws
 tags:
