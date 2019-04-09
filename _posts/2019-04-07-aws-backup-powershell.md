@@ -10,7 +10,7 @@ tags:
     - backup
     - aws
     - powershell
-published: false
+published: true
 ---
 
 # Overview
@@ -116,8 +116,6 @@ Now that the vault and plan have been created and resources assigned, any resour
 The full created plan in the console can be seen below.
 
 ![AWS backup full plan](/images/aws-backup/full-plan.png)
-
-##
 
 ## Snapshot naming
 
