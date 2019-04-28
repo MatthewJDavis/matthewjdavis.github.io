@@ -23,6 +23,8 @@ This lambda was created on a Mac using PowerShell core and the AWSCore and AWSLa
 
 ![psversiontable output](/images/aws-lambda-volume-tagging/psversiontable.png)
 
+![aws modules](/images/aws-lambda-volume-tagging/aws-module-version.png)
+
 ## The code
 
 Below is the complete code for the lambda,
@@ -32,6 +34,8 @@ The #requires statement is needed for running on AWS lambda.
 The list of volumes is saved into the variable VolumeList and a new list object is created to hold the volumes that don't have a name tag. The list is iterated over to check for a name tag, if it doesn't exist, the instance id and volume id is stored in the NoNameTagVolumeList variable.
 
 The NoNameTagVolumeList is iterated over and name tags are created from either the name tag of the instance the volume the snapshot was created from is attached to, or if the instance does not have a name tag, then the instance ID is used and this is applied to the volume.
+
+### TagVolumesWithNoName.ps1
 
 <script src="https://gist.github.com/MatthewJDavis/f71fbab9c17448434c4e7c536f53a096.js"></script>
 
@@ -54,8 +58,18 @@ The code below uses Get-Content and the two json files above to create the polic
 
 ## Creating the lamdba
 
+```powershell
+New-AWSPowerShellLambda
+```
 
+After running the command the directory structure looks like:
 
+![aws modules](/images/aws-lambda-volume-tagging/dir-structure-after-create.png)
+
+The new directory 'TagVolumesWithNoName' is where the lambda code needs to go, in the TagVolumesWithNoName.ps1 script. This file has comments and template code when created and the readme.txt has more information and can be deleted once it has been read.
+
+Copy the code from above TagVolumesWithNoName.ps1 into the newly created file TagVolumesWithNoName.ps1 and save it.
+The lambda is now ready to be published.
 
 ## Publish the lambda
 
