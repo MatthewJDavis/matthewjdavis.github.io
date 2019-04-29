@@ -16,7 +16,7 @@ published: true
 
 # Overview
 
-Following on from my last post on implementing AWS Backup, we have started to run it in production with a few instances after successful tests of backup and restores in a development environment. Some of the volumes that were being backed up did not have any name tags which made identifying the snapshots created by AWS backup time consuming (volumes should be tagged when the provisioning tasks are run but there were quite a few old instances in the account that had volumes attached with no name tag).
+Following on from my [last post] on implementing AWS Backup, we have started to run it in production with a few instances after successful tests of backup and restores in a development environment. Some of the volumes that were being backed up did not have any name tags which made identifying the snapshots created by AWS backup time consuming (volumes should be tagged when the provisioning tasks are run but there were quite a few old instances in the account that had volumes attached with no name tag).
 I created a lambda using PowerShell Core (Windows PowerShell is not supported) to tag all the volumes in the account that are attached to an EC2 instance to make sure all volumes have a name. The lambda can be run periodically just in case an instance is created and the volume does not have a name tag applied.
 
 This lambda was created on a Mac using PowerShell core and the AWSCore and AWSLambda modules:
@@ -126,6 +126,7 @@ After the lambda ran, the volume was tagged with the instance name.
 
 Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda makes it easy to make sure volumes are tagged with a name tag which can be created as from the attached instance. This makes managing volumes easier and also helps identify snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from cloudwatch.
 
+[last post]: https://matthewdavis111.com/aws/aws-backup-powershell/
 [Github repo]: https://github.com/MatthewJDavis/PowerShell/tree/master/AWS/lambda-for-tagging-volumes
 [Setting up a PowerShell Development Environment]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-powershell-setup-dev-environment.html
 [hacky workaround]: https://serverfault.com/questions/876942/create-new-ec2-instance-with-existing-ebs-volume-as-root-device-using-cloudforma
