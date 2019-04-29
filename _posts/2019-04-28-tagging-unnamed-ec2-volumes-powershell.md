@@ -124,9 +124,10 @@ After the lambda ran, the volume was tagged with the instance name.
 
 ## Summary
 
-Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda makes it easy to make sure volumes are tagged with a name tag which can be created as from the attached instance. This makes managing volumes easier and also helps identify snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from cloudwatch.
+Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda is a good option to make sure volumes are tagged with a name tag which can be created as from the attached instance. This makes managing volumes easier and also helps identify snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from [cloudwatch event].
 
 [last post]: https://matthewdavis111.com/aws/aws-backup-powershell/
 [Github repo]: https://github.com/MatthewJDavis/PowerShell/tree/master/AWS/lambda-for-tagging-volumes
 [Setting up a PowerShell Development Environment]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-powershell-setup-dev-environment.html
 [hacky workaround]: https://serverfault.com/questions/876942/create-new-ec2-instance-with-existing-ebs-volume-as-root-device-using-cloudforma
+[cloudwatch event]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/WhatIsCloudWatchEvents.html
