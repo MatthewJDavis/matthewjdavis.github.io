@@ -11,7 +11,7 @@ tags:
     - aws
     - powershell
     - lambda
-published: false
+published: true
 ---
 
 # Overview
@@ -88,6 +88,8 @@ As the lambda is published, you will be prompted to select an iam role. Enter th
 
 ![Select iam role for the lambda](/images/aws-lambda-volume-tagging/select-iam-role.png)
 
+I did run into errors publishing a couple of times and had to restart my PowerShell Core session and try again.
+
 Once the lambda has been published, you will see it in the AWS console.
 
 ![Lambda published to the aws console](/images/aws-lambda-volume-tagging/lambda-console.png)
@@ -122,8 +124,7 @@ After the lambda ran, the volume was tagged with the instance name.
 
 ## Summary
 
-Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not for whatever reason and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda makes it easy to make sure volumes are tagged with a name and value you can taken from the name tag of the instance or instance id (or something else could be used). This makes managing volumes easier and also helps with the management of snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from cloudwatch.
-I found getting started with the lamdba creation relatively straight forward however on a couple of occasions, the publish errored and I had to start a new PowerShell core session.
+Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda makes it easy to make sure volumes are tagged with a name tag which can be created as from the attached instance. This makes managing volumes easier and also helps identify snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from cloudwatch.
 
 [Github repo]: https://github.com/MatthewJDavis/PowerShell/tree/master/AWS/lambda-for-tagging-volumes
 [Setting up a PowerShell Development Environment]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-powershell-setup-dev-environment.html
