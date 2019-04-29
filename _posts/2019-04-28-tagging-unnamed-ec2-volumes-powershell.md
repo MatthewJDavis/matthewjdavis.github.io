@@ -66,14 +66,14 @@ The code below uses Get-Content and the two json files above to create the polic
 ## Creating the lamdba
 
 ```powershell
-New-AWSPowerShellLambda
+New-AWSPowerShellLambda -ScriptName 'TagVolumesWithNoName' -Template Basic
 ```
 
 After running the command the directory structure looks like:
 
 ![aws modules](/images/aws-lambda-volume-tagging/dir-structure-after-create.png)
 
-The new directory 'TagVolumesWithNoName' is where the lambda code needs to go, in the TagVolumesWithNoName.ps1 script. This file has comments and template code when created and the readme.txt has more information and can be deleted once it has been read.
+The lambda code should be placed in the TagVolumesWithNoName/TagVolumesWithNoName.ps1 script. This file has comments and template code when created and the readme.txt has more information and can be deleted once it has been read.
 
 Copy the code from above TagVolumesWithNoName.ps1 into the newly created file TagVolumesWithNoName.ps1 and save it.
 The lambda is now ready to be published.
