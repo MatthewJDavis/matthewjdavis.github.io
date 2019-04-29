@@ -30,9 +30,9 @@ AWSLambdaPSCore                1.2.0.0
 AWSPowerShell.NetCore          3.3.485.0  
 ```
 
-![aws modules](/images/aws-lambda-volume-tagging/aws-module-version.png)
-
 ## The code
+
+Full code can be found in my PowerShell [Github repo].
 
 Below is the complete code for the lambda,
 
@@ -111,3 +111,9 @@ The below example volume did not have a name tag and the instance name tag value
 ![Volume tagged by the lambda](/images/aws-lambda-volume-tagging/vol-tagged-by-lambda.png)
 
 ## Summary
+
+Volumes should be tagged appropriately on provisioning of an EC2 instance, however sometimes they are not for whatever reason and currently to name the root ebs volume using cloudformation, requires a [hacky workaround]. Using PowerShell core running on a lambda makes it easy to make sure volumes are tagged with a name and value you can taken from the name tag of the instance or instance id (or something else could be used). This makes managing volumes easier and also helps with the management of snapshot that are created from these volumes. This lambda could be run on a schedule or started on another event from cloudwatch.
+I found getting started with the lamdba creation relatively straight forward however on a couple of occasions, the publish errored and I had to start a new PowerShell core session.
+
+[Github repo]: https://github.com/MatthewJDavis/PowerShell/tree/master/AWS/lambda-for-tagging-volumes
+[hacky workaround]: https://serverfault.com/questions/876942/create-new-ec2-instance-with-existing-ebs-volume-as-root-device-using-cloudforma
