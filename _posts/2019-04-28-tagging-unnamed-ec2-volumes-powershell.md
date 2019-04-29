@@ -29,7 +29,7 @@ This lambda was created on a Mac using PowerShell core and the AWSCore and AWSLa
 
 Below is the complete code for the lambda,
 
-The #requires statement is needed for running on AWS lambda.
+The #requires statement is needed for any modules that the lambda requires to run. For this one, it is just the AWS module, but you can include any modules that run are PowerShell core compatible.
 
 The list of volumes is saved into the variable VolumeList and a new list object is created to hold the volumes that don't have a name tag. The list is iterated over to check for a name tag, if it doesn't exist, the instance id and volume id is stored in the NoNameTagVolumeList variable.
 
@@ -72,6 +72,10 @@ Copy the code from above TagVolumesWithNoName.ps1 into the newly created file Ta
 The lambda is now ready to be published.
 
 ## Publish the lambda
+
+Once the lambda has been published, you will see it in the AWS console.
+
+![Lambda published to the aws console](/images/aws-lambda-volume-tagging/lambda-console.png)
 
 ## Test the lambda
 
