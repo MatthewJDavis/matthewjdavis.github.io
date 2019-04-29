@@ -21,7 +21,14 @@ I created a lambda using PowerShell core to tag all the volumes in the account t
 
 This lambda was created on a Mac using PowerShell core and the AWSCore and AWSLambda modules:
 
-![psversiontable output](/images/aws-lambda-volume-tagging/psversiontable.png)
+```powershell
+PSVersion                      6.1.1
+PSEdition                      Core
+OS                             Darwin 18.5.0
+Platform                       Unix
+AWSLambdaPSCore                1.2.0.0
+AWSPowerShell.NetCore          3.3.485.0  
+```
 
 ![aws modules](/images/aws-lambda-volume-tagging/aws-module-version.png)
 
