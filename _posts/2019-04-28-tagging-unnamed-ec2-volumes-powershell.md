@@ -16,8 +16,8 @@ published: false
 
 # Overview
 
-Following on from my last post on implementing AWS Backup, we have started to run it in production with a few instances after successful tests of backup in restores in a development environment. I found that some of the volumes that were being backed up did not have any name tags which made identifying the snapshots created by AWS backup time consuming (volumes should be tagged when the provisioning tasks are run but there were quite a few old instances in the account that for whatever reasons had volumes attached that had no name tag).
-I created a lambda using PowerShell core to tag all the volumes in the account that are attached to an EC2 instance to make sure all volumes have a name and the lambda can be run periodically just in case an instance is created and the volume does not have a name tag applied.
+Following on from my last post on implementing AWS Backup, we have started to run it in production with a few instances after successful tests of backup and restores in a development environment. Some of the volumes that were being backed up did not have any name tags which made identifying the snapshots created by AWS backup time consuming (volumes should be tagged when the provisioning tasks are run but there were quite a few old instances in the account that had volumes attached with no name tag).
+I created a lambda using PowerShell Core (Windows PowerShell is not supported) to tag all the volumes in the account that are attached to an EC2 instance to make sure all volumes have a name. The lambda can be run periodically just in case an instance is created and the volume does not have a name tag applied.
 
 This lambda was created on a Mac using PowerShell core and the AWSCore and AWSLambda modules:
 
@@ -32,13 +32,13 @@ AWSPowerShell.NetCore          3.3.485.0
 
 ## The code
 
-Full code can be found in my PowerShell [Github repo].
+Full code can be found in my PowerShell [Github repo]. See the AWS post on [Setting up a PowerShell Development Environment].
 
 Below is the complete code for the lambda,
 
-The #requires statement is needed for any modules that the lambda requires to run. For this one, it is just the AWS module, but you can include any modules that run are PowerShell core compatible.
+The #requires statement is needed for any modules that will be used by the lambda. For this one it is just the AWS module, but you can include any modules that are PowerShell core compatible.
 
-The list of volumes is saved into the variable VolumeList and a new list object is created to hold the volumes that don't have a name tag. The list is iterated over to check for a name tag, if it doesn't exist, the instance id and volume id is stored in the NoNameTagVolumeList variable.
+The list of volumes is saved into the variable VolumeList and a new list object is created to hold the volumes that don't have a name tag. The VolumeList variable is iterated over to check for a name tag, if it doesn't exist, the instance id and volume id is stored in the NoNameTagVolumeList variable.
 
 The NoNameTagVolumeList is iterated over and name tags are created from either the name tag of the instance the volume the snapshot was created from is attached to, or if the instance does not have a name tag, then the instance ID is used and this is applied to the volume.
 
@@ -80,6 +80,14 @@ The lambda is now ready to be published.
 
 ## Publish the lambda
 
+```powershell
+Publish-AWSPowerShellLambda -ScriptPath .\TagVolumesWithNoName\TagVolumesWithNoName.ps1 -Name TagVolumesWithNoName -Region 'eu-west-1'
+```
+
+As the lambda is published, you will be prompted to select an iam role. Enter the number of the IAM role that was created above.
+
+![Select iam role for the lambda](/images/aws-lambda-volume-tagging/select-iam-role.png)
+
 Once the lambda has been published, you will see it in the AWS console.
 
 ![Lambda published to the aws console](/images/aws-lambda-volume-tagging/lambda-console.png)
@@ -108,6 +116,8 @@ The below example volume did not have a name tag and the instance name tag value
 
 ![Volume with no name](/images/aws-lambda-volume-tagging/vol-no-name.png)
 
+After the lambda ran, the volume was tagged with the instance name.
+
 ![Volume tagged by the lambda](/images/aws-lambda-volume-tagging/vol-tagged-by-lambda.png)
 
 ## Summary
@@ -116,4 +126,5 @@ Volumes should be tagged appropriately on provisioning of an EC2 instance, howev
 I found getting started with the lamdba creation relatively straight forward however on a couple of occasions, the publish errored and I had to start a new PowerShell core session.
 
 [Github repo]: https://github.com/MatthewJDavis/PowerShell/tree/master/AWS/lambda-for-tagging-volumes
+[Setting up a PowerShell Development Environment]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-powershell-setup-dev-environment.html
 [hacky workaround]: https://serverfault.com/questions/876942/create-new-ec2-instance-with-existing-ebs-volume-as-root-device-using-cloudforma
