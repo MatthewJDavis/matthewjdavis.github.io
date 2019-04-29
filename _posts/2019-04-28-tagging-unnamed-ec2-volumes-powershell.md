@@ -79,4 +79,28 @@ Once the lambda has been published, you will see it in the AWS console.
 
 ## Test the lambda
 
+Select the lambda that has been published from the lambda section in the AWS console.
+
+To test the lambda from the console:
+
+- Select configure test events from the drop down
+
+![Create a new lambda event](/images/aws-lambda-volume-tagging/new-lambda-event.png)
+
+- On the configure test event screen, give the event a name such as test and click save.
+
+![Configure the event](/images/aws-lambda-volume-tagging/configure-test-lambda-event.png)
+
+- You will be taken back to the main lambda view, click the test button to run the lambda.
+
+![Test button](/images/aws-lambda-volume-tagging/test-button.png)
+
+- The lambda will run and tag any volumes that don't have a name tag.
+
+The below example volume did not have a name tag and the instance name tag value was 'Matt-test-ubuntu-splunk'
+
+![Volume with no name](/images/aws-lambda-volume-tagging/vol-no-name.png)
+
+![Volume tagged by the lambda](/images/aws-lambda-volume-tagging/vol-tagged-by-lambda.png)
+
 ## Summary
