@@ -1,5 +1,5 @@
 ---
-title: Tagging AWS EC2 unnamed EC2 volumes using PowerShell core in a lambda
+title: Tagging AWS EC2 unnamed EC2 volumes with a PowerShell Core lambda
 author: Matthew Davis
 date: 2019-04-28
 toc: true
