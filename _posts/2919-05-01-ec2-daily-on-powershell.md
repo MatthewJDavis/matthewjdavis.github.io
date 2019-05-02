@@ -1,9 +1,9 @@
 ---
-title: Starting EC2 instances by tag
+title: Starting EC2 instances by tag & EC2 Filters
 author: Matthew Davis
 date: 2019-05-01
 toc: true
-excerpt: Use PowerShell core to start AWS EC2 instance on a daily schedule.
+excerpt: Use PowerShell core to start AWS EC2 instance on a daily schedule and useful EC2 filters for PowerShell
 categories:
     - aws
 tags:
@@ -13,24 +13,60 @@ tags:
 published: false
 ---
 
+## Overview
 
+I had previously written about [shutting down Azure VMs] with a PowerShell script and Azure Automation runbook (easily modifiable to start up on a schedule) and recently needed to fix a broken script at work to do similar in AWS.
+The script that was broken was storing all of the EC2 instances in a variable then filtering, I have done this for checking tags that don't exist and sometimes it is needed but using the 'Filter' property of the ```Get-EC2Instance``` PowerShell Cmdlet speeds up the process - the filtering is done on the AWS side and only instances that match are returned.
+I used this opportunity to rewrite the script and now the task to turn on EC2 instances in the dev account now works again and runs more efficiently. Below the script I have posted a few helpful filters and did a test of a filter verses returning all 68 instances in the account.
 
+## Daily On script
 
-Count number of instances in each AZ
+The script has one parameter, the AWS region (set to eu-west-1 as the default as this is where the majority of the instances are).
+
+Instances the are required to start up in the morning are tagged with the key pair: DailyOn = True.
+
+Using the AWS filter to get instances with the specified tags, instances are added to the ec2List variable.
+The instances in the list are iterated over and any that are not in the state of running are started. Instances that are already running are written to the output (it's currently run in TeamCity and the output appears in the 'build' log).
+That's it, nice and simple and wouldn't take much changing to shutdown instances too (it could shutdown all instances except those with a LeaveOn = True tag).
+
+<script src="https://gist.github.com/MatthewJDavis/ed1f0a99c933bfa28ffbea49d2c6023c.js"></script>
+
+Using AWS EC2 Filters
+
+As I wrote this script, I took a look again (it had been a while) at the EC2 filter parameter.
+
+The filter can be defined in two ways, as Filter object type or supplied directly to the parameter as an array of hashtables.
+
+**Filter values are case sensitive!**
+
+### EC2 Filter Object
+
 ```powershell
-
-
-(Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1a' })).count
-
-
-# Create a filter object
 $filter = New-Object -TypeName Amazon.EC2.Model.Filter
 $filter.Name = 'virtualization-type'
 $filter.Value = 'hvm'
 (Get-EC2Instance -Filter $filter).count
+```
 
+### Array Hashtable filter
+
+```powershell
+(Get-EC2Instance -Filter @(@{name = 'virtualization-type'; values = 'hvm' })).count
+```
+
+### Array Hashtable multiple filter
+
+```powershell
 # Multiple filters
 (Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1b' },@{name ='tag:DailyOn'; values = 'True'})).count
+```
+
+Count number of instances in each AZ
+
+```powershell
+
+(Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1a' })).count
+
 
 # Search by key
 (Get-EC2Instance -Filter @(@{name ='tag-key'; values = 'LeaveOn'})).count
@@ -48,3 +84,5 @@ $filter.Value = 'hvm'
 # Instance type
 (Get-EC2Instance -Filter @(@{name ='instance-type'; values = 't2.medium'})).count
 ```
+
+[shutting down Azure VMs]: https://matthewdavis111.com/azure/azure-auto-stop-vm-with-tag/
