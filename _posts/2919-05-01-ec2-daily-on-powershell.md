@@ -25,17 +25,21 @@ The script has one parameter, the AWS region (set to eu-west-1 as the default as
 
 Instances the are required to start up in the morning are tagged with the key pair: DailyOn = True.
 
+![instance tagged with daily on](/images/aws-daily-on/daily-on-tag.png)
+
 Using the AWS filter to get instances with the specified tags, instances are added to the ec2List variable.
 The instances in the list are iterated over and any that are not in the state of running are started. Instances that are already running are written to the output (it's currently run in TeamCity and the output appears in the 'build' log).
 That's it, nice and simple and wouldn't take much changing to shutdown instances too (it could shutdown all instances except those with a LeaveOn = True tag).
 
 <script src="https://gist.github.com/MatthewJDavis/ed1f0a99c933bfa28ffbea49d2c6023c.js"></script>
 
+![instance tagged with daily on](/images/aws-daily-on/start-daily-on-output.png)
+
 ## Using AWS EC2 Filters
 
-As I wrote this script, I took a look again (it had been a while) at the EC2 filter parameter.
+As I wrote this script, I took a look again at the EC2 filter parameter.
 
-The filter can be defined in two ways, as Filter object type or supplied directly to the parameter as an array of hashtables.
+The filter can be defined in two ways, as Filter object type or supplied directly to the parameter as hashtable or array of hashtables.
 
 **Filter values are case sensitive!**
 
