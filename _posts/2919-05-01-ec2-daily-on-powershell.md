@@ -10,7 +10,7 @@ tags:
     - ec2
     - aws
     - powershell
-published: false
+published: publish
 ---
 
 ## Overview
