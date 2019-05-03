@@ -130,6 +130,9 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
+    - label: "LinkdIn"
+      icon: "fab fa-fw fa-linkedin-in"
+      url: https://www.linkedin.com/in/matthew-davis/
 
 # Site Footer
 footer:
