@@ -3,7 +3,7 @@ title: Starting EC2 instances by tag & EC2 Filters
 author: Matthew Davis
 date: 2019-05-01
 toc: true
-excerpt: Use PowerShell core to start AWS EC2 instance on a daily schedule and useful EC2 filters for PowerShell
+excerpt: Use PowerShell core to start AWS EC2 instances on a daily schedule and some useful EC2 filters for PowerShell
 categories:
     - aws
 tags:
