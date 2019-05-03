@@ -60,12 +60,16 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name = 'virtualization-type'; values = 'hvm' }).count
 ```
 
+
+
 ### Array of Hashtables = multiple filter
 
 ```powershell
 # Multiple filters
 (Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1b' } ; @{name ='tag:DailyOn'; values = 'True'})).count
 ```
+
+![instance tagged with daily on](/images/aws-daily-on/multi-filter.png)
 
 ## A few more useful examples of searches
 
@@ -77,11 +81,15 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name = 'availability-zone'; values = 'eu-west-1a' }).count
 ```
 
+![instance tagged with daily on](/images/aws-daily-on/az-count.png)
+
 ### Search by key
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='tag-key'; values = 'LeaveOn'}).count
 ```
+
+![instance tagged with daily on](/images/aws-daily-on/tag-key.png)
 
 ### Wildcard search
 
@@ -96,17 +104,23 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name ='reason'; values = ''}).count
 ```
 
+![instance tagged with daily on](/images/aws-daily-on/reason.png)
+
 ### Platform type
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='platform'; values = 'windows'}).count
 ```
 
+![instance tagged with daily on](/images/aws-daily-on/platform.png)
+
 ### Instance type
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
 ```
+
+![instance tagged with daily on](/images/aws-daily-on/filter-instance-type.png)
 
 ### EC2 Volumes
 
