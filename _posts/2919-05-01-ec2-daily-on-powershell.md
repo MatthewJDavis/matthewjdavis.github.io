@@ -52,6 +52,8 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter $filter).count
 ```
 
+![instance tagged with daily on](/images/aws-daily-on/filter-object.png)
+
 ### Hashtable filter
 
 ```powershell
@@ -144,6 +146,10 @@ Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '099720109477'} ; @{Name='na
 # Amazon
 Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '137112412989'} ; @{Name='name'; Values = '*amzn2-ami-hvm-2.0.2019*'})
 ```
+
+### Time difference between a filter and getting all instances (only 68 instances in this case)
+
+![instance tagged with daily on](/images/aws-daily-on/filter-vs-all-instances.png)
 
 ## Summary
 
