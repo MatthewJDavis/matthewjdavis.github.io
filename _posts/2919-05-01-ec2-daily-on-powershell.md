@@ -31,7 +31,7 @@ That's it, nice and simple and wouldn't take much changing to shutdown instances
 
 <script src="https://gist.github.com/MatthewJDavis/ed1f0a99c933bfa28ffbea49d2c6023c.js"></script>
 
-Using AWS EC2 Filters
+## Using AWS EC2 Filters
 
 As I wrote this script, I took a look again (it had been a while) at the EC2 filter parameter.
 
@@ -61,28 +61,60 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1b' },@{name ='tag:DailyOn'; values = 'True'})).count
 ```
 
-Count number of instances in each AZ
+## A few more useful examples of searches
+
+### EC2 Instances
+
+### Count number of instances in each AZ
 
 ```powershell
-
 (Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1a' })).count
+```
 
-
-# Search by key
+### Search by key
+```powershell
 (Get-EC2Instance -Filter @(@{name ='tag-key'; values = 'LeaveOn'})).count
+```
 
-# Wildcard search
+### Wildcard search
+```powershell
 (Get-EC2Instance -Filter @(@{name ='reason'; values = 'User*'})).count
 (Get-EC2Instance -Filter @(@{name ='reason'; values = '*ser*'})).count
+```
 
-# Search for a key with no value
+### Search for a key with no value
+```powershell
 (Get-EC2Instance -Filter @(@{name ='reason'; values = ''})).count
+```
 
-# Platform type 
+### Platform type 
+```powershell
 (Get-EC2Instance -Filter @(@{name ='platform'; values = 'windows'})).count
+```
 
-# Instance type
+### Instance type
+```powershell
 (Get-EC2Instance -Filter @(@{name ='instance-type'; values = 't2.medium'})).count
 ```
+
+### EC2 Volumes
+
+```powershell
+Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda1'})
+
+Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda2'})
+```
+
+### EC2 Images
+
+```powershell
+"name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*"
+```
+
+
+## Summary
+
+Updating the script to turn on EC2 instances was a fun excercise that didn't take too long. The script is basic but does the job well. 
+The AWS filters are handy to use to speed up the filtering of EC2 objects
 
 [shutting down Azure VMs]: https://matthewdavis111.com/azure/azure-auto-stop-vm-with-tag/
