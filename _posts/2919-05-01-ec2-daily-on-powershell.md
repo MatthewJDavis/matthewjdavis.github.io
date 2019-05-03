@@ -104,7 +104,7 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name ='reason'; values = ''}).count
 ```
 
-![instance tagged with daily on](/images/aws-daily-on/reason.png)
+![filter by reason](/images/aws-daily-on/filter-reason.png)
 
 ### Platform type
 
@@ -112,7 +112,7 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name ='platform'; values = 'windows'}).count
 ```
 
-![instance tagged with daily on](/images/aws-daily-on/platform.png)
+![filter by platform](/images/aws-daily-on/filter-platform.png)
 
 ### Instance type
 
