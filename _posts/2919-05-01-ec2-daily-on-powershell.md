@@ -72,27 +72,32 @@ $filter.Value = 'hvm'
 ```
 
 ### Search by key
+
 ```powershell
 (Get-EC2Instance -Filter @{name ='tag-key'; values = 'LeaveOn'}).count
 ```
 
 ### Wildcard search
+
 ```powershell
 (Get-EC2Instance -Filter @{name ='reason'; values = 'User*'}).count
 (Get-EC2Instance -Filter @{name ='reason'; values = '*ser*'}).count
 ```
 
 ### Search for a key with no value
+
 ```powershell
 (Get-EC2Instance -Filter @{name ='reason'; values = ''}).count
 ```
 
-### Platform type 
+### Platform type
+
 ```powershell
 (Get-EC2Instance -Filter @{name ='platform'; values = 'windows'}).count
 ```
 
 ### Instance type
+
 ```powershell
 (Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
 ```
@@ -100,11 +105,12 @@ $filter.Value = 'hvm'
 ### EC2 Volumes
 
 ```powershell
+# Get vol mounted at sda1 for an instance (normally O/S drive)
+Get-EC2Volume -Filter @(@{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ;
+    @{Name = 'attachment.device' ; values = '/dev/sda1'})
 
-# Get vol mounted at sda1 for an instace (normally O/S drive)
-Get-EC2Volume -Filter @(@{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda1'})
-
-Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda2'})
+Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; 
+    @{Name = 'attachment.device' ; values = '/dev/sda2'})
 ```
 
 ### EC2 Images
@@ -135,10 +141,9 @@ Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '099720109477'} ; @{Name='na
 Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '137112412989'} ; @{Name='name'; Values = '*amzn2-ami-hvm-2.0.2019*'})
 ```
 
-
 ## Summary
 
-Updating the script to turn on EC2 instances was a fun excercise that didn't take too long. The script is basic but does the job well. 
-The AWS filters are handy to use to speed up the filtering of EC2 objects and very useful to find volumes and images. Filtering at the API makes manipulating with PowerShell quicker due to less objects being sent in the pipeline and to sort etc. 
+Updating the script to turn on EC2 instances was a fun exercise that didn't take too long. The script is basic but does the job well.
+The AWS filters are handy to use to speed up the filtering of EC2 objects and very useful to find volumes and images. Before I would get all instances / volumes / images from AWS and use PowerShell to sort and filter etc but now I've learnt more about filtering and how filtering at the API makes manipulating with PowerShell quicker due to less objects being sent in the pipeline and to sort etc.
 
 [shutting down Azure VMs]: https://matthewdavis111.com/azure/azure-auto-stop-vm-with-tag/
