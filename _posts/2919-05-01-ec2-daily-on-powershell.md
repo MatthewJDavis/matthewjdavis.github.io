@@ -48,17 +48,17 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter $filter).count
 ```
 
-### Array Hashtable filter
+### Hashtable filter
 
 ```powershell
-(Get-EC2Instance -Filter @(@{name = 'virtualization-type'; values = 'hvm' })).count
+(Get-EC2Instance -Filter @{name = 'virtualization-type'; values = 'hvm' }).count
 ```
 
-### Array Hashtable multiple filter
+### Array of Hashtables = multiple filter
 
 ```powershell
 # Multiple filters
-(Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1b' },@{name ='tag:DailyOn'; values = 'True'})).count
+(Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1b' } ; @{name ='tag:DailyOn'; values = 'True'})).count
 ```
 
 ## A few more useful examples of searches
@@ -68,39 +68,41 @@ $filter.Value = 'hvm'
 ### Count number of instances in each AZ
 
 ```powershell
-(Get-EC2Instance -Filter @(@{name = 'availability-zone'; values = 'eu-west-1a' })).count
+(Get-EC2Instance -Filter @{name = 'availability-zone'; values = 'eu-west-1a' }).count
 ```
 
 ### Search by key
 ```powershell
-(Get-EC2Instance -Filter @(@{name ='tag-key'; values = 'LeaveOn'})).count
+(Get-EC2Instance -Filter @{name ='tag-key'; values = 'LeaveOn'}).count
 ```
 
 ### Wildcard search
 ```powershell
-(Get-EC2Instance -Filter @(@{name ='reason'; values = 'User*'})).count
-(Get-EC2Instance -Filter @(@{name ='reason'; values = '*ser*'})).count
+(Get-EC2Instance -Filter @{name ='reason'; values = 'User*'}).count
+(Get-EC2Instance -Filter @{name ='reason'; values = '*ser*'}).count
 ```
 
 ### Search for a key with no value
 ```powershell
-(Get-EC2Instance -Filter @(@{name ='reason'; values = ''})).count
+(Get-EC2Instance -Filter @{name ='reason'; values = ''}).count
 ```
 
 ### Platform type 
 ```powershell
-(Get-EC2Instance -Filter @(@{name ='platform'; values = 'windows'})).count
+(Get-EC2Instance -Filter @{name ='platform'; values = 'windows'}).count
 ```
 
 ### Instance type
 ```powershell
-(Get-EC2Instance -Filter @(@{name ='instance-type'; values = 't2.medium'})).count
+(Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
 ```
 
 ### EC2 Volumes
 
 ```powershell
-Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda1'})
+
+# Get vol mounted at sda1 for an instace (normally O/S drive)
+Get-EC2Volume -Filter @(@{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda1'})
 
 Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; @{Name = 'attachment.device' ; values = '/dev/sda2'})
 ```
@@ -108,13 +110,35 @@ Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2In
 ### EC2 Images
 
 ```powershell
-"name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*"
+# https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2Image.html
+# OwnerID '801119661308' = Amazon Windows
+# OwnerID '099720109477' = Canonical
+# OwnerID '137112412989' = Amazon linux
+
+# Filter by image id - handy to get owner info, name details etc
+Get-EC2Image -Filter @{ Name="image-id"; Values="ami-01ac8cd0e2853e2be" }
+
+# Windows
+#2019 Full
+Get-EC2Image -Filter @(@{ Name="platform"; Values="windows" } ; @{Name='owner-id' ; Values = '801119661308'} ; @{Name='name'; Values = 'Windows_Server-2019-English-Full-Base-*'})
+
+#2019 Core
+Get-EC2Image -Filter @(@{ Name="platform"; Values="windows" } ; @{Name='owner-id' ; Values = '801119661308'} ; @{Name='name'; Values = 'Windows_Server-2019-English-Core-Base-*'})
+
+# Ubuntu
+
+Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '099720109477'} ; @{Name='name'; Values = '*ubuntu-bionic-18.04-amd64-server-*'})
+
+Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '099720109477'} ; @{Name='name'; Values = '*ubuntu-xenial-16.04-amd64-server-*'})
+
+# Amazon
+Get-EC2Image -Filter @(@{Name='owner-id' ; Values = '137112412989'} ; @{Name='name'; Values = '*amzn2-ami-hvm-2.0.2019*'})
 ```
 
 
 ## Summary
 
 Updating the script to turn on EC2 instances was a fun excercise that didn't take too long. The script is basic but does the job well. 
-The AWS filters are handy to use to speed up the filtering of EC2 objects
+The AWS filters are handy to use to speed up the filtering of EC2 objects and very useful to find volumes and images. Filtering at the API makes manipulating with PowerShell quicker due to less objects being sent in the pipeline and to sort etc. 
 
 [shutting down Azure VMs]: https://matthewdavis111.com/azure/azure-auto-stop-vm-with-tag/
