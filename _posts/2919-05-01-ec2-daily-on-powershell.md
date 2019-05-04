@@ -41,7 +41,7 @@ As I wrote this script, I took a look again at the EC2 filter parameter.
 
 The filter can be defined in two ways, as Filter object type or supplied directly to the parameter as hashtable or array of hashtables.
 
-**Filter values are case sensitive!**
+**Filter Name and Value values are case sensitive!!**
 
 ### EC2 Filter Object
 
