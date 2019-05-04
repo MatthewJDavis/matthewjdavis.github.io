@@ -15,9 +15,9 @@ published: publish
 
 ## Overview
 
-I had previously written about [shutting down Azure VMs] with a PowerShell script and Azure Automation runbook (easily modifiable to start up on a schedule) and recently needed to fix a broken script at work to do similar in AWS.
-The script that was broken was storing all of the EC2 instances in a variable then filtering, I have done this for checking tags that don't exist and sometimes it is needed but using the 'Filter' property of the ```Get-EC2Instance``` PowerShell Cmdlet speeds up the process - the filtering is done on the AWS side and only instances that match are returned.
-I used this opportunity to rewrite the script and now the task to turn on EC2 instances in the dev account now works again and runs more efficiently. Below the script I have posted a few helpful filters and did a test of a filter verses returning all 68 instances in the account.
+I had previously written about [shutting down Azure VMs] with a PowerShell script using Azure Automation runbook and recently needed to fix a broken script at work that started certain EC2 instances.
+The broken script was storing all of the EC2 instances in a variable then filtering by tag, but when I rewrote the script I used the Format parameter of the [Get-EC2Instance] Cmdlet which filters the objects on the AWS side and testing on the dev account showed a large performance gain and also easier to read and understand.
+Below the script are a few helpful filters for EC2 Instances, Volumes and Snapshots.
 
 All examples run on PowerShell Core installed on a Mac with the AWSPowerShell Core module:
 
@@ -188,3 +188,4 @@ Updating the script to turn on EC2 instances was a fun exercise that didn't take
 The AWS filters are handy to use to speed up the filtering of EC2 objects and very useful to find volumes and images. Before I would get all instances / volumes / images from AWS and use PowerShell to sort and filter etc but now I've learnt more about filtering and how filtering at the API makes manipulating with PowerShell quicker due to less objects being sent in the pipeline and to sort etc.
 
 [shutting down Azure VMs]: https://matthewdavis111.com/azure/azure-auto-stop-vm-with-tag/
+[Get-EC2Instance]: https://docs.aws.amazon.com/powershell/latest/reference/
