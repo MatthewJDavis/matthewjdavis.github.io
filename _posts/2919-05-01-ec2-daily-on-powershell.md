@@ -129,6 +129,7 @@ $filter.Value = 'hvm'
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
+(Get-EC2Instance -Filter @{name ='instance-type'; values = '*'}).count
 ```
 
 ![instance tagged with daily on](/images/aws-daily-on/filter-instance-type.png)
