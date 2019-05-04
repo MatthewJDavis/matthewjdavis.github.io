@@ -19,6 +19,17 @@ I had previously written about [shutting down Azure VMs] with a PowerShell scrip
 The script that was broken was storing all of the EC2 instances in a variable then filtering, I have done this for checking tags that don't exist and sometimes it is needed but using the 'Filter' property of the ```Get-EC2Instance``` PowerShell Cmdlet speeds up the process - the filtering is done on the AWS side and only instances that match are returned.
 I used this opportunity to rewrite the script and now the task to turn on EC2 instances in the dev account now works again and runs more efficiently. Below the script I have posted a few helpful filters and did a test of a filter verses returning all 68 instances in the account.
 
+All examples run on PowerShell Core installed on a Mac with the AWSPowerShell Core module:
+
+```powershell
+PSVersion                      6.1.1
+PSEdition                      Core
+OS                             Darwin 18.5.0
+Platform                       Unix
+AWSLambdaPSCore                1.2.0.0
+AWSPowerShell.NetCore          3.3.485.0  
+```
+
 ## Daily On script
 
 The script has one parameter, the AWS region (set to eu-west-1 as the default as this is where the majority of the instances are).
@@ -41,7 +52,7 @@ As I wrote this script, I took a look again at the EC2 filter parameter.
 
 The filter can be defined in two ways, as Filter object type or supplied directly to the parameter as hashtable or array of hashtables.
 
-**Filter values are case sensitive!**
+**Filter Name and Value values are case sensitive!!**
 
 ### EC2 Filter Object
 
@@ -120,6 +131,7 @@ $filter.Value = 'hvm'
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
+(Get-EC2Instance -Filter @{name ='instance-type'; values = '*'}).count
 ```
 
 ![ec2 filtered by type](/images/aws-daily-on/filter-instance-type.png)
