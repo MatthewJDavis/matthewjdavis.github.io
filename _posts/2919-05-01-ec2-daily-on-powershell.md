@@ -71,7 +71,7 @@ $filter.Value = 'hvm'
 
 ![instance tagged with daily on](/images/aws-daily-on/multi-filter.png)
 
-## A few more useful examples of searches
+## A useful example filters
 
 ### EC2 Instances
 
@@ -98,13 +98,15 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name ='reason'; values = '*ser*'}).count
 ```
 
+![filter by reason](/images/aws-daily-on/filter-reason.png)
+
 ### Search for a key with no value
 
 ```powershell
 (Get-EC2Instance -Filter @{name ='reason'; values = ''}).count
 ```
 
-![filter by reason](/images/aws-daily-on/filter-reason.png)
+![filter by reason](/images/aws-daily-on/filter-reason-blank.png)
 
 ### Platform type
 
@@ -120,7 +122,7 @@ $filter.Value = 'hvm'
 (Get-EC2Instance -Filter @{name ='instance-type'; values = 't2.medium'}).count
 ```
 
-![instance tagged with daily on](/images/aws-daily-on/filter-instance-type.png)
+![ec2 filtered by type](/images/aws-daily-on/filter-instance-type.png)
 
 ### EC2 Volumes
 
@@ -132,6 +134,9 @@ Get-EC2Volume -Filter @(@{ Name = 'attachment.instance-id' ; Values = "$($ec2Ins
 Get-EC2Volume -Filter @( @{ Name = 'attachment.instance-id' ; Values = "$($ec2Instance.Instances.instanceid)"} ; 
     @{Name = 'attachment.device' ; values = '/dev/sda2'})
 ```
+
+![volume filtered by attachment](/images/aws-daily-on/attachment.png)
+
 
 ### EC2 Images
 
