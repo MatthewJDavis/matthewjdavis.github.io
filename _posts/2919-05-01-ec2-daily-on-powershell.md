@@ -13,7 +13,9 @@ tags:
 published: publish
 ---
 
-## Overview
+May 2019
+
+# Overview
 
 I had previously written about [shutting down Azure VMs] with a PowerShell script using Azure Automation runbook and recently needed to fix a broken script at work that started certain EC2 instances.
 The broken script was storing all of the EC2 instances in a variable then filtering by tag, but when I rewrote the script I used the Format parameter of the [Get-EC2Instance] Cmdlet which filters the objects on the AWS side and testing on the dev account showed a large performance gain and also easier to read and understand.
