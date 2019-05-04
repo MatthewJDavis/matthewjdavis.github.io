@@ -30,6 +30,8 @@ layout: default
           {% if page.read_time %}
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>
           {% endif %}
+            {% if page.date %}
+            <meta itemprop="datePublished" content="{{ page.date | date: "%B %d, %Y" }}">{% endif %}
         </header>
       {% endunless %}
 
