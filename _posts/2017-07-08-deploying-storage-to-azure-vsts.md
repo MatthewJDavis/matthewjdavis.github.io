@@ -10,6 +10,9 @@ tags:
     - build
     - release
 ---
+July 2017
+
+# Overview
 
 In this post, I'm going to show you how to deploy an Azure Storage Account to Azure using Microsoft's [Visual Studio Team Services][vsts-main] (VSTS).
 

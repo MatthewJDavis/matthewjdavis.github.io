@@ -7,6 +7,9 @@ categories:
 tags:
     - visual studio code
 ---
+June 2017
+
+# Overview
 
 [Visual Studio code] is my go to editor now for most work including creating PowerShell scripts, terraform deployments, cloudformation templates and general file editing. It has a great selection of useful [extensions], nice git integration and I use it on Windows, Mac and Ubuntu (the debugging of PowerShell on the Mac crashes from time to time but on the whole it's a solid experience, and to be fair [PowerShell on Mac] is still an Alpha release).
 

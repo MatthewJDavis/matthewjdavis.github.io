@@ -9,6 +9,9 @@ tags:
     - provisioning infrastructure
     - infrastructure as code
 ---
+June 2017
+
+# Overview
 
 [YAML Ain't Markup Language] (YAML) was added to AWS cloudformation in [September last year] for provisioning resources through code via cloudformation.
 

@@ -11,6 +11,9 @@ tags:
     - azure resource manager
     - azure vnets
 ---
+July 2017
+
+# Overview
 
 In the next few posts I'm going to go through the process of setting up [Azure Active Directory Domain Services] (AADDS).  This service is a managed domain controller in Azure, removing the overhead of configuring and maintain a virtual machine (VM) to act as a domain controller for your Azure VMs. This post will focus on setting up the networking requirements to implement AADDS.
 

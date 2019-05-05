@@ -12,6 +12,7 @@ tags:
     - aws
     - ami 
 ---
+July 2017
 
 ## Windows AMI updates
 

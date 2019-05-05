@@ -1,5 +1,5 @@
 ---
-title:  "2 EC2 Instances and EIPs with AWS Cloudformation YAML"
+title: 2 EC2 Instances and EIPs with AWS Cloudformation YAML
 author: Matthew Davis
 date: 2017-06-06 
 categories:
@@ -9,8 +9,9 @@ tags:
     - provisioning infrastructure
     - infrastructure as code
 ---
+June 2017
 
-### Provision 2 EC2 instances with an Elastic IP address attached to each using YAML and cloudformation
+# Provision 2 EC2 instances with an Elastic IP address attached to each using YAML and cloudformation
 
 **you could be charged using the free tiers because of the Elastic IPs**
 
