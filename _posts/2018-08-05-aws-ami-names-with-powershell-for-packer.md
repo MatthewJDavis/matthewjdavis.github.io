@@ -11,6 +11,7 @@ tags:
     - packer
 published: true
 ---
+August 2018
 
 I have been using Packer again and went back through the [packer getting started] documents that use the example with a Ubuntu server AMI for AWS. This works great and got me back up and running with Packer but I needed to do the same using the latest Windows 1803 AMI. The goal was to create a small Windows DNS server using 1803.
 

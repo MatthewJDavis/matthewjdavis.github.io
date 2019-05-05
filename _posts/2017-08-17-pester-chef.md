@@ -11,6 +11,9 @@ tags:
     - pester
     - integration testing
 ---
+August 2017
+
+# Overview
 
 I've been learning chef for configuration management through their excellent learning resources at [learnchef.io]. It's a great way to learn chef and has some excellent resources and tutorials that cover Linux and Windows configuration management with chef.
 

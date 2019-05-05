@@ -10,6 +10,9 @@ tags:
     - azure automation
     - powershell runbook
 ---
+August 2017
+
+# Overview
 
 While creating a PowerShell runbook to automate the shutting down of tagged Virtual Machines, I ran into the following error:
 

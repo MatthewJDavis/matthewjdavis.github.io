@@ -12,5 +12,8 @@ tags:
     - powershell runbook
 published: false
 ---
+August 2018
+
+# Overview
 
 I've just completed a task to restart a service when Splunk detects that is not running on a Windows server. We don't have any on premises Splunk servers, so to restart the service, I created an Azure Automation PowerShell run book that runs on a hybrid worker which is connected to our internal network

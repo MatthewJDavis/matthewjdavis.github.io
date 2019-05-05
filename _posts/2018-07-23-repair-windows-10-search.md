@@ -12,6 +12,9 @@ tags:
     - search
 published: true
 ---
+July 2018
+
+# Overview
 
 About a month ago I realised that the search functionality on my main Windows 10 VM had stopped working. I could not search from the Windows menu, search in Windows explorer for files or folders and could not search in any of the settings search boxes. It wasn't a big deal as I mainly used it for PowerShell and VSCode and got by fine for the last month but decided to fix it today. I tried a number of fixes (including the good old turn it off an on) that I saw on various Microsoft forum answers including killing the Cortana process, disabling and enabling Cortana, running Windows trouble shooter for search, reindexing and running sfc /scannow. None however worked.
 

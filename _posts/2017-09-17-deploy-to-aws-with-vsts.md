@@ -10,6 +10,9 @@ tags:
     - vsts
 published: true
 ---
+September 2017
+
+# Overview
 
 In my previous post I outlined how to set up a [service endpoint] from Visual Studio Team Services (VSTS) to Amazon Web Services (AWS) that allows you to deploy AWS resource from VSTS. In this post, I'll outline how deploy an S3 bucket via VSTS. This method will be similar to other AWS resources, you just need to specify the other resources in the [CloudFormation templates].
 

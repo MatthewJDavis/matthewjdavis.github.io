@@ -11,8 +11,9 @@ tags:
     - azurerm
 published: true
 ---
+November 2018
 
-# Intro
+# Overview
 
 This post will details how to install the [prerelease AzureRM Managed Service Identity PowerShell module] from the PowerShell gallery which also involved me updating the [PowerShellGet] module (currently version 2.0.2) to get the Find-Module and Get-Module Cmdlets AllowPreRelease switch (introduced in version 1.6.0).
 

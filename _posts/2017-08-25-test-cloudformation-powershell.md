@@ -10,6 +10,9 @@ tags:
     - cloudformation
     - powershell
 ---
+August 2017
+
+# Overview
 
 This stumped me for a few hours yesterday while wanting to deploy a cloudformation stack to AWS via PowerShell using New-CFNStack instead of the console, I kept getting the following error:
 

@@ -9,6 +9,9 @@ tags:
     - aws
     - ec2
 ---
+May 2018
+
+# Overview
 
 I needed to share some AWS EC2 snapshots with another account. To do this, first I needed to find out the volumes that were attached to the instance,
 then share the snapshots. This is going to be on a daily schedule so needed PowerShell to get the details and then use a scheduling system to run it daily.

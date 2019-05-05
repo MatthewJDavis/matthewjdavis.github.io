@@ -12,6 +12,7 @@ tags:
     - mfa
 published: true
 ---
+November 2018
 
 # The need for resetting Azure MFA with Slack
 

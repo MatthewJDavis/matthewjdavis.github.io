@@ -9,6 +9,9 @@ tags:
     - vsts
 published: true
 ---
+September 2017
+
+# Overview
 
 I use VSTS to create test projects and demo projects then have a clean up every now and then but sometimes forget how to delete the project, sometime having to ask myself if I delete it from within the project itself or elsewhere? I forget. This quickie will remind me in the future when I've not deleted a project in a while and have forgotten (hopefully the interface won't have changed too drastically then, it's updated on such a fast cycle there's always something new to discover!).
 

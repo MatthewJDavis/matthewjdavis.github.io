@@ -9,6 +9,9 @@ tags:
     - azure
     - active directory domain services
 ---
+August 2017
+
+# Overview
 
 In [part 1] we configured the networking, in [part 2] set up [Azure Active Directory Domain Services] (AADDS) and in [part 3] we setup a management VM. 
 In this post we'll join the management VM to the domain to enable DNS and Active Directory management.

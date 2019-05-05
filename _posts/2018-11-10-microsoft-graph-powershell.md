@@ -11,6 +11,7 @@ tags:
     - graph
 published: true
 ---
+November 2018
 
 # PowerShell and the Microsoft Graph
 

@@ -10,6 +10,9 @@ tags:
     - cloudformation
     - powershell
 ---
+August 2017
+
+# Overview
 
 Following from my last post about testing CloudFormation, I'm going to write up how to use PowerShell to deploy resources to AWS with a CloudFormation stack.
 I use yaml templates but the process is the same for templates written in JSON.
