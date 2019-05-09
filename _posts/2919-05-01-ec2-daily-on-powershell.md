@@ -2,7 +2,7 @@
 title: Starting EC2 instances by tag & EC2 Filters
 author: Matthew Davis
 date: 2019-05-01
-toc: true
+toc: false
 excerpt: Use PowerShell core to start AWS EC2 instances on a daily schedule and some useful EC2 filters for PowerShell
 categories:
     - aws
@@ -83,9 +83,15 @@ $filter.Value = 'hvm'
 
 ![instance tagged with daily on](/images/aws-daily-on/multi-filter.png)
 
-## A useful example filters
+## Examples of filters
 
 ### EC2 Instances
+
+### Get instance by name tag value
+
+```powershell
+Get-EC2Instance -Filter @{name = 'tag:Name'; values = 'AWS-Matt-Test'}
+```
 
 ### Count number of instances in each AZ
 
