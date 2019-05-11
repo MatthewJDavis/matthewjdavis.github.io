@@ -206,9 +206,9 @@ Complete script to send a basic message to a slack channel with helper function 
 
 ## Summary
 
-Azure AD connect is an extremely important service and as you move more applications and features to Azure AD, it is vital that this is running and updating objects. The 24 hour period seems too long in my opinion for no sync to happen and 2 hours seems about right (the sync runs every 30 mins which is the [minimum] currently allowed by Azure AD).
-I've seen it where the console was left open in a disconnected session on the server which means that there is no sync which we would not of been aware of for over 24 hours as it was going into the weekend and the email alerts don't trigger highlevel alerts.
-This is another good example of using Azure runbooks as orchestration for handy PowerShell scripts.
+Azure AD connect is an extremely important service and as you move more applications and features to Azure AD, it is vital that this is running and updating objects. The 24 hour period seems too long in my opinion for no sync to happen an alert after no sync for over 2 hours seems about right (the sync runs every 30 minutes which is the [minimum] currently allowed by Azure AD).
+I've seen it where the console was left open in a disconnected session on the server which means that there is no sync which we would not of been aware of for over 24 hours.
+This is another good example of using Azure runbooks as orchestration for handy PowerShell scripts and taking advantage of the encryption on offer by the automation account to protect sensitive variables and credentials.
 
 [Azure AD Connect]: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/whatis-azure-ad-connect
 [P1 and P2 plans]: https://azure.microsoft.com/en-ca/pricing/details/active-directory/
