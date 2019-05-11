@@ -198,11 +198,11 @@ The above code gives the basic overview and structure and below is code that wil
 New-AzAutomationVariable -Name 'AlertsSlackWebHookUri' -Encrypted $true -value (Read-Host) -ResourceGroupName $Name -AutomationAccountName $Name
 ```
 
-![Output in slack](/images/az-runbook-ad-sync/slack.png)
-
 Complete script to send a basic message to a slack channel with helper function to post to slack.
 
 <script src="https://gist.github.com/MatthewJDavis/d2a52cb13b4ddf53eefd9e680b6327e3.js"></script>
+
+![Output in slack](/images/az-runbook-ad-sync/slack.png)
 
 ## Summary
 
