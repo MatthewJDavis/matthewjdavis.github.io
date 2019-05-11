@@ -1,4 +1,4 @@
--- -
+---
 title: Azure Runbook to check last Active Directory to Azure AD sync time
 author: Matthew Davis
 date: 2019-05-11
@@ -16,8 +16,10 @@ May 2019
 
 # Overview
 
-The Azure AD connect service is used to syncronise on premises Active Directory object to Azure Active Directory. There are a number of alerts that come with the sync service all ready built in (depending on the plan you use), however it will only alert if there has been no sync for over 24 hours. I contact Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. In the last two weeks we have had issues of the sync not working (one was because of a clean up of AD had gone over the export deletion threshold and the next occasion was because someone had left the wizard open) I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
-Below is the code to achieve this all deployed via PowerShell core (can be used in a CI/CD pipeline in TeamCity or Azure Devops etc).
+The [Azure AD connect] service is used to syncronise on premises Active Directory objects to Azure Active Directory. There are a number of alerts that come with the sync service all ready built in (connect health is currently available in [P1 and P2 plans] only), however it will only alert if there has been no sync for over 24 hours. I contacted Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
+Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module].
+
+
 
 ## Install Azure cmdlet
 
@@ -73,7 +75,20 @@ To run the MSOnline commands requires 'Global Admin' so the credential entered h
 New-AzAutomationCredential -Name  'AzureADConnectSyncAccount' -ResourceGroupName $Name -AutomationAccountName $Name -Value (Get-Credential)
 ```
 
-Import and Publish the runbook
+## The runbook
+
+<script src="https://gist.github.com/MatthewJDavis/ac373ee8c56446696981228aeb2d6c7f.js"></script>
+
+Copy and save this runbook somewhere local like 'C:\Temp\Test-LastAzureADSyncTime.ps1'
+
+```powershell
+$uri = 'https://gist.githubusercontent.com/MatthewJDavis/ac373ee8c56446696981228aeb2d6c7f/raw/bae82a17f6140359171336b0f39b52336d5cbc05/Test-LastAzureADSyncTimeBasic.ps1'
+Invoke-WebRequest -Uri -OutFile 'C:\Temp\Test-LastAzureADSyncTime.ps1'
+```
+
+## Import and Publish the runbook
+
+Next step is to import the runbook to the automation account and publish it at the same time.
 
 ```powershell
 
@@ -115,5 +130,9 @@ Currently there is a bug with the ```Get-AzAutomationJobOutputRecord``` Cmdlet t
 
 ## Summary
 
+
+[Azure AD Connect]: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/whatis-azure-ad-connect
+[P1 & P2]: https://azure.microsoft.com/en-ca/pricing/details/active-directory/
+[AZ module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.0.0
 [docs]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.0.0
 [bug]: https://github.com/Azure/azure-powershell/issues/8600
