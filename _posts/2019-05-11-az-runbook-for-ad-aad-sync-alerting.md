@@ -18,7 +18,7 @@ May 2019
 # Overview
 
 The [Azure AD connect] service is used to syncronise on premises Active Directory objects to Azure Active Directory. There are a number of alerts that come with the sync service all ready built in (connect health is currently available in [P1 and P2 plans] only), however it will only alert if there has been no sync for over 24 hours. I contacted Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
-Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module]. This example uses a free automation account which at the time of writing gets you 500 free minutes every month, see the [pricing page] as you may be charged.
+Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module]. This example uses a free automation account which at the time of writing gets you 500 free minutes every month, see the [pricing page] for further details as you may be charged.
 
 ```powershell
 PSVersion                      6.1.3
@@ -211,7 +211,7 @@ I've seen it where the console was left open in a disconnected session on the se
 This is another good example of using Azure runbooks as orchestration for handy PowerShell scripts.
 
 [Azure AD Connect]: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/whatis-azure-ad-connect
-[P1 & P2]: https://azure.microsoft.com/en-ca/pricing/details/active-directory/
+[P1 and P2 plans]: https://azure.microsoft.com/en-ca/pricing/details/active-directory/
 [Pricing Page]: https://azure.microsoft.com/en-ca/pricing/details/automation/
 [AZ module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.0.0
 [docs]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.0.0
