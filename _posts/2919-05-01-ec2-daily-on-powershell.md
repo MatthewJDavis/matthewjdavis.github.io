@@ -10,7 +10,7 @@ tags:
     - ec2
     - aws
     - powershell
-published: publish
+published: true
 ---
 May 2019
 
