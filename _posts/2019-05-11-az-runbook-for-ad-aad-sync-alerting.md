@@ -123,6 +123,8 @@ Import-AzAutomationRunbook @params
 
 You can test the runbook via the [Azure portal].
 
+![Edit pane overview](/images/az-runbook-ad-sync/edit.png)
+
 Update the date to check by removing the .AddHours() method which will cause the alert to fire (in this demo just output to the console).
 
 ![Change the date in the edit pane](/images/az-runbook-ad-sync/change-date.png)
@@ -130,8 +132,6 @@ Update the date to check by removing the .AddHours() method which will cause the
 Click the Test Pane
 Click Start
 Wait for job to complete.
-
-![Edit pane overview](/images/az-runbook-ad-sync/edit.png)
 
 ![Output from running the command in test](/images/az-runbook-ad-sync/output.png)
 
