@@ -10,7 +10,7 @@ tags:
 - runbook
 - azure
 - powershell
-published: false
+published: true
 ---
 
 May 2019
