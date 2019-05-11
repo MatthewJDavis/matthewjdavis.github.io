@@ -11,17 +11,23 @@ tags:
 - azure
 - powershell
 published: false
--- -
+---
+
 May 2019
 
 # Overview
 
 The [Azure AD connect] service is used to syncronise on premises Active Directory objects to Azure Active Directory. There are a number of alerts that come with the sync service all ready built in (connect health is currently available in [P1 and P2 plans] only), however it will only alert if there has been no sync for over 24 hours. I contacted Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
-Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module].
+Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module]. This example uses a free automation account but be wary of any potential charges.
 
+```powershell
+PSVersion                      6.1.3
+PSEdition                      Core
+OS                             Microsoft Windows 10
+Az                             2.0.0
+```
 
-
-## Install Azure cmdlet
+## Install Azure Cmdlet
 
 See install [docs]
 
@@ -32,16 +38,17 @@ Install-Module -Name Az -AllowClobber
 ## Connect to Azure
 
 ```powershell
+# Will be prompted to sign in via browser
 Connect-AzAccount
 
+# Use set or select context if you need to change subscriptions.
 Set-AzContext -Name 'VSP' -Subscription 'Visual Studio Professional'
-
 Select-AzContext 'VSP'
 ```
 
 ## Resource Group and Automation account
 
-First thing needed is a Resource Group and Azure automation Account (skip this part if you already have one but make sure you get the resourcegroup and automation account names).
+First thing needed is a Resource Group and Azure automation Account (skip this part if you already have one but make sure you get the resource group and automation account names).
 To make things easier, I am using the variable 'Name' for both the automation account and resource group's name.
 
 ```powershell
@@ -49,14 +56,14 @@ $Location = 'canadacentral'
 $Name = 'MattDemo'
 $Tags = @{'Project' = 'MattDemo'}
 
-New-AzResourceGroup -Name $Name -location $Location -tag $Tags
+New-AzResourceGroup -Name $Name -location $Location -tag $Tags | Out-Null
 
 New-AzAutomationAccount -ResourceGroupName $Name -Name $Name -Location $Location -Plan Free -Tags $Tags
 ```
 
 ## MSOnline module
 
-The MSOnline need to be imported into the Automation account to make it available to Runbooks. This can be done via the portal or by the PowerShell code below.
+The MSOnline need to be imported into the Automation account to make it available to Runbooks. We can do this by the PowerShell code below (there is an option in the portal too).
 
 ```powershell
 # Create the module uri
@@ -83,7 +90,7 @@ Copy and save this runbook somewhere local like 'C:\Temp\Test-LastAzureADSyncTim
 
 ```powershell
 $uri = 'https://gist.githubusercontent.com/MatthewJDavis/ac373ee8c56446696981228aeb2d6c7f/raw/bae82a17f6140359171336b0f39b52336d5cbc05/Test-LastAzureADSyncTimeBasic.ps1'
-Invoke-WebRequest -Uri -OutFile 'C:\Temp\Test-LastAzureADSyncTime.ps1'
+Invoke-WebRequest -Uri $uri -OutFile 'C:\Temp\Test-LastAzureADSyncTime.ps1'
 ```
 
 ## Import and Publish the runbook
@@ -108,7 +115,55 @@ $params = @{
 Import-AzAutomationRunbook @params
 ```
 
-# Start the runbook
+## Testing
+
+You can test the runbook via the [Azure portal].
+
+Update the date to check by removing the .AddHours() method which will cause the alert to fire (in this demo just output to the console).
+
+Click the Test Pane
+Click Start
+Wait for job to complete.
+
+output.png
+
+Change ```(Get-Date)``` back to ```(Get-Date).AddHours(-2)``` and this will now fire when the sync has not ran within 2 hours.
+
+## Add schedule
+
+We are going to add a schedule to trigger the runbook hourly.
+
+```powershell
+# Create the schedule
+$ScheduleName = 'RunADSyncCheckHourly'
+
+$schParams = @{
+    Name                  = $ScheduleName
+    HourInterval          = 1
+    ResourceGroupName     = $Name
+    AutomationAccountName = $name
+    StartTime             = (get-date).AddMinutes(10)
+}
+
+New-AzAutomationSchedule @schParams
+
+# Link schedule to runbook
+
+$regParams = @{
+    RunbookName = $RBName
+    ScheduleName = $ScheduleName
+    ResourceGroupName = $Name
+    AutomationAccountName = $Name
+}
+
+Register-AzAutomationScheduledRunbook @regParams
+```
+
+## Start the runbook from PowerShell
+
+You can also start the runbook via PowerShell.
+
+Currently there is a bug with the ```Get-AzAutomationJobOutputRecord``` Cmdlet that looks to have a fix merged in but has not been released to the most recent version which I was using: version 1.2.1 for the Az.Automation module.
 
 ```powershell
 $job = Start-AzAutomationRunbook -Name $RBName -ResourceGroupName $Name -AutomationAccountName $Name
@@ -121,18 +176,16 @@ Get-AzAutomationJob -JobId $job.JobId -ResourceGroupName $Name -AutomationAccoun
 
 Get-AzAutomationJob -JobId $job.JobId -ResourceGroupName $Name -AutomationAccountName $Name | Get-AzAutomationJobOutputRecord
 
-Get-AzAutomationJobOutputRecord : The input object cannot be bound because it did not contain the information required to bind all mandatory parameters:  Id
 ```
-
-## Full job output
-
-Currently there is a bug with the ```Get-AzAutomationJobOutputRecord``` Cmdlet that looks to have a fix merged in, however I updated the Az module which gave me version 2.0.0 of the AZ module and version 1.2.1 for the Az.Automation module and it was still not working.
 
 ## Summary
 
+Azure AD connect is an extremely important service and as you move more applications and features to Azure AD, it is vital that this is running and updating objects. The 24 hour period seems too long in my opinion for no sync to happen and 2 hours seems about right (the sync runs every 30 mins which is the [minimum] currently allowed by Azure AD)
 
 [Azure AD Connect]: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/whatis-azure-ad-connect
 [P1 & P2]: https://azure.microsoft.com/en-ca/pricing/details/active-directory/
 [AZ module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.0.0
 [docs]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.0.0
 [bug]: https://github.com/Azure/azure-powershell/issues/8600
+[Azure portal]: https://portal.azure.com
+[minimum]: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sync-feature-scheduler#scheduler-configuration
