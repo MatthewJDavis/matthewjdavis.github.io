@@ -204,6 +204,16 @@ Complete script to send a basic message to a slack channel with helper function 
 
 ![Output in slack](/images/az-runbook-ad-sync/slack.png)
 
+## Tidy up
+
+If you want to remove all that was created from this post, run the following.
+
+Warning - this removes all resources in the specified resource group!
+
+```powershell
+Remove-AzResourceGroup -ResourceGroupName $Name -Force -AsJob
+```
+
 ## Summary
 
 Azure AD connect is an extremely important service and as you move more applications and features to Azure AD, it is vital that this is running and updating objects. The 24 hour period seems too long in my opinion for no sync to happen an alert after no sync for over 2 hours seems about right (the sync runs every 30 minutes which is the [minimum] currently allowed by Azure AD).
