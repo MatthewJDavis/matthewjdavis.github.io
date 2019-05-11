@@ -189,7 +189,7 @@ Get-AzAutomationJob -JobId $job.JobId -ResourceGroupName $Name -AutomationAccoun
 Get-AzAutomationJob -JobId $job.JobId -ResourceGroupName $Name -AutomationAccountName $Name | Get-AzAutomationJobOutputRecord
 ```
 
-# Example: Sending an alert
+## Example: Sending an alert
 
 The above code gives the basic overview and structure and below is code that will send a notification to a Slack channel using a basic webhook. See the [slack apps documentation] on creating the app and webhook, you will need to add an encryted automation variable for the Slack webhook URI.
 
@@ -197,6 +197,8 @@ The above code gives the basic overview and structure and below is code that wil
 # Create the automation variable
 New-AzAutomationVariable -Name 'AlertsSlackWebHookUri' -Encrypted $true -value (Read-Host) -ResourceGroupName $Name -AutomationAccountName $Name
 ```
+
+![Output in slack](/images/az-runbook-ad-sync/slack.png)
 
 Complete script to send a basic message to a slack channel with helper function to post to slack.
 
