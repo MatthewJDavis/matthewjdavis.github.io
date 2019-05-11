@@ -65,7 +65,7 @@ New-AzAutomationAccount -ResourceGroupName $Name -Name $Name -Location $Location
 
 ## MSOnline module
 
-The MSOnline need to be imported into the Automation account to make it available to Runbooks. We can do this by the PowerShell code below (there is an option in the portal too).
+The MSOnline needs to be imported into the Automation account to make it available to the Runbook to use. We can do this by the PowerShell code below (there is an option in the portal too).
 
 ```powershell
 # Create the module uri
@@ -80,7 +80,7 @@ New-AzAutomationModule -Name $Module -ContentLinkUri $uri -ResourceGroupName $Na
 
 ## Create an Azure automation credential
 
-To run the MSOnline commands requires 'Global Admin' so the credential entered here needs to be in that role. See encrypted creds in Azure automation. - Need to test
+The Global Admin role is required to run the MSOnline Cmdlets so the credential entered here needs to be in that role. The credentials are stored [encrypted] in the Azure automation account.
 
 ```powershell
 New-AzAutomationCredential -Name  'AzureADConnectSyncAccount' -ResourceGroupName $Name -AutomationAccountName $Name -Value (Get-Credential)
@@ -215,6 +215,7 @@ This is another good example of using Azure runbooks as orchestration for handy 
 [Pricing Page]: https://azure.microsoft.com/en-ca/pricing/details/automation/
 [AZ module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.0.0
 [docs]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.0.0
+[encrypted]: https://docs.microsoft.com/en-us/azure/automation/shared-resources/credentials
 [bug]: https://github.com/Azure/azure-powershell/issues/8600
 [Azure portal]: https://portal.azure.com
 [Slack apps documentation]: https://get.slack.help/hc/en-us/articles/115005265063-Incoming-WebHooks-for-Slack
