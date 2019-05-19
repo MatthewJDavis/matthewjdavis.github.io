@@ -17,10 +17,12 @@ May 2019
 
 # Overview
 
-The [Azure AD connect] service is used to syncronise on premises Active Directory objects to Azure Active Directory. There are a number of alerts that come with the sync service all ready built in (connect health is currently available in [P1 and P2 plans] only), however it will only alert if there has been no sync for over 24 hours. I contacted Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
+The [Azure AD connect] service is used to syncronise on premises Active Directory objects to Azure Active Directory. There are a number of alerts that come with the sync service already built in (connect health is currently available in [P1 and P2 plans] only), however it will only alert if there has been no sync for over 24 hours. I contacted Azure support to see if this could be amended but that is not possible at present and was given the work around to use the ``` Get-MsolCompanyInformation ``` to see the last sync time. I implemented the workaround as an Azure automation runbook that posts to slack when the sync has not completed within the last 2 hours.
 Below is the code to achieve this all deployed via PowerShell core using the PowerShell [AZ module]. This example uses a free automation account which at the time of writing gets you 500 free minutes every month, see the [pricing page] for further details as you may be charged.
 
 ```powershell
+#Development Environment
+
 PSVersion                      6.1.3
 PSEdition                      Core
 OS                             Microsoft Windows 10
