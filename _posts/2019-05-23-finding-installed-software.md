@@ -48,5 +48,25 @@ Get-CimInstance -ClassName 'Win32_product'
 Get-WinEvent -FilterHashtable  @{Logname='Application';Id=1035} -MaxEvents 20
 ```
 
+## DotNet frameworks
+
+```powershell
+# https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
+# .Net Version 4.5 and above
+(Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' |
+    Get-ItemProperty -Name Version).version
+
+# .Net versions below 4.5
+```
+
+After installing .Net 4.8
+
+```powershell
+ choco install netfx-4.8-devpack --version 4.8.0.0-rtw2 --pre -y
+```
+
+
+
 [Microsoft docs]: https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-software-installations?view=powershell-6
-[youtube]: https://youtu.be/fAfxDjg1Y_M?t=1935
+[youtube]: https://youtu.be/fAfxDjg1Y_M?t=
+https://mcpmag.com/articles/2017/07/27/gathering-installed-software-using-powershell.aspx
