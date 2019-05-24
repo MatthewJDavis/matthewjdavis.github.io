@@ -30,6 +30,8 @@ Select-Object DisplayName, UninstallString | Format-List
 
 ## Chocolatey
 
+Simple check to see if chocolatey is installed then list all of the packages that have been installed locally.
+
 ```powershell
 if($env:Path -like '*chocolatey*') {
     choco list -lo
@@ -50,6 +52,8 @@ Get-WinEvent -FilterHashtable  @{Logname='Application';Id=1035} -MaxEvents 20
 
 ## DotNet frameworks
 
+.Net frameworks from version 4 are [backwards compatible], so version 4.8 can run applications created in .Net 4.0 to 4.7.2
+
 ```powershell
 # https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
 # .Net Version 4.5 and above
@@ -59,14 +63,47 @@ Get-WinEvent -FilterHashtable  @{Logname='Application';Id=1035} -MaxEvents 20
 # .Net versions below 4.5
 ```
 
-After installing .Net 4.8
+On a fresh install of Windows Server 2019
+
+![dotnet 4.7 install](/images/finding-installed-software/dotnet4-7.png)
+
+After installing .Net 4.8, 4.8 is the version that is found in the registry after a reboot
 
 ```powershell
- choco install netfx-4.8-devpack --version 4.8.0.0-rtw2 --pre -y
+choco install netfx-4.8-devpack --version 4.8.0.0-rtw2 --pre -y
+
+(Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' |
+    Get-ItemProperty -Name Version).version
 ```
 
+![dotnet 4.8 install](/images/finding-installed-software/dotnet4-8.png)
 
+### .Net 3.5
+
+```powershell
+# In the 3.5 registry key
+
+(Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5'  |
+    Get-ItemProperty -Name Version).version
+```
+
+![dotnet 4.8 install](/images/finding-installed-software/dotnet3-5.png)
+
+### Other bits of software
+
+Some software may not be installed, but can still be run by including the path to the exe file in the environment path. 
+To identify where to look, you can iterate over the environment path directories for exe files.
+
+```powershell
+$pathList = $env:Path -split ';'
+$pathList | Foreach-Object {if(gci -Path $_ -Filter *.exe) {Write-Output "$_"}
+```
+
+![from path](/images/finding-installed-software/from-path.png)
+
+Obviously there will be a lot of Microsoft executables in there but you can see from the screen shot, I have go, packer, vagrant etc available to run on the machine.
 
 [Microsoft docs]: https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-software-installations?view=powershell-6
 [youtube]: https://youtu.be/fAfxDjg1Y_M?t=
+[backwards compatible]: https://github.com/dotnet/docs/blob/master/docs/framework/install/on-windows-10.md
 https://mcpmag.com/articles/2017/07/27/gathering-installed-software-using-powershell.aspx
