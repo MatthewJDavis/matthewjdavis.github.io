@@ -22,10 +22,10 @@ I've been using Pester to verify software that is installed on TeamCity build ag
 ```powershell
 # Find installed software via registry
 Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\ | Get-ItemProperty |
-Select-Object DisplayName, UninstallString | Format-List
+Select-Object DisplayName, DisplayVersion
 
 Get-ChildItem -Path HKLM:\SOFTWARE\Wow6432node\Microsoft\Windows\CurrentVersion\Uninstall | Get-ItemProperty |
-Select-Object DisplayName, UninstallString | Format-List
+Select-Object DisplayName, DisplayVersion | Format-List
 ```
 
 ## Chocolatey
@@ -103,7 +103,70 @@ $pathList | Foreach-Object {if(gci -Path $_ -Filter *.exe) {Write-Output "$_"}
 
 Obviously there will be a lot of Microsoft executables in there but you can see from the screen shot, I have go, packer, vagrant etc available to run on the machine.
 
+## Using in Pester tests
+
+```powershell
+Describe 'Available Software Checks' {
+    context 'Standard installation location installs' {
+        
+        $installsList = [collections.generic.list[psobject]]::new()
+
+        $installs64 =  Get-ChildItem -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\' | Get-ItemProperty |
+            Select-Object DisplayName, DisplayVersion
+
+        $installs32 =  Get-ChildItem -Path 'HKLM:\SOFTWARE\Wow6432node\Microsoft\Windows\CurrentVersion\Uninstall\' | Get-ItemProperty |
+            Select-Object DisplayName, DisplayVersion
+
+        $installs64 | ForEach-Object {$installsList.Add($_)}
+        $installs32 | ForEach-Object {$installsList.Add($_)}
+
+        it 'should have Microsoft Monitoring Agent version 8 installed' {
+            ($installsList | Where-Object -Property DisplayName -eq 'Microsoft Monitoring Agent').DisplayVersion | Should -BeLike "8.0*"
+        }
+        it 'should have Google Chrome version 74 installed' {
+             ($installsList | Where-Object -Property DisplayName -eq 'Google Chrome').DisplayVersion | Should -BeLike "74*"
+        }
+    }
+
+    context 'Chocolatey Installs' {
+        $chocoPackages = chocolatey list --localonly
+
+        it 'Should have notepad plus plus installed' {
+            ($chocoPackages -like 'notepadplusplus*').Count -ge 1 | Should -Be $true
+        }
+        it 'Should have nssm installed' {
+            ($chocoPackages -like 'nssm*').Count -ge 1 | Should -Be $true
+        }
+    }
+
+    context '.Net Framework installs' {
+        # Get .Net framework versions from the registry
+        $dotNet3dot5 = (Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5' |
+            Get-ItemProperty -Name Version).version
+
+        $dotNet4 = (Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\' |
+            Get-ItemProperty -Name Version).version
+
+        # .Net framework tests
+        it 'Should have .Net 3.5 framework installed' {
+            $dotNet3dot5 | Should -Belike '3.5.*'
+        }
+        it 'Should have .Net 4.8 framework installed' {
+            $dotNet4 | Should -BeLike '4.8*'
+        }
+    }
+
+    context 'Exe in path insalls' {
+
+    }
+}
+
+```
+
 [Microsoft docs]: https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-software-installations?view=powershell-6
 [youtube]: https://youtu.be/fAfxDjg1Y_M?t=
 [backwards compatible]: https://github.com/dotnet/docs/blob/master/docs/framework/install/on-windows-10.md
 https://mcpmag.com/articles/2017/07/27/gathering-installed-software-using-powershell.aspx
+
+
+https://github.com/dotnet/docs/blob/master/docs/framework/install/guide-for-developers.md
