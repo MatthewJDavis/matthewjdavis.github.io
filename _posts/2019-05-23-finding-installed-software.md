@@ -2,7 +2,7 @@
 title: Finding installed software with PowerShell on Windows
 author: Matthew Davis
 date: 2019-05-23
-toc: false
+toc: true
 excerpt: How to find installed software on Windows using PowerShell
 categories:
     - powershell
