@@ -9,13 +9,17 @@ categories:
 tags:
     - chocolatey
     - ciminstance
-published: false
+published: true
 ---
 May 2019
 
 # Overview
 
-I've been using Pester to verify software that is installed on TeamCity build agents that are being created with Pacer and a number of PowerShell scripts (this is before being migrated to building the agents with Ansible). Getting a list of the installed software has taken a number of different approaches so decided to write them up here. I also recently watched a session from the PowerShell summit 2019 on [youtube] that brings up the issue that using Win32_Product makes the msi installers run consistency checks and potentially run repairs. Even the [Microsoft docs] give the ```Get-WMIObbject -Class Win32_Product``` as an example to list installed software.
+Here's a post on a few ways you can find installed software on Windows using PowerShell.
+
+I've been using Pester to verify software that is installed on TeamCity build agents that are being created with Packer and a number of PowerShell scripts. Getting a list of the installed software has taken a number of different approaches with PowerShell but allows to test that the correct software is installed and also produce a text file with the software installed information as a build artifact for later reference.
+
+I also recently watched a session from the PowerShell summit 2019 on [youtube] that brings up the issue that using Win32_Product makes the msi installers run consistency checks and potentially run repairs. Even the [Microsoft docs] give the ```Get-WMIObbject -Class Win32_Product``` as an example to list installed software but don't mention the side effects of using this.
 
 ## The registry way
 
@@ -38,9 +42,9 @@ if($env:Path -like '*chocolatey*') {
 }
 ```
 
-## Avoid Win32_Product
+## Avoid Get-CimInstance and Get-WMIObject
 
-Using Get-CimInstance (or the old method of Get-WMIObject) using the Win32_Product, not only takes longer to query but also will cause the msi installers to fire and will reconfigure or run consistency checks that could have undesired consequences to the software installed on the machine.
+Using Get-CimInstance (or the old method of Get-WMIObject) using the Win32_Product, not only takes longer to query but also will cause the msi installers to fire and will reconfigure or run consistency checks that could have undesired consequences to the software installed on the machine as shown below.
 
 ```powershell
 Get-CimInstance -ClassName 'Win32_product'
@@ -50,9 +54,12 @@ Get-CimInstance -ClassName 'Win32_product'
 Get-WinEvent -FilterHashtable  @{Logname='Application';Id=1035} -MaxEvents 20
 ```
 
+![do not use Get-CimInstance](/images/finding-installed-software/get-ciminstance.png)
+
 ## DotNet frameworks
 
 .Net frameworks from version 4 are [backwards compatible], so version 4.8 can run applications created in .Net 4.0 to 4.7.2
+We can use the registry method to check the installed versions of .Net 4.
 
 ```powershell
 # https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
@@ -80,6 +87,8 @@ choco install netfx-4.8-devpack --version 4.8.0.0-rtw2 --pre -y
 
 ### .Net 3.5
 
+The .Net 3.5 version can be again found in the registry.
+
 ```powershell
 # In the 3.5 registry key
 
@@ -87,11 +96,11 @@ choco install netfx-4.8-devpack --version 4.8.0.0-rtw2 --pre -y
     Get-ItemProperty -Name Version).version
 ```
 
-![dotnet 4.8 install](/images/finding-installed-software/dotnet3-5.png)
+![dotnet 3.5 install](/images/finding-installed-software/dotnet3-5.png)
 
 ### Other bits of software
 
-Some software may not be installed, but can still be run by including the path to the exe file in the environment path. 
+Some software may not be installed, but can still be run by including the path to the exe file in the environment path.
 To identify where to look, you can iterate over the environment path directories for exe files.
 
 ```powershell
@@ -105,10 +114,11 @@ Obviously there will be a lot of Microsoft executables in there but you can see 
 
 ## Using in Pester tests
 
+Lastly an example using some of the methods above in a Pester script to check that certain software versions are installed. This can be run as part of a CI/CD pipeline for creating machines.
+
 ```powershell
 Describe 'Available Software Checks' {
     context 'Standard installation location installs' {
-        
         $installsList = [collections.generic.list[psobject]]::new()
 
         $installs64 =  Get-ChildItem -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\' | Get-ItemProperty |
@@ -127,7 +137,6 @@ Describe 'Available Software Checks' {
              ($installsList | Where-Object -Property DisplayName -eq 'Google Chrome').DisplayVersion | Should -BeLike "74*"
         }
     }
-
     context 'Chocolatey Installs' {
         $chocoPackages = chocolatey list --localonly
 
@@ -138,7 +147,6 @@ Describe 'Available Software Checks' {
             ($chocoPackages -like 'nssm*').Count -ge 1 | Should -Be $true
         }
     }
-
     context '.Net Framework installs' {
         # Get .Net framework versions from the registry
         $dotNet3dot5 = (Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5' |
@@ -155,13 +163,15 @@ Describe 'Available Software Checks' {
             $dotNet4 | Should -BeLike '4.8*'
         }
     }
-
-    context 'Exe in path insalls' {
-
-    }
 }
-
 ```
+
+![from path](/images/finding-installed-software/pester-tests.png)
+
+## Summary
+
+We can use PowerShell to check what's installed on a machine that can be used for reporting or verification with Pester to make sure all the correct software and right versions are installed. One thing to take away is use the registry method for normal installations and the .Net frameworks.
+
 
 [Microsoft docs]: https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-software-installations?view=powershell-6
 [youtube]: https://youtu.be/fAfxDjg1Y_M?t=
