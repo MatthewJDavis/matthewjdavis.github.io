@@ -172,11 +172,9 @@ Describe 'Available Software Checks' {
 
 We can use PowerShell to check what's installed on a machine that can be used for reporting or verification with Pester to make sure all the correct software and right versions are installed. One thing to take away is use the registry method for normal installations and the .Net frameworks.
 
+[Article] on differences between registry way and wmi way.
 
 [Microsoft docs]: https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-software-installations?view=powershell-6
 [youtube]: https://youtu.be/fAfxDjg1Y_M?t=
 [backwards compatible]: https://github.com/dotnet/docs/blob/master/docs/framework/install/on-windows-10.md
-https://mcpmag.com/articles/2017/07/27/gathering-installed-software-using-powershell.aspx
-
-
-https://github.com/dotnet/docs/blob/master/docs/framework/install/guide-for-developers.md
+[Article]: https://mcpmag.com/articles/2017/07/27/gathering-installed-software-using-powershell.aspx
