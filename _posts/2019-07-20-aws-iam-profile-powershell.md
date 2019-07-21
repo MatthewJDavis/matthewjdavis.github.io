@@ -15,7 +15,7 @@ published: true
 
 # Overview
 
-When I first started learning about AWS, to get an EC2 instance's RAM metrics into CloudWatch logs and be able to create a graph on them required you to download and run some pearl scripts. I had a requirement to do this again this week at work and while looking for the scripts I came across that AWS had released the [CloudWatch agent].
+When I first started learning AWS, to get an EC2 instance's RAM metrics into CloudWatch logs required you to download and run some pearl scripts. I had a requirement to do this again this week at work and while looking for the scripts I came across that AWS had released the [CloudWatch agent].
 
 The instance needs permission to be able to send logs to CloudWatch and this is achieved in AWS by creating an [instance profile] and attaching it to the instance the agent will be installed on as described by the [documentation].
 
