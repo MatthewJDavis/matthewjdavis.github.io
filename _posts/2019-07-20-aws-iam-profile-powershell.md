@@ -24,13 +24,13 @@ AWS has a predefined policy called 'CloudWatchAgentServerPolicy' with the correc
 
 ## Code
 
-Note: this was done on a Mac running PowerShell Core 6.1.2 and AWS tools version but should work on Windows PowerShell with the AWS module installed too.
+Note: this was done on a Mac running PowerShell Core 6.1.2 and AWS tools version 3.3.485.0 but should work on Windows PowerShell with the AWS module installed too.
 
 Make sure you can authenticate to AWS via PowerShell and that you have the correct permissions to update IAM roles.
 
 <script src="https://gist.github.com/MatthewJDavis/1e1d225e09687044429b76890b85e8d2.js"></script>
 
-The code is pretty self explanatory, a here-string variable is used to hold JSON of the EC2 [trust policy].
+A here-string variable is used to hold JSON of the EC2 [trust policy].
 
 The CloudWatchAgentServerPolicy created by AWS is filtered with the `Where-Object` Cmdlet so it can be attached to the new role.
 
