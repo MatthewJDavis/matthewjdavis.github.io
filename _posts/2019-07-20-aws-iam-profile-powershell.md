@@ -39,6 +39,13 @@ Finally, an instance profile is created then the role with the CloudWatchAgentSe
 
 Now the role will be available to be attached to an EC2 instance in the account so that they can push their logs to CloudWatch via the CloudWatch agent.
 
+Below is an example CloudWatch dashboard with metrics gathered via the agent.
+
+/aws-iam-profile-powershell
+
+![CloudWatch dashboard showing agent metrics](/images/aws-iam-profile-powershell/cw-agent-dash.png)
+
+
 ## Summary
 
 I have only just found out about the CloudWatch agent and have installed it on two Ubuntu EC2 instances so far however it does look promising. Using PowerShell to create the instance profile allowed me easily to get this set up in a development environment first for testing then get the same policy attached to the instance profile in the production account.
