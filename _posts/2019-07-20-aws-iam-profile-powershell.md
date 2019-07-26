@@ -42,8 +42,6 @@ Now the role will be available to be attached to an EC2 instance in the account 
 
 Below is an example CloudWatch dashboard with metrics gathered via the agent.
 
-/aws-iam-profile-powershell
-
 ![CloudWatch dashboard showing agent metrics](/images/aws-iam-profile-powershell/cw-agent-dash.png)
 
 
