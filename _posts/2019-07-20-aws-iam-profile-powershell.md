@@ -3,6 +3,7 @@ title: Create AWS IAM instance profile for the CloudWatch agent with PowerShell.
 author: Matthew Davis
 date: 2019-07-20
 toc: false
+classes: wide
 excerpt: Use PowerShell to create the required IAM EC2 instance profile for the CloudWatch agent to collect more system level metrics and send them to CloudWatch.
 categories:
     - aws
