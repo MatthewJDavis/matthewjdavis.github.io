@@ -3,6 +3,7 @@ title: Get EC2 details with PowerShell
 author: Matthew Davis
 date: 2019-06-26
 toc: true
+classes: wide
 excerpt: Use AWS PowerShell module to get basic EC2 information including the AMI name used to create the instance.
 categories:
     - powershell
