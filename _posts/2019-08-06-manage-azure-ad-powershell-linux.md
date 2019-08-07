@@ -65,14 +65,20 @@ The Get-AzADUser command with no parameters specified will return all users, my 
 ### Searching
 
 ```powershell
+Get-AzADUser -DisplayName demo1
 
+Get-AzADUser -StartsWith demo
 ```
 
-### New User 
+### New User
 
 ```powershell
 New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'demo2@matthewdavis111.com' -MailNickname $creds.UserName -Password $creds.Password -ForceChangePasswordNextLogin:$false
 ```
+
+## Summary
+
+MSOL has more features and functionality but the AZ module allows management via linux, mac or Windows.
 
 https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-deployment-model
 [Ubuntu 18.04 install instructions]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6#ubuntu-1804
