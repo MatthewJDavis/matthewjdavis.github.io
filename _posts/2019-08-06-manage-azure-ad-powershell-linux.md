@@ -20,9 +20,59 @@ I have been mainly using PowerShell core for my day to today work for a while no
 
 Install PowerShell core for your distribution following the guidlines. For ubuntu 18.04 I installed following the method to add the Microsoft repository apt-get and install from there. Link to [Ubuntu 18.04 install instructions].
 
+Although this guide is showing it running on Ubuntu, the cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
 
-## Summary
+## Install AZ module
 
+```powershell
+Find-Module az
+
+Install-Module -Name az -Scope CurrentUser
+```
+
+Now we can see the module is installed and as mentioned earlier, it can be used both on PowerShell core and the desktop edition.
+
+```powershell
+Get-Module -Name az -ListAvailable
+```
+
+## Connecting
+
+```powershell
+Connect-AzAccount
+```
+
+Now we have to sign in via the browser so a token will be issued to your PowerShell session.
+
+## Context
+
+If you only have one Azure subscription, this will be the context you are using. If you have more than one subscription, you can use Set-AZContext cmdlet to change the subscription.
+
+```powershell
+Get-AzSubscription
+Set-AzContext
+```
+
+
+## Getting Users Get-AzADUser
+
+The Get-AzADUser command with no parameters specified will return all users, my test Azure AD only has a small number of users but you can use the -First parameter to limit the number of users returned.
+
+```powershell
+(Get-AzADUser | Measure-Object).Count
+```
+
+### Searching
+
+```powershell
+
+```
+
+### New User 
+
+```powershell
+New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'demo2@matthewdavis111.com' -MailNickname $creds.UserName -Password $creds.Password -ForceChangePasswordNextLogin:$false
+```
 
 https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-deployment-model
 [Ubuntu 18.04 install instructions]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6#ubuntu-1804
