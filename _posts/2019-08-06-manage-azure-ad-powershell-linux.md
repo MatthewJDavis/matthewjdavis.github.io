@@ -1,14 +1,15 @@
 ---
-title: Use PowerShell core on linux to manage Azure AD
+title: Use PowerShell core on linux to manage Azure AD Users and Groups
 author: Matthew Davis
 date: 2019-08-06
 toc: false
 classes: wide
-excerpt: Use PowerShell core running on linux to connect to and manage Azure AD.
+excerpt: Going over the basics of using the AZ PowerShell module to manage users and groups in Azure Active Directory
 categories:
     - powershell
 tags:
     - azure
+    - aad
     - core
     - powershell
 published: false
@@ -17,7 +18,7 @@ August 2019
 
 # Overview
 
-I have been mainly using PowerShell core for my day to today work for a while now and have been using a lot recently to interact with Azure and Azure AD so will go through some basics of getting it setup to work and useful commands. I have been using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API) and migrating over to the Azure Resource Manager API. This has also seen the move away from the AzureRM PowerShell cmdlets to now use the cross platform AZ cmdlets (a lot less typing and not too bad to migrate old scripts over too).
+I have been mainly using PowerShell Core for my day to today work for a while now and have been using a lot recently to interact with Azure and Azure AD so will go through some basics of getting it setup to work and useful commands. I have been using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API) and migrating over to the Azure Resource Manager API. This has also seen the move away from the AzureRM PowerShell cmdlets to now use the cross platform AZ cmdlets (a lot less typing and not too bad to migrate old scripts over too).
 
 Install PowerShell core for your distribution following the guidlines. For ubuntu 18.04 I installed following the method to add the Microsoft repository apt-get and installed from there. Link to [Ubuntu 18.04 install instructions].
 
