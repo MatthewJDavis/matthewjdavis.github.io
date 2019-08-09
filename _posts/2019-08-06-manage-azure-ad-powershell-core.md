@@ -132,6 +132,16 @@ We can update the display name and password of users using the Update-AzADUser. 
 
 ![update user](/images/powershell-core-azure/update.png)
 
+## Delete User: Remove-AzADUser
+
+Does what it says on the tin, use with caution, or if you're a monster that knows what they are doing and the consequences, use with the force parameter.
+
+```powershell
+Get-AzADUser -DisplayName demo2 | Remove-AzADUser
+```
+
+![update user](/images/powershell-core-azure/remove.png)
+
 ## New Group: New-AzADGroup
 
 Similar to the New-AzADUser, the New-AzADGroup cmdlet is simple to use with a few properties to pass values to and again you need the MailNickName attribute.
