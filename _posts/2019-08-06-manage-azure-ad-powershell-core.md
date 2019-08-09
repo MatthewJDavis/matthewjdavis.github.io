@@ -26,7 +26,7 @@ This guide has been written running PowerShell Core on Ubuntu linux, but as long
 
 ## Install PowerShell core
 
-[Install PowerShell Core] for your platform following the guides linked in the link. For ubuntu 18.04 I installed with the method of adding the Microsoft repository to apt-get. Link to [Ubuntu 18.04 install instructions].
+[Install PowerShell Core] for your platform following the guides linked in the link. For ubuntu 18.04 I installed with the method of adding the Microsoft repository to apt-get. [Ubuntu 18.04 install instructions].
 
 Although this guide is showing it running on Ubuntu 18.04, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
 
