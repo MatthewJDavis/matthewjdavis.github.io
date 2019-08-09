@@ -118,6 +118,20 @@ New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'demo2@matthewdavis
 
 ![create a new user](/images/powershell-core-azure/new-azaduser.png)
 
+## Update User: Update-AzADUser
+
+We can update the display name and password of users using the Update-AzADUser. Only use this on users that were created in Azure AD, use on premises AD if you are syncing users up there.
+
+```powershell
+# save password in var
+ $newpw = Get-Credential
+
+# update displayname and password for user
+ Get-AzADUser -UserPrincipalName demo@matthewdavis111.com | Update-AzADUser -DisplayName demooooo -Password $newpw.Password
+```
+
+![update user](/images/powershell-core-azure/update.png)
+
 ## New Group: New-AzADGroup
 
 Similar to the New-AzADUser, the New-AzADGroup cmdlet is simple to use with a few properties to pass values to and again you need the MailNickName attribute.
