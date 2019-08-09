@@ -10,7 +10,6 @@ categories:
 tags:
     - azure
     - aad
-    - core
     - powershell
 published: true
 ---
@@ -28,11 +27,11 @@ This guide has been written running PowerShell Core on Ubuntu linux, but as long
 
 [Install PowerShell Core] for your platform following the guides linked in the link. For ubuntu 18.04 I installed with the method of adding the Microsoft repository to apt-get. [Ubuntu 18.04 install instructions].
 
-Although this guide is showing it running on Ubuntu 18.04, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
+Although this guide is showing it running on Ubuntu 18.04, the AZ cmdlets will be the same running PowerShell Core on Mac, Windows and even PowerShell Desktop edition running on Windows.
 
 Details of the system used in this post:
 
-![PowerShell core running on Ubuntu 18.04](/images/powershell-core-azure/ps-info.png)
+![PowerShell Core running on Ubuntu 18.04](/images/powershell-core-azure/ps-info.png)
 
 ## Install AZ module
 
@@ -46,7 +45,7 @@ Install-Module -Name az -Scope CurrentUser
 
 ![installing the az module](/images/powershell-core-azure/install-module.png)
 
-Now we can see the module is installed and as mentioned earlier, it can be used both on PowerShell core and the desktop edition.
+Now we can see the module is installed and as mentioned earlier, it can be used both on PowerShell Core and the desktop edition.
 
 ```powershell
 Get-Module -Name az -ListAvailable
