@@ -82,7 +82,7 @@ Get-AzContext
 
 ## Getting Users: Get-AzADUser
 
-The Get-AzADUser command with no parameters specified will return all users, my test Azure AD only has a small number of users but you can use the -First parameter to limit the number of users returned.
+The Get-AzADUser command with no parameters specified will return all users, my test AAD only has a small number of users but you can use the -First parameter to limit the number of users returned.
 
 ```powershell
 (Get-AzADUser | Measure-Object).Count
