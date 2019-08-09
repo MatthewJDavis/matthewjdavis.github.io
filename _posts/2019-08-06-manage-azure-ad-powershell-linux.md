@@ -18,23 +18,25 @@ August 2019
 
 # Overview
 
-I have been mainly using [PowerShell Core] for my day to today work for a while now and have been using a lot recently to interact with Azure and Azure AD so will go through some details of getting it set-up to work and useful commands.
+I have been mainly using [PowerShell Core] for my daily work for a while now and have been using it a lot recently to interact with Azure and Azure ACtive Directory (AAD) so will go through some details of getting connected to the Azure tenant and some commands to manage users and groups in AAD.
 
-I have been using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API - [now deprecated]) and [migrating] over to the [Azure Resource Manager API]. This has also seen the move away from the AzureRM PowerShell cmdlets to now use the cross platform [AZ cmdlets] (a lot less typing and not too bad to [migrate old scripts] over too).
+After using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API - [now deprecated]) and [migrating] over to the [Azure Resource Manager API], I use PowerShell as much as possible to interact with it and automate work. I've moved away from the AzureRM PowerShell cmdlets to now use the cross platform [AZ cmdlets] (a lot less typing and not too bad to [migrate old scripts] over).
 
 This guide has been written running PowerShell Core on Ubuntu linux, but as long as you are running PowerShell Core on any of the supported platforms, you'll be able to follow along.
 
 ## Install PowerShell core
 
-[Install PowerShell Core] for your platform or linux distribution. For ubuntu 18.04 I installed following the method to add the Microsoft repository apt-get and installed from there. Link to [Ubuntu 18.04 install instructions].
+[Install PowerShell Core] for your platform following the guides linked in the link. For ubuntu 18.04 I installed with the method of adding the Microsoft repository to apt-get. Link to [Ubuntu 18.04 install instructions].
 
-Although this guide is showing it running on Ubuntu, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
+Although this guide is showing it running on Ubuntu 18.04, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
+
+Details of the system used in this post:
 
 ![PowerShell core running on Ubuntu 18.04](/images/powershell-core-azure/ps-info.png)
 
 ## Install AZ module
 
-First we need to install the AZ module previously mentioned. This can be done using PowerShell, the Find-Module cmdlet searches the [PowerShell gallery] (providing you have not changed the default provider) and the Install-Module cmdlet installs it under the currentuser (you will need to sudo if on linux to install the module for all users).
+First we need to install the AZ module and this can be done using PowerShell. The Find-Module cmdlet searches the [PowerShell gallery] (providing you have not changed the default provider) and the Install-Module cmdlet installs it for the current user (you will need to sudo if on linux to install the module for all users).
 
 ```powershell
 Find-Module az
@@ -102,9 +104,9 @@ Get-AzADUser -StartsWith demo
 
 ![search results](/images/powershell-core-azure/searching.png)
 
-### New User
+## New User: New-AzADUser
 
-Creating a new user is straight forward, I use the Get-Credential cmdlet to store a PSCredential object in the 'creds' variable then pass the username and password properties to the New-AzADUser cmdlet (I find this way easiest when running interactively, would do it differently in a script as part of automation, [this post] covers ways on how to achieve this).
+Creating a new user is straight forward, I use the Get-Credential cmdlet to store a PSCredential object in the 'creds' variable then pass the username and password properties to the New-AzADUser cmdlet (I find this way easiest when running interactively. I would do it differently in a script as part of automation, [this post] covers ways on how to achieve this as well as good detail on credentials).
 
 The MailNickname is required and cannot contain the '@' sign (at time of this post you can not view this attribute with the az cmdlets). This is the mail alias and used if you are using [Exchange online].
 
@@ -116,9 +118,7 @@ New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'demo2@matthewdavis
 
 ![create a new user](/images/powershell-core-azure/new-azaduser.png)
 
-## Groups
-
-### New Group
+## New Group: New-AzADGroup
 
 Similar to the New-AzADUser, the New-AzADGroup cmdlet is simple to use with a few properties to pass values to and again you need the MailNickName attribute.
 
@@ -128,9 +128,9 @@ New-AzADGroup -DisplayName a-demo-group -MailNickname a-demo-group -Description 
 
 ![create a new group](/images/powershell-core-azure/new-group.png)
 
-### Adding and removing Group Members
+## Adding and removing Group Members
 
-Adding and removing users from groups works as you would expect, you can add multiple members in one cmdlet as shown below. One thing to note is that the Add-AzADGroupMember cmdlet will error if the group already contains a user and at present, will not add any of the users.
+Adding and removing users from groups works as you would expect, you can add multiple members in the MemberUserPrincipalName parameters as shown below. One thing to note is that the Add-AzADGroupMember cmdlet will error if the group already contains a specified user and at present, will not add any of the users.
 
 ```powershell
 # Add a single user to a group
@@ -158,7 +158,7 @@ Get-AzADGroupMember -GroupDisplayName 'a-demo-group'
 
 ![remove multiple members from a group](/images/powershell-core-azure/remove-groupmember.png)
 
-### Delete the group
+## Delete the group: Remove-AzADGroup
 
 Finally, we can tidy up by deleting the group (PassThru is a required parameter).
 
@@ -168,9 +168,9 @@ Remove-AzADGroup -DisplayName 'a-demo-group' -PassThru -Force
 
 ## Summary
 
-Using the AZ module in PowerShell core is a handy way to do some basic Azure AD user and group management and can easily enough be incorporated into automation. The MS Online (MSOL) module has a lot more features and gives access to lots more properties and I do need to use it from time to time, including to [check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours].
+Using the AZ module in PowerShell core is a handy way to do some basic Azure AD user and group management and can easily enough be incorporated into automation. Despite being old and classed as 'V1' for interacting with AAD, the [MS Online] (MSOL) module gives access to lots more properties and I do need to use it from time to time, including in my previous post on how to [check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours].
 
-The AZ module has become my daily driver and allows management via linux, mac or Windows.
+The AZ module has become my daily driver and allows management via linux, mac or Windows. As I'm using my Ubuntu laptop more at home, it is great to be able to interact with Azure this way.
 
 [PowerShell Core]: https://github.com/PowerShell/PowerShell
 [now deprecated]: https://azure.microsoft.com/en-ca/updates/deprecating-service-management-apis-support-for-azure-app-service/
@@ -186,3 +186,4 @@ The AZ module has become my daily driver and allows management via linux, mac or
 [Exchange online]: https://support.microsoft.com/en-ca/help/2824766/alias-or-mailnickname-are-changed-for-a-synced-user
 [this post]: http://duffney.io/AddCredentialsToPowerShellFunctions
 [check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours]: https://matthewdavis111.com/azure/az-runbook-for-ad-aad-sync-alerting/
+[MS Online]: https://docs.microsoft.com/en-us/powershell/module/msonline/?view=azureadps-1.0
