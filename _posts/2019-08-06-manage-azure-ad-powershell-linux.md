@@ -18,9 +18,15 @@ August 2019
 
 # Overview
 
-I have been mainly using PowerShell Core for my day to today work for a while now and have been using a lot recently to interact with Azure and Azure AD so will go through some basics of getting it setup to work and useful commands. I have been using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API) and migrating over to the Azure Resource Manager API. This has also seen the move away from the AzureRM PowerShell cmdlets to now use the cross platform AZ cmdlets (a lot less typing and not too bad to migrate old scripts over too).
+I have been mainly using [PowerShell Core] for my day to today work for a while now and have been using a lot recently to interact with Azure and Azure AD so will go through some details of getting it set-up to work and useful commands.
 
-Install PowerShell core for your distribution following the guidlines. For ubuntu 18.04 I installed following the method to add the Microsoft repository apt-get and installed from there. Link to [Ubuntu 18.04 install instructions].
+I have been using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API - [now deprecated]) and [migrating] over to the [Azure Resource Manager API]. This has also seen the move away from the AzureRM PowerShell cmdlets to now use the cross platform [AZ cmdlets] (a lot less typing and not too bad to [migrate old scripts] over too).
+
+This guide has been written running PowerShell Core on Ubuntu linux, but as long as you are running PowerShell Core on any of the supported platforms, you'll be able to follow along.
+
+## Install PowerShell core
+
+[Install PowerShell Core] for your platform or linux distribution. For ubuntu 18.04 I installed following the method to add the Microsoft repository apt-get and installed from there. Link to [Ubuntu 18.04 install instructions].
 
 Although this guide is showing it running on Ubuntu, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
 
@@ -128,7 +134,12 @@ Remove-AzADGroup -DisplayName 'a-demo-group' -PassThru -Force
 
 Using the AZ module in PowerShell core is a handy way to do some basic Azure AD user and group management and can easily enough be incorporated into automation. The MS Online (MSOL) module has a lot more features and gives access to lots more properties and I do need to use it from time to time but the AZ module has become my daily driver and allows management via linux, mac or Windows.
 
-https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-deployment-model
+[PowerShell Core]: https://github.com/PowerShell/PowerShell
+[now deprecated]: https://azure.microsoft.com/en-ca/updates/deprecating-service-management-apis-support-for-azure-app-service/
+[migrating]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-deployment-model
+[Install PowerShell Core]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6
 [Ubuntu 18.04 install instructions]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6#ubuntu-1804
-
+[Azure Resource Manager API]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview
+[migrate old scripts]: https://docs.microsoft.com/en-us/powershell/azure/migrate-from-azurerm-to-az?view=azps-2.5.0
+[AZ cmdlets]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
 [Exchange online]: https://support.microsoft.com/en-ca/help/2824766/alias-or-mailnickname-are-changed-for-a-synced-user
