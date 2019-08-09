@@ -93,7 +93,7 @@ Get-AzADUser -First 2
 
 ### Searching
 
-You can search by knowing the full display name or upn or get all users that start with a certain letter or word.
+You can search by knowing the full display name, UserPrincipalName (UPN) or get all users that start with a certain letter or word.
 
 ```powershell
 Get-AzADUser -DisplayName demo1
