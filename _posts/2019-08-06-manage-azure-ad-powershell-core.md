@@ -1,10 +1,10 @@
 ---
-title: Use PowerShell core on linux to manage Azure AD Users and Groups
+title: Use PowerShell core and the AZ module to manage Azure Active Directory Users and Groups (on linux)
 author: Matthew Davis
 date: 2019-08-06
 toc: false
 classes: wide
-excerpt: Going over the basics of using the AZ PowerShell module to manage users and groups in Azure Active Directory
+excerpt: Going over the basics of using the AZ PowerShell module to manage users and groups in Azure Active Directory. This post was done on Ubuntu 18.04
 categories:
     - powershell
 tags:
@@ -12,7 +12,7 @@ tags:
     - aad
     - core
     - powershell
-published: true
+published: false
 ---
 August 2019
 
