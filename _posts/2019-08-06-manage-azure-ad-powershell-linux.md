@@ -30,7 +30,12 @@ This guide has been written running PowerShell Core on Ubuntu linux, but as long
 
 Although this guide is showing it running on Ubuntu, the AZ cmdlets will be the same running PowerShell core on Mac, Windows and even PowerShell Desktop edition running on Windows.
 
+![PowerShell core running on Ubuntu 18.04](/images/powershell-core-azure/ps-info.png)
+
+
 ## Install AZ module
+
+First we need to install the AZ module previously mentioned. This can be done using PowerShell, the Find-Module cmdlet searches the [PowerShell gallery] (providing you have not changed the default provider) and the Install-Module cmdlet installs it under the currentuser (you will need to sudo if on linux to install the module for all users).
 
 ```powershell
 Find-Module az
@@ -38,19 +43,31 @@ Find-Module az
 Install-Module -Name az -Scope CurrentUser
 ```
 
+![installing the az module](/images/powershell-core-azure/install-module.png)
+
 Now we can see the module is installed and as mentioned earlier, it can be used both on PowerShell core and the desktop edition.
 
 ```powershell
 Get-Module -Name az -ListAvailable
 ```
 
+![module details](/images/powershell-core-azure/module-details.png)
+
 ## Connecting
+
+Note: You will need to sign in with a user who has permissions to manage users and groups in Azure AD (The [User administrator role] would be good for least privilege access)
+
+Now we have to sign in via a web browser for a token to be issued for your PowerShell session.
 
 ```powershell
 Connect-AzAccount
 ```
 
-Now we have to sign in via the browser so a token will be issued to your PowerShell session.
+![connecting to azure](/images/powershell-core-azure/connect.png)
+
+Once you have signed in with the correct credentials, you will see the message below and can close the browser tab.
+
+![successful authentication](/images/powershell-core-azure/authed.png)
 
 ## Context
 
@@ -142,4 +159,6 @@ Using the AZ module in PowerShell core is a handy way to do some basic Azure AD 
 [Azure Resource Manager API]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview
 [migrate old scripts]: https://docs.microsoft.com/en-us/powershell/azure/migrate-from-azurerm-to-az?view=azps-2.5.0
 [AZ cmdlets]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
+[PowerShell gallery]: https://www.powershellgallery.com/
+[user administrator role]: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles#user-administrator
 [Exchange online]: https://support.microsoft.com/en-ca/help/2824766/alias-or-mailnickname-are-changed-for-a-synced-user
