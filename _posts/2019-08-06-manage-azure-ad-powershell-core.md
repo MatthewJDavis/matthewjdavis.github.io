@@ -55,7 +55,7 @@ Get-Module -Name az -ListAvailable
 
 ## Connecting
 
-Note: You will need to sign in with a user who has permissions to manage users and groups in Azure AD (The [User administrator role] would be good for least privilege access)
+Note: You will need to sign in with a user who has permissions to manage users and groups in Azure AD (The [User Administrator role] would be good for least privilege access)
 
 Now we have to sign in via a web browser for a token to be issued for your PowerShell session.
 
@@ -204,7 +204,7 @@ The AZ module has become my daily driver and allows management via linux, mac or
 [migrate old scripts]: https://docs.microsoft.com/en-us/powershell/azure/migrate-from-azurerm-to-az?view=azps-2.5.0
 [AZ cmdlets]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
 [PowerShell gallery]: https://www.powershellgallery.com/
-[user administrator role]: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles#user-administrator
+[User Administrator role]: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles#user-administrator
 [Select-AzContext]: https://docs.microsoft.com/en-us/powershell/module/az.accounts/select-azcontext?view=azps-2.5.0
 [Exchange online]: https://support.microsoft.com/en-ca/help/2824766/alias-or-mailnickname-are-changed-for-a-synced-user
 [this post]: http://duffney.io/AddCredentialsToPowerShellFunctions
