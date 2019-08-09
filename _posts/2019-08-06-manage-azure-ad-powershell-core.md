@@ -55,7 +55,7 @@ Get-Module -Name az -ListAvailable
 
 ## Connecting
 
-Note: You will need to sign in with a user who has permissions to manage users and groups in Azure AD (The [User Administrator role] would be good for least privilege access)
+Note: You will need to sign in with a user who has permissions to manage users and groups in AAD (The [User Administrator role] would be good for least privilege access)
 
 Now we have to sign in via a web browser for a token to be issued for your PowerShell session.
 
@@ -119,7 +119,7 @@ New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'demo2@matthewdavis
 
 ## Update User: Update-AzADUser
 
-We can update the display name and password of users using the Update-AzADUser. Only use this on users that were created in Azure AD, use on premises AD if you are syncing users up there.
+We can update the display name and password of users using the Update-AzADUser. Only use this on users that were created in AAD, use on premises AD if you are syncing users up there.
 
 ```powershell
 # save password in var
@@ -191,7 +191,7 @@ Remove-AzADGroup -DisplayName 'a-demo-group' -PassThru -Force
 
 ## Summary
 
-Using the AZ module in PowerShell core is a handy way to do some basic Azure AD user and group management and can easily enough be incorporated into automation. Despite being old and classed as 'V1' for interacting with AAD, the [MS Online] (MSOL) module gives access to lots more properties and I do need to use it from time to time, including in my previous post on how to [check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours].
+Using the AZ module in PowerShell core is a handy way to do some basic AAD user and group management and can easily enough be incorporated into automation. Despite being old and classed as 'V1' for interacting with AAD, the [MS Online] (MSOL) module gives access to lots more properties and I do need to use it from time to time, including in my previous post on how to [check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours].
 
 The AZ module has become my daily driver and allows management via linux, mac or Windows. As I'm using my Ubuntu laptop more at home, it is great to be able to interact with Azure this way.
 
