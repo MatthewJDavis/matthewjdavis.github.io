@@ -18,7 +18,7 @@ August 2019
 
 # Overview
 
-I have been mainly using [PowerShell Core] for my daily work for a while now and have been using it a lot recently to interact with Azure and Azure ACtive Directory (AAD) so will go through some details of getting connected to the Azure tenant and some commands to manage users and groups in AAD.
+I have been mainly using [PowerShell Core] for my daily work for a while now and have been using it a lot recently to interact with Azure and Azure Active Directory (AAD) so will go through some details of getting connected to the Azure tenant and some commands to manage users and groups in AAD.
 
 After using Azure for a few years now, getting started with cloud services and the classic deployment model (the old Windows Azure Service Management API - [now deprecated]) and [migrating] over to the [Azure Resource Manager API], I use PowerShell as much as possible to interact with it and automate work. I've moved away from the AzureRM PowerShell cmdlets to now use the cross platform [AZ cmdlets] (a lot less typing and not too bad to [migrate old scripts] over).
 
