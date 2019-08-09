@@ -32,7 +32,6 @@ Although this guide is showing it running on Ubuntu, the AZ cmdlets will be the 
 
 ![PowerShell core running on Ubuntu 18.04](/images/powershell-core-azure/ps-info.png)
 
-
 ## Install AZ module
 
 First we need to install the AZ module previously mentioned. This can be done using PowerShell, the Find-Module cmdlet searches the [PowerShell gallery] (providing you have not changed the default provider) and the Install-Module cmdlet installs it under the currentuser (you will need to sudo if on linux to install the module for all users).
@@ -134,7 +133,6 @@ New-AzADGroup -DisplayName a-demo-group -MailNickname a-demo-group -Description 
 Adding and removing users from groups works as you would expect, you can add multiple members in one cmdlet as shown below. One thing to note is that the Add-AzADGroupMember cmdlet will error if the group already contains a user and at present, will not add any of the users.
 
 ```powershell
-
 # Add a single user to a group
 Add-AzADGroupMember -TargetGroupDisplayName 'a-demo-group' -MemberUserPrincipalName 'demo1@matthewdavis111.com'
 
@@ -164,7 +162,7 @@ Get-AzADGroupMember -GroupDisplayName 'a-demo-group'
 
 Finally, we can tidy up by deleting the group (PassThru is a required parameter).
 
-powershell```
+```powershell
 Remove-AzADGroup -DisplayName 'a-demo-group' -PassThru -Force
 ```
 
@@ -187,4 +185,4 @@ The AZ module has become my daily driver and allows management via linux, mac or
 [Select-AzContext]: https://docs.microsoft.com/en-us/powershell/module/az.accounts/select-azcontext?view=azps-2.5.0
 [Exchange online]: https://support.microsoft.com/en-ca/help/2824766/alias-or-mailnickname-are-changed-for-a-synced-user
 [this post]: http://duffney.io/AddCredentialsToPowerShellFunctions
-[check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours] :https://matthewdavis111.com/azure/az-runbook-for-ad-aad-sync-alerting/
+[check and alert if Azure Active Directory Sync has not been able to sync for a couple of hours]: https://matthewdavis111.com/azure/az-runbook-for-ad-aad-sync-alerting/
