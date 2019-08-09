@@ -12,7 +12,7 @@ tags:
     - aad
     - core
     - powershell
-published: false
+published: true
 ---
 August 2019
 
