@@ -16,21 +16,25 @@ August 2019
 
 # Overview
 
+I've been using Azure a lot recently and have been working with different subscriptions in my work and and personal environments. To do this with PowerShell AZ module, you use the Connect-AZAccount to authenticate with the Azure environment. You can use the AZContext cmdlets to manage which environment and subscription you are running your commands against.
 
+I'll run through my workflow of setting up the different contexts to work with different subscriptions in different environments, and exporting them so they can be loaded again in the future.
 
 ## Connect-AzAccount
+
+You can check to see if there are any contexts available and list all of them with the following command and switch parameter
 
 ```powershell
 Get-AzContext -ListAvailable
 ```
+
+If you have not connected or loaded any contexts, then there will be none available. First step will be to connect to Azure with an account that has the right permissions required to carry out the work you want to do.
 
 Connect personal account
 
 ```powershell
 Connect-AzAccount
 ```
-
-
 
 Connect work account
 
