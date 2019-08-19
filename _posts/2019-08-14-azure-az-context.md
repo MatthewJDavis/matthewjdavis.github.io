@@ -16,9 +16,9 @@ August 2019
 
 # Overview
 
-I've been using Azure a lot recently and have been working with different subscriptions in my work and and personal environments. To do this with PowerShell AZ module, you use the Connect-AZAccount to authenticate with the Azure environment. You can use the AZContext cmdlets to manage which environment and subscription you are running your commands against.
+I've been using Azure a lot again recently, working with different subscriptions in my work and and personal accounts. To do this with PowerShell AZ module, you use the Connect-AZAccount to authenticate with the Azure environment. You can use the AZContext cmdlets to manage which environment and subscription you are running your commands against.
 
-I'll run through my workflow of setting up the different contexts to work with different subscriptions in different environments, and exporting them so they can be loaded again in the future.
+I'll run through my workflow of setting up the different contexts to work with different subscriptions in different accounts, and exporting them so they can be loaded again in the future.
 
 ## Connect-AzAccount
 
@@ -28,19 +28,22 @@ You can check to see if there are any contexts available and list all of them wi
 Get-AzContext -ListAvailable
 ```
 
+![PowerShell no contexts available](/images/ps-azcontext/no-ctx.png)
+
 If you have not connected or loaded any contexts, then there will be none available. First step will be to connect to Azure with an account that has the right permissions required to carry out the work you want to do.
 
-Connect personal account
+Run the Connect-AzAccount cmdlet to authenticate to the account(s) you want to. After running the cmdlet, you can see the context you are working with by running the Get-AzContext. To connect to another Azure account, run the Connect cmdlet again.
 
 ```powershell
 Connect-AzAccount
 ```
 
-Connect work account
+![adding an account](/images/ps-azcontext/add-account.png)
 
-```powershell
-Connect-AzAccount
-```
+Below shows my personal and work accounts connected.
+
+![PowerShell no contexts available](/images/ps-azcontext/get-accounts.png)
+
 
 ## Renaming the contexts
 
@@ -52,12 +55,16 @@ Rename-AzContext -SourceName 'Pay-As-You-Go (xxxxxxxx-xxxx-xxxxxx-xxxx-xxxxxxxxx
 Rename-AzContext -SourceName 'Visual Studio Professional (xxxxxxxx-xxxx-xxxxxx-xxxx-xxxxxxxxxx) xxx.xxx@xxx' -TargetName 'VSP'
 ```
 
+![Renaming contexts](/images/ps-azcontext/rename.png)
+
 Now we can change context easily.
 
 ```powershell
 Select-AzContext 'VSP'
 Select-AzContext 'PAYG'
 ```
+
+![Select context](/images/ps-azcontext/select-context.png)
 
 ## Saving the context settings
 
@@ -66,6 +73,8 @@ Now the two contexts have been set up, they can be saved to be imported later on
 ```powershell
 Save-AzContext -Path /home/matt/Documents/azure/azure-context.json
 ```
+
+![PowerShell no contexts available](/images/ps-azcontext/add-another-context.png)
 
 ## Importing the context settings
 
@@ -118,4 +127,4 @@ foreach($ctx in $ctxList){
 
 ## Summary
 
-Working across multiple Azure accounts and subscriptions is made easier with the AzContext cmdlet, saving the context with an easier to type name helps (especially in automation), however using tab to auto complete when working interactively makes it less painful.
+Working across multiple Azure accounts and subscriptions is made easier with the AzContext cmdlet, saving the context with an easier to type name helps (especially in automation), however using tab to auto complete when working interactively makes it less painful. Being able to save and import the context means you can get them set up with memorable names and makes switching between subscriptions and accounts simpler. 
