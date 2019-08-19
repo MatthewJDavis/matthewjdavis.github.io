@@ -16,9 +16,9 @@ August 2019
 
 # Overview
 
-I've been using Azure a lot again recently, working with different subscriptions in my work and and personal accounts. To do this with PowerShell AZ module, you use the Connect-AZAccount to authenticate with the Azure environment. You can use the AZContext cmdlets to manage which environment and subscription you are running your commands against.
+I've been using Azure a lot again recently, working with different subscriptions in my work and personal accounts. To do this with [PowerShell AZ module], you use the Connect-AZAccount to authenticate with the Azure environment. You can use the AZContext cmdlets to manage which environment and subscription you are running your commands against.
 
-I'll run through my workflow of setting up the different contexts to work with different subscriptions in different accounts, and exporting them so they can be loaded again in the future.
+I'll run through my workflow of setting up the contexts to work with different subscriptions in different accounts, and exporting them so they can be loaded again in the future.
 
 ## Connect-AzAccount
 
@@ -74,8 +74,6 @@ Now the two contexts have been set up, they can be saved to be imported later on
 Save-AzContext -Path /home/matt/Documents/azure/azure-context.json
 ```
 
-![PowerShell no contexts available](/images/ps-azcontext/add-another-context.png)
-
 ## Importing the context settings
 
 The saved contexts can be imported easily enough
@@ -108,6 +106,8 @@ To add all subscriptions to your Azure context you can run the following.
 Get-AzSubscription | Set-AzContext
 ```
 
+![PowerShell no contexts available](/images/ps-azcontext/add-another-context.png)
+
 ### Iterating over subscriptions
 
 Now we have all the subscriptions we are working with set up as context, you can work with resources across all of the context using a loop.
@@ -127,4 +127,7 @@ foreach($ctx in $ctxList){
 
 ## Summary
 
-Working across multiple Azure accounts and subscriptions is made easier with the AzContext cmdlet, saving the context with an easier to type name helps (especially in automation), however using tab to auto complete when working interactively makes it less painful. Being able to save and import the context means you can get them set up with memorable names and makes switching between subscriptions and accounts simpler. 
+Working across multiple Azure accounts and subscriptions is made easier with the AzContext cmdlet, saving the context with an easier to type name helps (especially in automation), however using tab to auto complete when working interactively makes it less painful. Being able to save and import the context means you can get them set up with memorable names and makes switching between subscriptions and accounts simpler.
+
+[PowerShell Azure module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
+
