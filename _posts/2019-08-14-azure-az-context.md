@@ -129,5 +129,5 @@ foreach($ctx in $ctxList){
 
 Working across multiple Azure accounts and subscriptions is made easier with the AzContext cmdlet, saving the context with an easier to type name helps (especially in automation), however using tab to auto complete when working interactively makes it less painful. Being able to save and import the context means you can get them set up with memorable names and makes switching between subscriptions and accounts simpler.
 
-[PowerShell Azure module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
+[PowerShell AZ module]: https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-2.5.0
 
