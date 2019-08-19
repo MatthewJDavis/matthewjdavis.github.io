@@ -10,7 +10,7 @@ categories:
 tags:
     - azure
     - powershell
-published: false
+published: true
 ---
 August 2019
 
