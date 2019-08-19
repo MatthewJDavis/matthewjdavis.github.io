@@ -64,7 +64,7 @@ Select-AzContext 'VSP'
 Select-AzContext 'PAYG'
 ```
 
-![Select context](/images/ps-azcontext/select-context.png)
+![Select context](/images/ps-azcontext/select-azcontext.png)
 
 ## Saving the context settings
 
