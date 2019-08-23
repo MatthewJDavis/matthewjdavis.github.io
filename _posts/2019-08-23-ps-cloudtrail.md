@@ -11,7 +11,7 @@ tags:
     - aws
     - powershell
     - cloudtrail
-published: true
+published: false
 ---
 August 2019
 
