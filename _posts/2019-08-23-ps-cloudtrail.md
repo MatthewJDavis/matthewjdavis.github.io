@@ -60,6 +60,61 @@ Add-S3PublicAccessBlock @s3PublicParams
 
 ### CloudTrail
 
+To create the CloudTrail trail, the parameters are [splatted] for easier reading with the name and bucket name variables passed to the hashtable and the required settings set to true. The New-CTTrail creates the desired trail.
+
+```powershell
+#region CloudTrail
+$params = @{
+    Name                      = $CloudTrailName
+    S3BucketName              = $BucketName
+    EnableLogFileValidation   = $true
+    IsMultiRegionTrail        = $true
+    IncludeGlobalServiceEvent = $true
+}
+
+# Create trail
+New-CTTrail @params
+```
+
+Next a tag is created and applied to the trail
+
+``powershell
+# Create description tag and add to trail
+$tag = New-Object -TypeName Amazon.CloudTrail.Model.Tag
+$tag.Key = 'Description'
+$tag.Value = 'All region Cloudtrail logging all data events for S3 and Lambda.'
+
+Add-CTTag -ResourceId  (Get-CTTrail -TrailNameList $CloudTrailName).TrailARN -TagsList $tag
+```
+
+### Write-CTEventSelector
+
+To capture all of the S3 and Lambda, an [EventSelector] is required and the Write-CTEventSelector takes a list of EventSelector objects for the EventSelector parameter value.
+
+```powershell
+[-EventSelector <Amazon.CloudTrail.Model.EventSelector[]>]
+```
+
+```powershell
+# Create CloudTrail event selector object
+$EventSelector = New-Object -TypeName Amazon.CloudTrail.Model.EventSelector
+$EventSelector.IncludeManagementEvents = $true
+$EventSelector.ReadWriteType = 'All'
+```
+
+Looking at the [EventSelector] documentation, along with the two properties specified about, it also requires a [DataResource] object (again can be a list). The [DataResource] objects created below are for S3 and Lambda.
+
+```powershell
+# S3 data resource
+$S3DataResource = New-Object -TypeName Amazon.CloudTrail.Model.DataResource
+$S3DataResource.Type = 'AWS::S3::Object'
+$S3DataResource.Values = 'arn:aws:s3'
+
+# Lambda data resource
+$LambdaDataResource = New-Object -TypeName Amazon.CloudTrail.Model.DataResource
+$LambdaDataResource.Type = 'AWS::Lambda::Function'
+$LambdaDataResource.Values = 'arn:aws:lambda'
+```
 
 
 ### Full Script
@@ -72,3 +127,6 @@ Add-S3PublicAccessBlock @s3PublicParams
 [Splunk]: https://www.splunk.com/en_us/cyber-security/siem-security-information-and-event-management.html
 [Azure Sentinel]: https://azure.microsoft.com/en-ca/services/azure-sentinel/
 [future regions]: https://aws.amazon.com/blogs/aws/aws-cloudtrail-update-turn-on-in-all-regions-use-multiple-trails/
+[splatted]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_splatting?view=powershell-6
+[EventSelector]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/index.html?page=CloudTrail/TCloudTrailEventSelector.html&tocid=Amazon_CloudTrail_Model_EventSelector
+[DataResource]: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/CloudTrail/TDataResource.html
