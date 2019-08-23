@@ -22,7 +22,10 @@ The default settings for CloudTrail is to keep the logs for 90 days but by setti
 
 Having just set this up in a number of AWS accounts, I created a PowerShell script that would create an S3 bucket (public access denied on it) and a new CloudTrail trail that covers events in all current and [future regions] along with collecting events from the S3 and Lambda services.
 
+There is a cost for the log storage space used by CloudTrail and also if these are additional trails in the account, check the latest AWS documentation for details
+
 ## Set up
+
 You will need PowerShell core and the AWS PowerShell core module (this is what I tested on, it should work on desktop PowerShell with the AWS module installed too).
 A user that has permissions to create S3 buckets and CloudTrail trails.
 
@@ -33,7 +36,6 @@ I'll run through some of the parts of the script, the full script can be found b
 Firstly some variables are set up for creating the S3 bucket name which needs to be globally unique and the account number gives a good chance of this being achieved.
 
 ```powershell
-$AccountName = Get-IAMAccountAlias
 $AccountNumber = (Get-STSCallerIdentity).account
 $BucketName = "cloudtrail-$AccountNumber"
 $CloudTrailName = 'matt-cloudtrail'
@@ -78,7 +80,7 @@ New-CTTrail @params
 
 Next a tag is created and applied to the trail
 
-``powershell
+```powershell
 # Create description tag and add to trail
 $tag = New-Object -TypeName Amazon.CloudTrail.Model.Tag
 $tag.Key = 'Description'
@@ -116,12 +118,24 @@ $LambdaDataResource.Type = 'AWS::Lambda::Function'
 $LambdaDataResource.Values = 'arn:aws:lambda'
 ```
 
+The DataResources created are added to the EventSelector and this is applied to the trail and the trail is started.
+
+```powershell
+# Add data resources to event selector and update CloudTrail
+$EventSelector.DataResources = $S3DataResource, $LambdaDataResource
+Write-CTEventSelector -TrailName $CloudTrailName -EventSelector $EventSelector
+
+# Start CloudTrail logging
+Start-CTLogging -Name $CloudTrailName
+```
 
 ### Full Script
 
 <script src="https://gist.github.com/MatthewJDavis/cb16c1edadd2e3ba5fbc23658bcaf58a.js"></script>
 
 ## Summary
+
+CloudTrail trails and logs are an important auditing tool in AWS, allowing you to see who is doing what in your account and can be used to set up alerts when certain actions take place. Using PowerShell allowed me to quickly deploy a standardised CloudTrail trail to many AWS accounts and made sure the S3 buckets were set to only private objects and the trail covered all regions and capturing actions on the services we required.
 
 [AWS CloudTrail]: https://aws.amazon.com/cloudtrail/
 [Splunk]: https://www.splunk.com/en_us/cyber-security/siem-security-information-and-event-management.html
