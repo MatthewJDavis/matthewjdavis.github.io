@@ -11,7 +11,7 @@ tags:
     - aws
     - powershell
     - cloudtrail
-published: false
+published: true
 ---
 August 2019
 
@@ -43,9 +43,48 @@ $CloudTrailName = 'matt-cloudtrail'
 
 ### S3 Bucket
 
-The CloudTrail policy is created in a here string variable and applied to the S3 bucket after creation to allow the CloudTrail service to save logs to the bucket.
+The CloudTrail policy is created in a here string variable and applied to the S3 bucket after creation to allow the CloudTrail service to write logs to the bucket.
 
-The bucket is made private so no items can be made public.
+```powershell
+# Bucket Policy to allow CloudTrail to write logs to the bucket
+$S3CloudTrailPolicy = @"
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSCloudTrailAclCheck20150319",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::$BucketName"
+        },
+        {
+            "Sid": "AWSCloudTrailWrite20150319",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::$BucketName/AWSLogs/$AccountNumber/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+            }
+        }
+    ]
+}
+"@
+
+
+# Create S3 bucket and apply the bucket policy
+New-S3Bucket -BucketName $BucketName
+Write-S3BucketPolicy -BucketName $BucketName -Policy $S3CloudTrailPolicy
+```
+
+The bucket is set to private so no items can be made public.
 
 ```powershell
 # Block public access for the bucket and objects
@@ -104,7 +143,7 @@ $EventSelector.IncludeManagementEvents = $true
 $EventSelector.ReadWriteType = 'All'
 ```
 
-Looking at the [EventSelector] documentation, along with the two properties specified about, it also requires a [DataResource] object (again can be a list). The [DataResource] objects created below are for S3 and Lambda.
+Looking at the [EventSelector] documentation, along with the two properties specified above, it also requires a [DataResource] object (again can be a list). The [DataResource] objects created below are for S3 and Lambda.
 
 ```powershell
 # S3 data resource
