@@ -1,18 +1,18 @@
--- -
+---
 title: Use PowerShell to see UPN lengths of Active Directory users.
 excerpt: Small script that will get the UserPrincipalName lengths of all users in Active Directory and sort them by size.
 categories:
 - powershell
 tags:
 - active directory
-- powershel
+- powershell
 published: false
--- -
+---
 August 2019
 
 # Overview
 
-Quick one today, had an application that was using an Azure Enterprise application for Single Sign On via SAML that would let the user log in then log them straight back out.
+Quick one today, had an application that was using an [Azure Enterprise application] for Single Sign On (SSO) via SAML that would log the user in and straight back out.
 Troubleshooting with the user provided no indications of what was going on and after checking the Active Directory account, I noticed the UserPrincipalName (UPN) was rather long.
 This got me thinking on how it compared to other UPNs for length in Active Directory so wrote a quick script to find out.
 
@@ -35,7 +35,7 @@ $upnDetails = foreach($upn in $upnList){
 $sorted = $upnDetails | sort count -Descending
 
 # Few the top ten longest UPNS
-$sorted | Select-Object -First 10
+$sorted | Select--NoTypeInformationObject -First 10
 
 # output to csv
 $sorted | Export-Csv upn-length.csv -NoTypeInformation
@@ -45,3 +45,4 @@ $sorted | Export-Csv upn-length.csv -NoTypeInformation
 
 Nothing too difficult here but was handy to find out and the user in question who was having issues with SSO login had the 3rd longest UPN in the directory being a couple of service accounts.
 
+[Azure Enterprise application]: https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/what-is-application-management
