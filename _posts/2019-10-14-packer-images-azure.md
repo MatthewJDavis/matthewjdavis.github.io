@@ -107,10 +107,23 @@ Below is an example of how the environment variables are processed in the packer
 
 ## Packer File
 
+Below is a complete packer file that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
+
+<script src="https://gist.github.com/MatthewJDavis/840cce73e920f73628b2b88373ce8e21.js"></script>
+
+After running the build, below is a small VM that was created from the image that allows port 80 through the security group so the default nginx welcome page is displayed on the public IP address.
+
+![vm created from the image](/images/packer-azure/nginx-portal.png)
+
+The welcome page
+
+![nginx welcome page](/images/packer-azure/welcome-page.png)
+
+Every time this image is used to create a VM, nginx will be running so can be used as the image to create VMs in a load balancer etc.
+
 ## Azure Shared image repo
 
 ## Summary
-
 
 [Packer Azure Resource Manager documents]: https://www.packer.io/docs/builders/azure.html
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
