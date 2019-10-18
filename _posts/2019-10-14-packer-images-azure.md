@@ -18,7 +18,7 @@ I have been creating custom images for AWS (AMI) for a while and went through th
 
 [Packer Azure Resource Manager documents] are well written and provide lots of details on the options available.
 
-This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3 and Packer 1.4.4 and Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
+This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
 ## Set up
 
@@ -29,7 +29,7 @@ You can authenticate to Azure for building with packer 2 ways:
 1. Interactive authentication
 2. A service principal
 
-The method packer uses depends on the environment variables that are set in the shell.
+The method packer uses depends on the environment variables that are set in the shell when the Packer build command is run.
 
 **Interactive**
 
@@ -42,7 +42,7 @@ The Packer Azure builder will prompt you to authenticate via a web browser if yo
 To set the environment variables in bash:
 
 ```bash
-# set env variables for interactive
+# set env variables for interactive logon
 export ARM_SUBSCRIPTION_ID=xxxxx-xxxx-xxxx-xxx-xxx
 export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
 export RESOURCE_GROUP_NAME=packerImageBuilds
@@ -80,31 +80,9 @@ az ad sp create-for-rbac -n "Packer-Matt-Visual-Studio-Subscription-Only" --role
 
 [create for rbac docs]
 
-### Resource Group
-
-An Azure resource group is required before the packer build runs to store the images that are created.
-
-A resource group can be created in the portal, by the az cli or PowerShell as shown below.
-
-```powershell
-$packerRGName = 'packerImageBuilds'
-$tags = @{'Environment' = 'Dev'; 'Description' = 'Resource group where images built by packer are stored' }
-$resourceGroup = New-AzResourceGroup -Name $Name -Location $location -Tag $tags -Verbose
-
-# cli
-az group create --location northeurope --name packerImageBuilds --tags 'Environment=Dev' 'Description=Images produced by Packer builds'
-```
-
-### Variables
-
-Values to be passed to the packer build template on validate or build are set as environment variables.
+To set the environment variables in bash:
 
 ```bash
-# set env variables for interactive
-export ARM_SUBSCRIPTION_ID=xxxxx-xxxx-xxxx-xxx-xxx
-export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
-export RESOURCE_GROUP_NAME=packerImageBuilds
-
 # set environment variables for service principal
 
 export ARM_CLIENT_ID=xxxxx-xxxx-xxxx-xxx-xxx
@@ -115,7 +93,37 @@ export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
 export RESOURCE_GROUP_NAME=packerImageBuilds
 ```
 
-Below is an example of how the environment variables are processed in the packer template. Environment variables are passed to the variables set at the top of the packer template and then they become 'user' variables and passed to the builders.
+To set the environment variables in PowerShell:
+
+```powershell
+$env:ARM_CLIENT_ID='xxxxx-xxxx-xxxx-xxx-xxx'
+$env:ARM_CLIENT_SECRET='xxxxx-xxxx-xxxx-xxx-xxx'
+$env:ARM_SUBSCRIPTION_ID='xxxxx-xxxx-xxxx-xxx-xxx'
+$env:ARM_TENANT_ID='xxxxx-xxxx-xxxx-xxx-xxx'
+$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-pwsh-v1'
+$env:RESOURCE_GROUP_NAME='packerImageBuilds'
+```
+
+### Resource Group for Packer images
+
+An Azure resource group is required before the packer build runs to store the images that are created.
+
+A resource group can be created in the portal, by the az cli or PowerShell as shown below.
+
+```powershell
+$packerRGName = 'packerImageBuilds'
+$tags = @{'Environment' = 'Dev'; 'Description' = 'Resource group where images built by packer are stored' }
+$resourceGroup = New-AzResourceGroup -Name $Name -Location $location -Tag $tags -Verbose
+```
+
+```bash
+# cli
+az group create --location northeurope --name packerImageBuilds --tags 'Environment=Dev' 'Description=Images produced by Packer builds'
+```
+
+### Variables in the Packer file
+
+Below is an example of how the environment variables are passed to the packer template. Environment variables are passed to the variables set at the top of the packer template and then they become 'user' variables and passed to the builders.
 
 ```json
   "variables": {
@@ -134,11 +142,19 @@ Below is an example of how the environment variables are processed in the packer
 
 ## Packer File
 
-Below is a complete packer file that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
+Below is a complete packer file calle azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
 
 <script src="https://gist.github.com/MatthewJDavis/840cce73e920f73628b2b88373ce8e21.js"></script>
 
-After running the build, below is a small VM that was created from the image that allows port 80 through the security group so the default nginx welcome page is displayed on the public IP address.
+```bash
+packer build azure-ubuntu-nginx-packer.json
+```
+
+After running a successful build, an image is created in the 
+
+
+
+Below is a small VM that was created from the image that allows port 80 through the security group so the default nginx welcome page is displayed on the public IP address.
 
 ![vm created from the image](/images/packer-azure/nginx-portal.png)
 
