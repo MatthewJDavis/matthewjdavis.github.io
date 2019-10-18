@@ -44,7 +44,7 @@ To set the environment variables in bash:
 ```bash
 # set env variables for interactive logon
 export ARM_SUBSCRIPTION_ID=xxxxx-xxxx-xxxx-xxx-xxx
-export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
+export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-nginx
 export RESOURCE_GROUP_NAME=packerImageBuilds
 ```
 
@@ -52,7 +52,7 @@ To set the environment variables in PowerShell:
 
 ```powershell
 $env:ARM_SUBSCRIPTION_ID='xxxxx-xxxx-xxxx-xxx-xxx'
-$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-pwsh-v1'
+$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-nginx'
 $env:RESOURCE_GROUP_NAME='packerImageBuilds'
 ```
 
@@ -89,7 +89,7 @@ export ARM_CLIENT_ID=xxxxx-xxxx-xxxx-xxx-xxx
 export ARM_CLIENT_SECRET=xxxxx-xxxx-xxxx-xxx-xxx
 export ARM_SUBSCRIPTION_ID=xxxxx-xxxx-xxxx-xxx-xxx
 export ARM_TENANT_ID=xxxxx-xxxx-xxxx-xxx-xxx
-export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
+export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-nginx
 export RESOURCE_GROUP_NAME=packerImageBuilds
 ```
 
@@ -100,7 +100,7 @@ $env:ARM_CLIENT_ID='xxxxx-xxxx-xxxx-xxx-xxx'
 $env:ARM_CLIENT_SECRET='xxxxx-xxxx-xxxx-xxx-xxx'
 $env:ARM_SUBSCRIPTION_ID='xxxxx-xxxx-xxxx-xxx-xxx'
 $env:ARM_TENANT_ID='xxxxx-xxxx-xxxx-xxx-xxx'
-$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-pwsh-v1'
+$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-nginx'
 $env:RESOURCE_GROUP_NAME='packerImageBuilds'
 ```
 
@@ -142,7 +142,7 @@ Below is an example of how the environment variables are passed to the packer te
 
 ## Packer File
 
-Below is a complete packer file calle azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
+Below is a complete packer file called azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
 
 <script src="https://gist.github.com/MatthewJDavis/840cce73e920f73628b2b88373ce8e21.js"></script>
 
@@ -150,15 +150,19 @@ Below is a complete packer file calle azure-ubuntu-nginx-packer.json that will c
 packer build azure-ubuntu-nginx-packer.json
 ```
 
-After running a successful build, an image is created in the 
+After running a successful build, an image is created in the resource group set in the RESOURCE_GROUP_NAME environment variable.
 
+![image uploaded to the resource group](/images/packer-azure/image-rg.png)
 
+Clicking on the image shows the details of the image and gives you the option to create a VM from that image.
 
-Below is a small VM that was created from the image that allows port 80 through the security group so the default nginx welcome page is displayed on the public IP address.
+![details of image upload](/images/packer-azure/image-details.png)
+
+Below is a small VM that was created directly from the image that allows port 80 through the security group so the default nginx welcome page is displayed on the public IP address.
 
 ![vm created from the image](/images/packer-azure/nginx-portal.png)
 
-The welcome page
+The nginx welcome page
 
 ![nginx welcome page](/images/packer-azure/welcome-page.png)
 
