@@ -170,6 +170,25 @@ Every time this image is used to create a VM, nginx will be running so can be us
 
 ## Azure Shared image repo
 
+As mentioned earlier, a good way to segregate Packer builds is to do them in their own Azure subscription and then us an Azure share image repostitory to share the built images with certain subscritpions.
+
+First, create an Azure image repository, this can be done via the portal, Azure CLI or PowerShell (example below)
+
+```powershell
+# create shared image gallery
+
+$Name = 'packerImageGallery'
+$location = 'northeurope'
+$tags = @{'Environment' = 'Dev'; 'Description' = 'Resources for packer image builds' }
+
+$resourceGroup = New-AzResourceGroup -Name $Name -Location $location -Tag $tags -Verbose
+$gallery = New-AzGallery -GalleryName $Name -ResourceGroupName $Name -Location $location -Description 'Shared Image Gallery for packer builds' -Tag $tags -Verbose
+```
+
+![create a new shared image gallery in azure](/images/packer-azure/new-shared-image-gallery.png)
+
+
+
 ## Summary
 
 [Packer Azure Resource Manager documents]: https://www.packer.io/docs/builders/azure.html
