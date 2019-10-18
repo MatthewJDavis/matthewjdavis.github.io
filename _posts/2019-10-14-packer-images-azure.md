@@ -8,7 +8,7 @@ tags:
 - packer
 published: false
 ---
-August 2019
+October 2019
 
 # Overview
 
@@ -18,7 +18,7 @@ I have been creating custom images for AWS (AMI) for a while and went through th
 
 [Packer Azure Resource Manager documents] are well written and provide lots of details on the options available.
 
-This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3 and AZ CLI 2.0.74.
+This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3 and Packer 1.4.4 and Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
 ## Set up
 
@@ -29,23 +29,50 @@ You can authenticate to Azure for building with packer 2 ways:
 1. Interactive authentication
 2. A service principal
 
+The method packer uses depends on the environment variables that are set in the shell.
+
 **Interactive**
 
-The Packer Azure builder will prompt you to authenticate via a web browser if you have the following 3 variables set:
+The Packer Azure builder will prompt you to authenticate via a web browser if you have the following 3 environment variables set:
 
 1. subscription_id
 2. managed_image_name
 3. resource_group_name
 
-![auth to azure interactive](/images/packer-azure/auth-to-azure.png)
+To set the environment variables in bash:
+
+```bash
+# set env variables for interactive
+export ARM_SUBSCRIPTION_ID=xxxxx-xxxx-xxxx-xxx-xxx
+export MANAGED_IMAGE_NAME=ubuntu-18-04-lts-pwsh-v1
+export RESOURCE_GROUP_NAME=packerImageBuilds
+```
+
+To set the environment variables in PowerShell:
+
+```powershell
+$env:ARM_SUBSCRIPTION_ID='xxxxx-xxxx-xxxx-xxx-xxx'
+$env:MANAGED_IMAGE_NAME='ubuntu-18-04-lts-pwsh-v1'
+$env:RESOURCE_GROUP_NAME='packerImageBuilds'
+```
+
+![powershell environment vars added](/images/packer-azure/ps-env-vars.png)
 
 When you run packer build, a code and web address will be shown for you to authenticate and once successful and token will be issued and you'll be able to run the build.
+
+Running on linux:
+
+![auth to azure interactive](/images/packer-azure/auth-to-azure.png)
+
+Running on Windows:
+
+![auth to azure interactive](/images/packer-azure/build-windows.png)
 
 **Azure Service Principal**
 
 An Azure Service Principal should be created for automation purposes. Details on how to create the service principal can be found in the [azure documentation].
 
-As this is my own account for testing, I gave the service principal contributor role access to my subscription via the Azure CLI but for a production account, a customised RBAC should be used so the service principal just has the right amount of access required to run the builds.
+As this is my own account for testing, I gave the service principal contributor role access to my subscription via the Azure CLI but for a production account, a customised RBAC should be used so the service principal just has the right amount of access required to run the builds. AN even better way would be to use a separate Azure subscription for Packer builds and the images can be uploaded shared with using an [Azure shared image library] 
 
 ```bash
 az ad sp create-for-rbac -n "Packer-Matt-Visual-Studio-Subscription-Only" --role contributor --scopes /subscriptions/xxxxxxxx-xxxxxxx-xxxxx-xxxxx-xxxxxxx
@@ -129,3 +156,4 @@ Every time this image is used to create a VM, nginx will be running so can be us
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [azure documentation]: https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-2.7.0
 [create for rbac docs]: https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac
+[Azure shared image library]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries
