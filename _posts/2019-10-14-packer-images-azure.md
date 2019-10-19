@@ -191,7 +191,7 @@ After the operation is completed, you'll be able to see the shared image gallery
 
 ![create a new shared image gallery in azure](/images/packer-azure/azure-image-gallery.png)
 
-Next an image definition is required, this will be used by packer to upload the image to the gallery.
+Next an image definition is required, this will be referenced by the packer to upload the image to the gallery.
 
 ```powershell
 $Name = 'packerImageGallery'
@@ -206,13 +206,93 @@ $params = @{
   OsState           = 'generalized'
   OsType            = 'Linux'
   Publisher         = 'matt'
-  Offer             = 'Webserver'
+  Offer             = 'Webserver
   Sku               = $imageName
   
 }
 
-$galleryImage = New-AzGalleryImageDefinition @params
+New-AzGalleryImageDefinition @params
 ```
+
+Below is the script to build the same image as before but to upload it the shared image gallery. The environmnet variables are similar to before but have a few extra need for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
+
+
+Environment variables
+
+```powershell
+$env:ARM_CLIENT_ID = 'xxxx-xxxx-xxxx-xxxx'
+$env:ARM_CLIENT_SECRET = 'xxxx-xxxx-xxxx-xxxx'
+$env:ARM_SUBSCRIPTION_ID = 'xxxx-xxxx-xxxx-xxxx'
+$env:ARM_TENANT_ID = 'xxxx-xxxx-xxxx-xxxx'
+$env:MANAGED_IMAGE_NAME = 'ubuntu-18-04-lts-nginx'
+$env:GALLERY_NAME = 'packerImageGallery'
+$env:GALLERY_RESOURCE_GROUP = 'packerImageGallery'
+$env:MANAGED_IMAGE_RESOURCE_GROUP = 'packerImageBuilds'
+$env:IMAGE_VERSION = '1.0.0'
+```
+
+Code snippet from the packer build file specifically for the image upload to the gallery.
+
+```json
+"shared_image_gallery_destination": {
+        "resource_group": "{{user `gallery_resource_group`}}",
+        "gallery_name": "{{user `gallery_name`}}",
+        "image_name": "{{user `managed_image_name`}}",
+        "image_version": "{{user `image_version`}}",
+        "replication_regions": "northeurope"
+      },
+      "managed_image_name": "{{user `managed_image_name`}}",
+      "managed_image_resource_group_name": "{{user `managed_image_resource_group`}}"
+```
+
+replication_regions = I set this to northeurope which is the same as the same location as the shared gallery because I don't want the image to replicate, but for redundancy, you can specify multiple regions in a list.
+
+A managed image name and resource group is still required to upload the completed image to even though you are saving the image to the shared gallery at the same time.
+
+Full Packer script for shared image
+<script src="https://gist.github.com/MatthewJDavis/2555ea2f0ae55d588247e6060daff6c3.js"></script>
+
+### Sharing with the image gallery
+
+The images stored within the image gallery can be shared with different service principals, Azure AD users and Azure AD groups according to the [documentation]. The reader role IAM permission is required to access images from the gallery, below is an example of giving an AD group reader permissions to the gallery:
+
+```powershell
+$galleryName = 'packerImageGallery'
+$rgName = 'packerImageGallery'
+
+# Get the object ID for the group
+groupId = (Get-AzADGroup -DisplayName 'az-dg-image-gallery-readers').Id
+
+# Grant reader access to the gallery
+$params = @{
+  ObjectId           = $groupId
+  RoleDefinitionName = 'Reader'
+  ResourceName       = $galleryName
+  ResourceType       = Microsoft.Compute/galleries
+  ResourceGroupName  = $rgName
+}
+
+New-AzRoleAssignment @params
+```
+
+The id of the image is required to be able to use it in another subscription.
+
+```powershell
+$Name = 'packerImageGallery'
+$ImageName = 'ubuntu-18-04-lts-nginx' 
+
+Get-AzGalleryImageVersion -GalleryName $Name -ResourceGroupName $Name -GalleryImageDefinitionName $imageName | Select-Object -Property id | Format-List
+```
+
+![create a new shared image gallery in azure](/images/packer-azure/image-versions.png)
+
+I have created to versions in the above example.
+
+To use the image in a build, specify the ID you want to create the VM from, providing the user or service principal who is creating the VM has reader access to the shared gallery, a VM will be created in the target subscription with that image.
+
+Below is an example of a terraform variables file that uses an image created and stored in the gallery.
+
+![create a new shared image gallery in azure](/images/packer-azure/terraform.png)
 
 ## Summary
 
@@ -221,3 +301,4 @@ $galleryImage = New-AzGalleryImageDefinition @params
 [azure documentation]: https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-2.7.0
 [create for rbac docs]: https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac
 [Azure shared image library]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries
+[documentation]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries
