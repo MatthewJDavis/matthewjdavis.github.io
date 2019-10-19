@@ -12,13 +12,15 @@ October 2019
 
 # Overview
 
-Packer is a tool created by Hashicorp that allows you to create custom images (VMs or containers) for a wide variety of platforms including AWS, Vagrant, Virtual Box and Azure (the focus of this post). 
+Packer is a tool created by Hashicorp that allows you to create custom Virtual Machine (VM) or container images for a variety of platforms including AWS, Vagrant, Virtual Box and Azure (the focus of this post).
 
-I have been creating custom images for AWS (AMI) for a while and went through the same process for Azure to see the difference and work out how to get it configured, below is the notes I used to successfully build Ubuntu images for Azure using Packer and a basic packer build script to get started with.
+I have been creating custom images for AWS (AMI) for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure. 
+
+Below are notes I took to successfully build Ubuntu images for Azure using and a basic packer build script to get started with.
 
 [Packer Azure Resource Manager documents] are well written and provide lots of details on the options available.
 
-This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
+This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and also tested on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
 ## Set up
 
@@ -216,7 +218,6 @@ New-AzGalleryImageDefinition @params
 
 Below is the script to build the same image as before but to upload it the shared image gallery. The environmnet variables are similar to before but have a few extra need for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
 
-
 Environment variables
 
 ```powershell
@@ -295,6 +296,8 @@ Below is an example of a terraform variables file that uses an image created and
 ![create a new shared image gallery in azure](/images/packer-azure/terraform.png)
 
 ## Summary
+
+
 
 [Packer Azure Resource Manager documents]: https://www.packer.io/docs/builders/azure.html
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
