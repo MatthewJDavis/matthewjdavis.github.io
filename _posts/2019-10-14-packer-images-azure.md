@@ -323,6 +323,12 @@ Below is an example of a terraform variables file that uses an image created and
 
 ## Summary
 
+Getting Packer working with Azure didn't take too long once reading through the documentation and a bit of trial and error with the settings. I thought I'd be able to upload directly to a shared image gallery without the need of also uploading to a resource group, but this wasn't the case. I also didn't want to replicate the image, so thought putting null as the value for the replication would work but it turned out you had to specify an actual region and to not replicate the image, that had to be the same one as the image gallery you were uploading to.
+
+Packer works well with Azure and the shared image gallery is a nice feature that allows you to organise and version you VM images and all of this could easily be implemented in a build process to automate the updating and uploading of images with the service principal.
+
+All in all a good experience and one that I will use in the future due to getting a certain amount of Azure credit each month to spend to experiment with.
+
 [Hashicorp]: https://www.hashicorp.com/
 [Packer]: https://www.packer.io/
 [Open Source]: https://github.com/hashicorp/packer
