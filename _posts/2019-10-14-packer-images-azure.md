@@ -1,6 +1,9 @@
 ---
 title: Create VM images in Azure with Packer
 excerpt: How to use Packer with Azure to create custom virtual machine images for Azure vms.
+date: 2019-10-14
+toc: false
+classes: wide
 categories:
 - packer
 tags:
