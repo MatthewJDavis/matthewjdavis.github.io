@@ -12,17 +12,22 @@ October 2019
 
 # Overview
 
-Packer is a tool created by Hashicorp that allows you to create custom Virtual Machine (VM) or container images for a variety of platforms including AWS, Vagrant, Virtual Box and Azure (the focus of this post).
+[Packer] is a free [Open Source] tool created by [Hashicorp] that allows you to build custom Virtual Machine (VM) or container images for a variety of platforms including AWS, Vagrant, Virtual Box and Azure.
 
-I have been creating custom images for AWS (AMI) for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure. 
+I have been creating custom images for AWS (AMI) for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure.
 
-Below are notes I took to successfully build Ubuntu images for Azure using and a basic packer build script to get started with.
+Below are notes I took to successfully build Ubuntu images for Azure using and a basic packer build script that creates a custom Ubuntu image with nginx installed to get started with.
 
-[Packer Azure Resource Manager documents] are well written and provide lots of details on the options available.
+Packer has the different builders that can be used (you can use multiple builders in the same script to target different platforms). The [Packer Azure builder documentation] is well written and provide lots of details on the options available for the Azure platform, including the extra step needed for Azure to [deprovision] the VMs as part of the image creation.
 
 This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and also tested on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
 ## Set up
+
+[Packer install guide]
+[PowerShell Core install guide]
+[Azure CLI install guide]
+[PowerShell AZ module install guide]
 
 ### Authentication
 
@@ -297,9 +302,15 @@ Below is an example of a terraform variables file that uses an image created and
 
 ## Summary
 
-
-
-[Packer Azure Resource Manager documents]: https://www.packer.io/docs/builders/azure.html
+[Hashicorp]: https://www.hashicorp.com/
+[Packer]: https://www.packer.io/
+[Open Source]: https://github.com/hashicorp/packer
+[deprovision]: https://www.packer.io/docs/builders/azure.html#deprovision
+[Packer install guide]: https://www.packer.io/intro/getting-started/install.html
+[Azure CLI install guide]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[PowerShell Core install guide]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6
+[PowerShell AZ module install guide]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.8.0
+[Packer Azure builder documentation]: https://www.packer.io/docs/builders/azure.html
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [azure documentation]: https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-2.7.0
 [create for rbac docs]: https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac
