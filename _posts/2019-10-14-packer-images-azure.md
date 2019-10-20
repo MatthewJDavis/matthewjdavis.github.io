@@ -16,18 +16,18 @@ October 2019
 
 I have been creating custom images for AWS for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure.
 
-Below are notes I took to successfully build Ubuntu images for Azure using and a basic packer build script that creates a custom Ubuntu image with nginx installed to get started with.
+Below are notes from successfully building images for Azure using a basic packer template that will create a custom Ubuntu image with nginx installed.
 
-Packer has the different builders that can be used (you can use multiple builders in the same script to target different platforms). The [Packer Azure builder documentation] is well written and provide lots of details on the options available for the Azure platform, including the extra step needed for Azure to [deprovision] the VMs as part of the image creation.
+Packer has different builders that can be used to target different platforms (you can also use multiple builders in the same template). The [Packer Azure builder documentation] is well written and provide lots of details on the options available for the Azure platform, including the extra step needed for Azure to [deprovision] the VMs as part of the process.
 
 This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and also tested on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
 ## Set up
 
-[Packer install guide]
-[PowerShell Core install guide]
-[Azure CLI install guide]
-[PowerShell AZ module install guide]
+- [Packer install guide]
+- [PowerShell Core install guide]
+- [Azure CLI install guide]
+- [PowerShell AZ module install guide]
 
 ### Authentication
 
@@ -38,13 +38,15 @@ You can authenticate to Azure for building with packer 2 ways:
 
 The method packer uses depends on the environment variables that are set in the shell when the Packer build command is run.
 
-**Interactive**
+#### Interactive
 
-The Packer Azure builder will prompt you to authenticate via a web browser if you have the following 3 environment variables set:
+The Packer Azure builder will prompt you to authenticate via a web browser if you have the following 3 pieces of information referenced in the template:
 
 1. subscription_id
 2. managed_image_name
 3. resource_group_name
+
+These can be set directly in the template, however it is better practice to set the via [Environment variables] as shown below.
 
 To set the environment variables in bash:
 
@@ -65,7 +67,11 @@ $env:RESOURCE_GROUP_NAME='packerImageBuilds'
 
 ![powershell environment vars added](/images/packer-azure/ps-env-vars.png)
 
-When you run packer build, a code and web address will be shown for you to authenticate and once successful and token will be issued and you'll be able to run the build.
+When you run packer build, a code and web address will be shown for you to authenticate with and once successful and token will be issued and you'll be able to run the build.
+
+```bash
+packer build ./azure-ubuntu-nginx-packer.json
+```
 
 Running on linux:
 
@@ -75,17 +81,19 @@ Running on Windows:
 
 ![auth to azure interactive](/images/packer-azure/build-windows.png)
 
-**Azure Service Principal**
+#### Azure Service Principal
 
 An Azure Service Principal should be created for automation purposes. Details on how to create the service principal can be found in the [azure documentation].
 
-As this is my own account for testing, I gave the service principal contributor role access to my subscription via the Azure CLI but for a production account, a customised RBAC should be used so the service principal just has the right amount of access required to run the builds. AN even better way would be to use a separate Azure subscription for Packer builds and the images can be uploaded shared with using an [Azure shared image library] 
+As this is my own account for testing, I gave the service principal contributor role access to my subscription via the Azure CLI but for a production account, a customised RBAC should be used so the service principal just has the right amount of privilege required to run the builds and create the images. An even better way would be to use a separate Azure subscription for Packer build purposes and the images can be uploaded to an [Azure shared image library] and can be used by other subscriptions and tenants.
 
 ```bash
 az ad sp create-for-rbac -n "Packer-Matt-Visual-Studio-Subscription-Only" --role contributor --scopes /subscriptions/xxxxxxxx-xxxxxxx-xxxxx-xxxxx-xxxxxxx
 ```
 
-[create for rbac docs]
+[create for rbac command docs]
+
+Once the service principal is created, the tenant ID, Client ID and client secret need to be provided to use the service principal instead of being prompted to sign in interactively.
 
 To set the environment variables in bash:
 
@@ -221,7 +229,7 @@ $params = @{
 New-AzGalleryImageDefinition @params
 ```
 
-Below is the script to build the same image as before but to upload it the shared image gallery. The environmnet variables are similar to before but have a few extra need for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
+Below is the script to build the same image as before but to upload it the shared image gallery. The environment variables are similar to before but have a few extra need for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
 
 Environment variables
 
@@ -311,8 +319,9 @@ Below is an example of a terraform variables file that uses an image created and
 [PowerShell Core install guide]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6
 [PowerShell AZ module install guide]: https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.8.0
 [Packer Azure builder documentation]: https://www.packer.io/docs/builders/azure.html
+[Environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 [Azure CLI]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [azure documentation]: https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-2.7.0
-[create for rbac docs]: https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac
+[create for rbac command docs]: https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac
 [Azure shared image library]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries
 [documentation]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries
