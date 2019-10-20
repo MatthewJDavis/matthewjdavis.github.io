@@ -22,6 +22,8 @@ Packer has different builders that can be used to target different platforms (yo
 
 This was run using Ubuntu 18.04 LTS, with PowerShell Core 6.2.3, Azure CLI version 2.0.74, Packer 1.4.4 and also tested on Windows 10 with PowerShell Core 6.2.3 and Packer 1.4.4.
 
+**Warning** the resources created in this post will cost money / credits, from creating these images and standing up small VMs over the course of a week my cost was around £3, so not much if you use small VM sizes (one of the advantages of running headless linux servers - less overhead).
+
 ## Set up
 
 - [Packer install guide]
