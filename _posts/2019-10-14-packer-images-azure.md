@@ -277,7 +277,7 @@ Code snippet from the packer build template specifically for the image upload to
       "managed_image_resource_group_name": "{{user `managed_image_resource_group`}}"
 ```
 
-replication_regions = I set this to northeurope which is the same location as the shared gallery because I don't want the image to replicate. For redundancy you can specify multiple regions in a list.
+**replication_regions** I set this to northeurope which is the same location as the shared gallery because I don't want the image to replicate. For redundancy you can specify multiple regions in a list.
 
 A managed image name and resource group is still required to upload the completed image to even though you are saving the image to the shared gallery at the same time.
 
