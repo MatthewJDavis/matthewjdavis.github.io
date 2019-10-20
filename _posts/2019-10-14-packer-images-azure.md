@@ -281,7 +281,8 @@ Code snippet from the packer build template specifically for the image upload to
 
 A managed image name and resource group is still required to upload the completed image even though you are saving the image to the shared gallery at the same time.
 
-Full Packer template for shared image
+**Full Packer template for shared image**
+
 <script src="https://gist.github.com/MatthewJDavis/2555ea2f0ae55d588247e6060daff6c3.js"></script>
 
 ### Sharing with the image gallery
