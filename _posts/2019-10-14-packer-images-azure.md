@@ -14,7 +14,7 @@ October 2019
 
 [Packer] is a free [Open Source] tool created by [Hashicorp] that allows you to build custom Virtual Machine (VM) or container images for a variety of platforms including AWS, Vagrant, Virtual Box and Azure.
 
-I have been creating custom images for AWS (AMI) for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure.
+I have been creating custom images for AWS for a while and went through the same process for Azure to see the difference and work out how to get to get started and build custom VM images for Azure.
 
 Below are notes I took to successfully build Ubuntu images for Azure using and a basic packer build script that creates a custom Ubuntu image with nginx installed to get started with.
 
