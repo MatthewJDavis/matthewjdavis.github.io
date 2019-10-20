@@ -167,9 +167,9 @@ Below is an example of how the environment variables are passed to the packer te
   ........ continued
 ```
 
-## Packer File
+## Packer Template
 
-Below is a complete packer file called azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
+Below is a complete packer template called azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
 
 ```json
 "async_resourcegroup_delete": true
@@ -263,7 +263,7 @@ $env:MANAGED_IMAGE_RESOURCE_GROUP = 'packerImageBuilds'
 $env:IMAGE_VERSION = '1.0.0'
 ```
 
-Code snippet from the packer build file specifically for the image upload to the gallery.
+Code snippet from the packer build template specifically for the image upload to the gallery.
 
 ```json
 "shared_image_gallery_destination": {
@@ -281,7 +281,7 @@ replication_regions = I set this to northeurope which is the same location as th
 
 A managed image name and resource group is still required to upload the completed image to even though you are saving the image to the shared gallery at the same time.
 
-Full Packer script for shared image
+Full Packer template for shared image
 <script src="https://gist.github.com/MatthewJDavis/2555ea2f0ae55d588247e6060daff6c3.js"></script>
 
 ### Sharing with the image gallery
