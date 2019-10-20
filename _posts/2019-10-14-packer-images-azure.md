@@ -6,7 +6,7 @@ categories:
 tags:
 - azure
 - packer
-published: false
+published: true
 ---
 October 2019
 
