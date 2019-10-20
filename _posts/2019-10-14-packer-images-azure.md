@@ -136,22 +136,29 @@ $resourceGroup = New-AzResourceGroup -Name $Name -Location $location -Tag $tags 
 az group create --location northeurope --name packerImageBuilds --tags 'Environment=Dev' 'Description=Images produced by Packer builds'
 ```
 
-### Variables in the Packer file
+### Variables in the Packer template
 
-Below is an example of how the environment variables are passed to the packer template. Environment variables are passed to the variables set at the top of the packer template and then they become 'user' variables and passed to the builders.
+Below is an example of how the environment variables are passed to the packer template (this is for a service principal). Environment variables are passed to the variables set at the top of the packer template and then they become 'user' variables and passed to the builders.
 
 ```json
+{
   "variables": {
+    "client_id": "{{env `ARM_CLIENT_ID`}}",
+    "client_secret": "{{env `ARM_CLIENT_SECRET`}}",
     "subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
+    "tenant_id": "{{env `ARM_TENANT_ID`}}",
     "managed_image_name": "{{env `MANAGED_IMAGE_NAME`}}",
     "resource_group_name": "{{env `RESOURCE_GROUP_NAME`}}"
   },
   "builders": [
-  {
-    "type": "azure-arm",
-    "subscription_id": "{{user `subscription_id`}}",
-    "managed_image_resource_group_name": "{{user `resource_group_name` }}",
-    "managed_image_name": "{{user `managed_image_name`}}",
+    {
+      "type": "azure-arm",
+      "client_id": "{{user `client_id`}}",
+      "client_secret": "{{user `client_secret`}}",
+      "tenant_id": "{{user `tenant_id`}}",
+      "subscription_id": "{{user `subscription_id`}}",
+      "managed_image_resource_group_name": "{{user `resource_group_name` }}",
+      "managed_image_name": "{{user `managed_image_name`}}",
   ........ continued
 ```
 
@@ -159,13 +166,19 @@ Below is an example of how the environment variables are passed to the packer te
 
 Below is a complete packer file called azure-ubuntu-nginx-packer.json that will create a custom Ubuntu 18.04 LTS image with nginx installed for Azure.
 
+```json
+"async_resourcegroup_delete": true
+```
+
+This line set to true speeds up the delete process, the docs say there is a changes that build resources could be left undeleted as it doesn't wait to verify that all resources are deleted but I didn't notice anything left after running a few builds.
+
 <script src="https://gist.github.com/MatthewJDavis/840cce73e920f73628b2b88373ce8e21.js"></script>
 
 ```bash
 packer build azure-ubuntu-nginx-packer.json
 ```
 
-After running a successful build, an image is created in the resource group set in the RESOURCE_GROUP_NAME environment variable.
+After running a successful build, an image is created in the resource group set in the RESOURCE_GROUP_NAME environment variable (**packerImageBuilds** from the code samples shown above).
 
 ![image uploaded to the resource group](/images/packer-azure/image-rg.png)
 
@@ -181,13 +194,13 @@ The nginx welcome page
 
 ![nginx welcome page](/images/packer-azure/welcome-page.png)
 
-Every time this image is used to create a VM, nginx will be running so can be used as the image to create VMs in a load balancer etc.
+Every time this image is used to create a VM, nginx will be running by default (basic example. This can be used as the default image to create VMs in a load balancer etc.
 
 ## Azure Shared image repo
 
-As mentioned earlier, a good way to segregate Packer builds is to do them in their own Azure subscription and then us an Azure share image repository to share the built images with certain subscriptions and even different tenants.
+As mentioned earlier, a good way to segregate Packer builds would be to run them in their own Azure subscription and use an Azure share image repository to share the built images with certain subscriptions and even different tenants.
 
-First, create an Azure image repository, this can be done via the portal, Azure CLI or PowerShell (example below)
+First step is to create an Azure image repository. This can be done via the portal, Azure CLI or PowerShell (example below)
 
 ```powershell
 # create shared image gallery
@@ -206,7 +219,7 @@ After the operation is completed, you'll be able to see the shared image gallery
 
 ![create a new shared image gallery in azure](/images/packer-azure/azure-image-gallery.png)
 
-Next an image definition is required, this will be referenced by the packer to upload the image to the gallery.
+Next an image definition is required, this will be referenced in the packer template to upload the image to the gallery.
 
 ```powershell
 $Name = 'packerImageGallery'
@@ -229,7 +242,7 @@ $params = @{
 New-AzGalleryImageDefinition @params
 ```
 
-Below is the script to build the same image as before but to upload it the shared image gallery. The environment variables are similar to before but have a few extra need for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
+Below is the script to build the same image as before but to upload it the shared image gallery. There are extra environment variables for the image gallery including the resource group of the image gallery, the image gallery name and version to upload.
 
 Environment variables
 
@@ -259,7 +272,7 @@ Code snippet from the packer build file specifically for the image upload to the
       "managed_image_resource_group_name": "{{user `managed_image_resource_group`}}"
 ```
 
-replication_regions = I set this to northeurope which is the same as the same location as the shared gallery because I don't want the image to replicate, but for redundancy, you can specify multiple regions in a list.
+replication_regions = I set this to northeurope which is the same location as the shared gallery because I don't want the image to replicate. For redundancy you can specify multiple regions in a list.
 
 A managed image name and resource group is still required to upload the completed image to even though you are saving the image to the shared gallery at the same time.
 
@@ -275,7 +288,7 @@ $galleryName = 'packerImageGallery'
 $rgName = 'packerImageGallery'
 
 # Get the object ID for the group
-groupId = (Get-AzADGroup -DisplayName 'az-dg-image-gallery-readers').Id
+$groupId = (Get-AzADGroup -DisplayName 'az-dg-image-gallery-readers').Id
 
 # Grant reader access to the gallery
 $params = @{
@@ -300,7 +313,7 @@ Get-AzGalleryImageVersion -GalleryName $Name -ResourceGroupName $Name -GalleryIm
 
 ![create a new shared image gallery in azure](/images/packer-azure/image-versions.png)
 
-I have created to versions in the above example.
+I have created two versions in the above example.
 
 To use the image in a build, specify the ID you want to create the VM from, providing the user or service principal who is creating the VM has reader access to the shared gallery, a VM will be created in the target subscription with that image.
 
