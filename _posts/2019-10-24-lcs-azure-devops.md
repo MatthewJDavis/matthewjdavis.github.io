@@ -9,7 +9,7 @@ categories:
 tags:
 - azure
 - devops
-published: false
+published: true
 ---
 October 2019
 
