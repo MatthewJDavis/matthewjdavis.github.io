@@ -54,10 +54,6 @@ The error should now be fixed and you should now be able to deploy to the connec
 
 This took a while to sort out especially as the organisation was set up with a user as the owner who happened to be away, so this will be changed to a group to prevent this happening again. The permissions required for the seem excessive and hopefully the LCS team will fix this to at least be project specific or I guess the think it behind it could be because you set up a separate organisation just for your LCS work, at the moment this looks to be the best solution.
 
-![Azure DevOps project collection build administrators](/images/lifecycle-services/pcba-add.png)
-![Azure DevOps settings screen](/images/lifecycle-services/org-settings1.png)
-
-
 [Microsoft Lifecycle services]: https://lcs.dynamics.com/Logon/Index
 [Azure DevOps]: https://azure.microsoft.com/en-ca/services/devops/
 [Azure]: https://azure.microsoft.com/en-us/
