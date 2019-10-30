@@ -22,7 +22,11 @@ Sending invites to guests to access an app - saml
 
 ## The script
 
+### Tests
+
 ## Azure automation runbook
+
+<script src="https://gist.github.com/MatthewJDavis/7b6b5be967628d7a97d4c4dd239bd732.js"></script>
 
 ## Azure schedule
 
