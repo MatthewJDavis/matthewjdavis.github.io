@@ -97,9 +97,21 @@ There are a number of variables that are taken from Azure Automation, including 
 
 This runbook also adds the user to the Azure AD group 'DemoApp' which gives them access to the enterprise application. The user that is used to send the invite needs to be an owner of the group so they can add external users to the group when the invite is sent.
 
+###
+
+The csv file uploaded to Azure blob storage looks like:
+
+```csv
+username,email
+Matt External,demo.email.matt@gmail.com
+Mark Smtih, mark.smith@matthewdavis111.com
+Accounts Dept, accounts@example.com
+```
+
+Only one of these email addresses will be invited, the demo gmail one. The email with the internal address will not be invited (this will not be added to the 'clean email list') and accounts is likely to be a shared email address so is not allowed to be invited by Azure rules.
+
 ### Output
 
-The output below shows my gmail account being invited but a made up accounts email address not being allowed due to it likely being a shared email address.
 
 
 
