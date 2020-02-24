@@ -43,16 +43,47 @@ In the settings, change the 'Enable Email One-Time Passcode for guests (Preview)
 
 ![Azure AD external guest settings](/images/azuread-guest-invite/external-settings.png)
 
+## Set up Azure AD Service account
 
+An account is needed to send the invites from. I have covered how to create an Azure AD user with PowerShell core in a [previous post].
 
+```powershell
+Connect-AzAccount
 
+$creds = Get-Credential
 
-## The script
+New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'welcome@matthewdavis111.com' -MailNickname $creds.UserName -Password $creds.Password -ForceChangePasswordNextLogin:$false
+```
 
+Unfortuantely the Az module is lacking functionality for Azure Users.
+
+To set the user so the password never expires, the old MSOL module is required:
+
+```powershell
+Set-MsolUser -UserPrincipalName welcome@matthewdavis111.com -PasswordNeverExpires $true
+```
+
+The module can also be used so the user has the role to invite guest users:
+
+```powershell
+Add-MsolRoleMember -RoleName "Company Administrator" -RoleMemberEmailAddress "welcome@matthewdavis111.com"
+```
+
+Or this can be achieved via the portal:
+Roles and Administrators
+Search for 'Guest Inviter' role
+Search for the user and 'add' them.
+
+![adding to the inviter role](/images/azuread-guest-invite/inviter-role.png)
 
 ## Azure automation runbook
 
+Below is the basic Azure Automation Runbook. In production, I have it sending messages to slack, with number of users added for the day and errors but here this just writes out to the Azure Automation output window. I have also changed the name of the variables to refer to the app as 'demoApp'.
+
 <script src="https://gist.github.com/MatthewJDavis/7b6b5be967628d7a97d4c4dd239bd732.js"></script>
+
+There are a number of variables that are taken from Azure Automation, including the Azure blob storage uri which includes the SAS token to give the Runbook access and the credentials of a service account in Azure AD that is used to invite external guests.
+
 
 ## Azure schedule
 
@@ -68,3 +99,4 @@ In the settings, change the 'Enable Email One-Time Passcode for guests (Preview)
 
 [One Time Passwords for external guest accounts]: https://docs.microsoft.com/en-us/azure/active-directory/b2b/one-time-passcode
 [ThoughtSpot]: https://www.thoughtspot.com/
+[previous post]: https://matthewdavis111.com/powershell/manage-azure-ad-powershell-core/
