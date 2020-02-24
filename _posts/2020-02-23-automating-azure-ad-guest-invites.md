@@ -85,6 +85,7 @@ The easiest way to do this it in the automation account, click on 'Modules', the
 
 ![Install azuread module](/images/azuread-guest-invite/azuread-module.png)
 
+### Runbook
 
 Below is the basic Azure Automation Runbook. In production, I have it sending messages to slack, with number of users added for the day and errors but here this just writes out to the Azure Automation output window. I have also changed the name of the variables to refer to the app as 'demoApp'.
 
@@ -92,8 +93,20 @@ Below is the basic Azure Automation Runbook. In production, I have it sending me
 
 There are a number of variables that are taken from Azure Automation, including the Azure blob storage uri which includes the SAS token to give the Runbook access and the credentials of a service account in Azure AD that is used to invite external guests.
 
+### Azure AD user group
 
-## Azure schedule
+This runbook also adds the user to the Azure AD group 'DemoApp' which gives them access to the enterprise application. The user that is used to send the invite needs to be an owner of the group so they can add external users to the group when the invite is sent.
+
+### Output
+
+The output below shows my gmail account being invited but a made up accounts email address not being allowed due to it likely being a shared email address.
+
+
+
+
+
+The runbook can be set to run via a schedule, webhook, or event such as when the csv is uploaded.
+
 
 ## External guest invitation in action
 
