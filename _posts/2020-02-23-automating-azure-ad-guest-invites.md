@@ -55,7 +55,7 @@ $creds = Get-Credential
 New-AzADUser -DisplayName $creds.UserName -UserPrincipalName 'welcome@matthewdavis111.com' -MailNickname $creds.UserName -Password $creds.Password -ForceChangePasswordNextLogin:$false
 ```
 
-Unfortuantely the Az module is lacking functionality for Azure Users.
+Unfortunately the Az module is lacking functionality for Azure Users.
 
 To set the user so the password never expires, the old MSOL module is required:
 
