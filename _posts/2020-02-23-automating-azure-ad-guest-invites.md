@@ -78,6 +78,14 @@ Search for the user and 'add' them.
 
 ## Azure automation runbook
 
+### Prerequist Module
+
+The script relies on the AzureAD module to run. This needs to be installed in the automation account beforehand.
+The easiest way to do this it in the automation account, click on 'Modules', then 'Browse Gallery'. Search for AzureAD and install it.
+
+![Install azuread module](/images/azuread-guest-invite/azuread-module.png)
+
+
 Below is the basic Azure Automation Runbook. In production, I have it sending messages to slack, with number of users added for the day and errors but here this just writes out to the Azure Automation output window. I have also changed the name of the variables to refer to the app as 'demoApp'.
 
 <script src="https://gist.github.com/MatthewJDavis/7b6b5be967628d7a97d4c4dd239bd732.js"></script>
