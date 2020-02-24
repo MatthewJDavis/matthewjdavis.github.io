@@ -16,28 +16,39 @@ February 2020
 
 # Overview
 
-Sending invites to guests to access an app - saml
+A recent project involved integrating a new data analytics platform called [ThoughSpot] that is being used for 3rd party company employees access to data and analytics produced by the data team. The [ThoughtSpot] implementation required an access solution that allowed a large number of 3rd party companies and their employees to their data while being managable and scalable from our side, creating accounts in the application itself was a no go due to the sheer number of accounts that needed access and the issue of if an employee from a 3rd party company left, they would still have access to the data unless we were informed (which was highly unlikely to happen the majority of the time).
 
-## Set up
+After investigation and working with support, ThoughSpot is compatible with Azure Active Directory Applications and users can be created and authenticated via SAML, so this was implemented which gave a number of benefits:
+
+* 3rd party companies that had their own Azure AD tenant meant their employees use the same logins they already use
+* Users with a company that does not have an Azure AD tenant could still access the system via the One Time Password option (preview feature)
+* No user creation or password management on our side. A user leaves their company and access to their Azure AD account or work email (for One Time Password) codes is revoked and they can no longer access the system
+* Access to the application was controlled via an Azure AD group
+* Able to automate the invitation process
+
+This post will go through the automation of the invite process but also cover the setting up of the One Time Password preview feature and the flow of how that works because it is a neat solution.
+
+## Set up of One Time Passwords
 
 This post uses the preview feature of [One Time Passwords for external guest accounts].
 
-https://aad.portal.azure.com
+To set this up, you need to have the correct permissions in the Azure AD tenant. Go to the Azure AD portal: https://aad.portal.azure.com
+
+Click on the 'User' blade and select 'User Settings'
+Click on 'Manager external collaboration settings' link
 
 ![Azure AD user settings](/images/azuread-guest-invite/user-settings.png)
+
+In the settings, change the 'Enable Email One-Time Passcode for guests (Preview)' setting to 'Yes'
+
 ![Azure AD external guest settings](/images/azuread-guest-invite/external-settings.png)
 
-![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
 
-![Send login code](/images/azuread-guest-invite/send-code.png)
-
-![Login code](/images/azuread-guest-invite/sent-code.png)
 
 
 
 ## The script
 
-### Tests
 
 ## Azure automation runbook
 
@@ -45,6 +56,15 @@ https://aad.portal.azure.com
 
 ## Azure schedule
 
+## External guest invitation in action
+
+![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
+
+![Send login code](/images/azuread-guest-invite/send-code.png)
+
+![Login code](/images/azuread-guest-invite/sent-code.png)
+
 ## Summary
 
 [One Time Passwords for external guest accounts]: https://docs.microsoft.com/en-us/azure/active-directory/b2b/one-time-passcode
+[ThoughtSpot]: https://www.thoughtspot.com/
