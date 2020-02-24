@@ -121,13 +121,24 @@ When run runbook is executed, an invitation is sent to the user's email pictured
 
 ![Sent invitation](/images/azuread-guest-invite/invitation.png)
 
-![Send login code](/images/azuread-guest-invite/send-code.png)
+If the user's company has an Azure Active Directory tenant, they will sign into that and then be redirected to the page with the Application on it.
+If they don't, then a login code valid for 30 mins is sent as pictured below.
 
-![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
+![Send login code](/images/azuread-guest-invite/send-code.png)
 
 ![Login code](/images/azuread-guest-invite/sent-code.png)
 
+On first login, Azure requires the user to accept some permissions.
+
+![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
+
+The user can now access the application.
+
 ## Summary
+
+The Azure AD b2b functionality of allowing guest users to access resources is a really nice tool. It takes away the headache of having to manage those third party user accounts and gives the end user a more seamless experience, using a login they are already familiar with. The One Time Password feature is very good too, not everyone uses Azure AD so being able to integrate and service those companies with the same solution makes life easier.
+
+Automating the whole process with Azure Automation and PowerShell made this project really satisfying to work on. There is still work to do on removing external guest accounts that are no longer used, but it should not be too hard to script out the guest users that have not logged in for x amount of days and if they an account is still required in the ThoughtSpot system, they will receive an invite the next time the process runs.
 
 [One Time Passwords for external guest accounts]: https://docs.microsoft.com/en-us/azure/active-directory/b2b/one-time-passcode
 [ThoughtSpot]: https://www.thoughtspot.com/
