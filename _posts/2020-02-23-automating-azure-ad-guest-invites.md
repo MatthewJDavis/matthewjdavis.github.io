@@ -105,26 +105,25 @@ The csv file uploaded to Azure blob storage looks like:
 username,email
 Matt External,demo.email.matt@gmail.com
 Mark Smtih, mark.smith@matthewdavis111.com
-Accounts Dept, accounts@example.com
 ```
 
-Only one of these email addresses will be invited, the demo gmail one. The email with the internal address will not be invited (this will not be added to the 'clean email list') and accounts is likely to be a shared email address so is not allowed to be invited by Azure rules.
+Only one of these email addresses will be invited, the demo gmail one. The email with the internal address will not be invited, this email will not be added to the 'clean email list' as it is an internal one.
 
 ### Output
 
-
-
-
-
+![Azure automation output](/images/azuread-guest-invite/output.png)
 
 The runbook can be set to run via a schedule, webhook, or event such as when the csv is uploaded.
 
-
 ## External guest invitation in action
 
-![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
+When run runbook is executed, an invitation is sent to the user's email pictured below.
+
+![Sent invitation](/images/azuread-guest-invite/invitation.png)
 
 ![Send login code](/images/azuread-guest-invite/send-code.png)
+
+![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
 
 ![Login code](/images/azuread-guest-invite/sent-code.png)
 
