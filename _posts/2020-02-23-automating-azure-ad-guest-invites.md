@@ -117,6 +117,10 @@ Note: I am only using a gmail address in this as an example. For a production in
 
 The runbook can be set to run via a [schedule], [webhook], or use [event grid] to trigger the runbook when the csv file is uploaded.
 
+## Diagram of solution
+
+![Diagram overview of solution](/images/azuread-guest-invite/diagram.png)
+
 ## External guest invitation in action
 
 When run runbook is executed, an invitation is sent to the user's email pictured below.
@@ -138,9 +142,6 @@ The user can now access the application from the portal linked in the email.
 
 ![DemoApp now available in the portal for external user](/images/azuread-guest-invite/external-app.png)
 
-## Diagram of workflow
-
-![Diagram overview of solution](/images/azuread-guest-invite/diagram.png)
 
 ## Summary
 
