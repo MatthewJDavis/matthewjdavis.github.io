@@ -1,7 +1,7 @@
 ---
 title: Automate sending guest invites to Azure AD with PowerShell and Azure automation
 excerpt:
-date: 2020-02-23
+date: 2020-02-24
 toc: false
 classes: wide
 categories:
@@ -134,7 +134,9 @@ On first login, Azure requires the user to accept some permissions.
 
 ![Reviewing permissions](/images/azuread-guest-invite/permissions.png)
 
-The user can now access the application.
+The user can now access the application from the portal linked in the email.
+
+![DemoApp now available in the portal for external user](/images/azuread-guest-invite/external-app.png)
 
 ## Summary
 
