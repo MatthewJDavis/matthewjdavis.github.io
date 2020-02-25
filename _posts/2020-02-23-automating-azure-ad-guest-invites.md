@@ -1,6 +1,6 @@
 ---
 title: Automate sending guest invites to Azure AD with PowerShell and Azure automation
-excerpt:
+excerpt: Solution using PowerShell and Azure automation to send invites to guest users leveraging Azure AD B2B capabilities.
 date: 2020-02-24
 toc: false
 classes: wide
