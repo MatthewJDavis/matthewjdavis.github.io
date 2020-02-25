@@ -28,6 +28,10 @@ After investigation and working with support, ThoughSpot is compatible with [Azu
 
 This post will go through the automation of the invite process but also cover the setting up of the One Time Password preview feature and the flow of how that works because it is a neat solution.
 
+## Diagram of solution
+
+![Diagram overview of solution](/images/azuread-guest-invite/diagram.png)
+
 ## Set up of One Time Passwords
 
 To set up One Time Passwords (you need to have the correct administrator permissions in the Azure AD tenant), go to the Azure AD portal: https://aad.portal.azure.com
@@ -116,10 +120,6 @@ Note: I am only using a gmail address in this as an example. For a production in
 ![Azure automation output](/images/azuread-guest-invite/output.png)
 
 The runbook can be set to run via a [schedule], [webhook], or use [event grid] to trigger the runbook when the csv file is uploaded.
-
-## Diagram of solution
-
-![Diagram overview of solution](/images/azuread-guest-invite/diagram.png)
 
 ## External guest invitation in action
 
