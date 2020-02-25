@@ -138,6 +138,10 @@ The user can now access the application from the portal linked in the email.
 
 ![DemoApp now available in the portal for external user](/images/azuread-guest-invite/external-app.png)
 
+## Diagram of workflow
+
+![Diagram overview of solution](/images/azuread-guest-invite/diagram.png)
+
 ## Summary
 
 The [Azure AD B2B] functionality of allowing guest users to access resources is a really nice tool. It takes away the headache of having to manage those third party user accounts and gives the end user a more seamless experience, using a login they are already familiar with. The One Time Password feature is very good too, not everyone uses Azure AD or support Identity Provider, so being able to integrate and service for those companies with the same solution makes life easier.
