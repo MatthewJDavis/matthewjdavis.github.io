@@ -10,7 +10,7 @@ tags:
 - azure active directory
 - powershell
 - azure automation
-published: false
+published: true
 ---
 February 2020
 
