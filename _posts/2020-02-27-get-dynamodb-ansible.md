@@ -9,13 +9,13 @@ categories:
 tags:
 - ansible
 - aws cli
-published: false
+published: true
 ---
 February 2020
 
 # Overview
 
-I was working on an Ansible playbook to remove a DynamoDB table for a tear down job for features using the Ansible [DynamoDB module] which was going well until it came to deleting multiple tables. For the module to work, you need to supply the table's name and there is no native Ansible module that allows you to get the name of the DynamoDB tables in the AWS accounts. A way to get around this and what I show below is to use the [AWS Cli] and Ansible [command module].
+I was working on an Ansible playbook to remove a [DynamoDB] table for a tear down job for features based on their tag values using the Ansible [DynamoDB module] which was going well until it came to features using multiple tables. For the module to work, you need to supply the table's name and there is no native Ansible module that allows you to get the name of the DynamoDB tables in the AWS accounts. A way to get around this and what I show below is to use the [AWS Cli] and Ansible [command module].
 
 Below is the script I used to achieve this, including how to create a new list of just the table names that I read about on [Jeff Geerling's blog].
 
@@ -57,6 +57,7 @@ Console has been updated
 Although you currently you can't use the dynamodb_table module to get a list of tables, using the command module, AWS CLI and the Ansible split function to get the table name is a good solution to get DynamoDB table names by given tag values.
 This can be used in the automation of Dynamodb tables such as deleting them or modifying them using Ansible playbooks.
 
+[DynamoDB]: https://aws.amazon.com/dynamodb/
 [DynamoDB module]: https://docs.ansible.com/ansible/latest/modules/dynamodb_table_module.html
 [AWS Cli]: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
 [command module]: https://docs.ansible.com/ansible/latest/modules/command_module.html#command-module
