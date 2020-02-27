@@ -35,7 +35,7 @@ Running the script above, returns 3 of the tables that match the tag values prov
 
 I add the code below to the script. This use the DynamoDB table module to remove all the tables in the list I had created by looping over that list and passing the module each table name to remove.
 
-```yml
+```sh
   - name: remove DynamoDB table
     dynamodb_table:
       name: "{{ item }}"
