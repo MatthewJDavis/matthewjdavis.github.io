@@ -35,14 +35,7 @@ Running the script above, returns 3 of the tables that match the tag values prov
 
 I add the code below to the script. This use the DynamoDB table module to remove all the tables in the list I had created by looping over that list and passing the module each table name to remove.
 
-```sh
-  - name: remove DynamoDB table
-    dynamodb_table:
-      name: "{{ item }}"
-      region: "{{ region }}"
-      state: absent
-    with_items: "{{ dynamodb_table_names }}"
-```
+<script src="https://gist.github.com/MatthewJDavis/2786bdae1bf3350f264d6f50565e83a7.js"></script>
 
 Output of deleting tables playbook run
 
