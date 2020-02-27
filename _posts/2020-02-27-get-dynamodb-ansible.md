@@ -1,6 +1,6 @@
 ---
 title: Get DynamoDB table names with Ansible and AWS Cli by tag values
-excerpt: 
+excerpt: Use Ansible to get AWS DynamoDB tables for automation. How to get the tables by specifying certain tag values.
 date: 2020-02-27
 toc: false
 classes: wide
