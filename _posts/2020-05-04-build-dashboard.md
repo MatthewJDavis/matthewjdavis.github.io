@@ -91,7 +91,11 @@ The onchange property sets a session variable with the project id (this is used 
 The 3 display cards are created to show the status of the build (last build success, failure), number of builds and success rate in percent.
 A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The cards background also changes colour depending on the status of the build.
 
+Finally the dashboard is created and passed to the start command.
 
+## Summary
+
+Universal Dashboard is a great module and can quickly be used as a frontend for PowerShell scripts to display useful data. This example could be adapted to interact and make changes to Azure DevOps projects (with an updated PAT with more scope permissions) and could also integrate with other endpoints of the Azure DevOps API.
 
 
 [PowerShell DevOps Playbook]: https://app.pluralsight.com/library/courses/powershell-devops-playbook/table-of-contents
