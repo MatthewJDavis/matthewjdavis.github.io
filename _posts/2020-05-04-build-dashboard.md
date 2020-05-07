@@ -51,11 +51,12 @@ This can simply be installed from the PowerShell gallery with ``` Install-Module
 
 ## Running the dashboard
 
-Add the personal access token to the environment. 
-Note: The command will be in the PowerShell history and also the PSReadLine history so care should be taken to remove this if needs be. It's still better than having it in plain text in the script and this could be replaced with the up and coming PowerShell secrets module or by getting the value from a secure secrets management platform such as Hashicorp Vault or Azure Key Vault.
+Add the personal access token to the environment.
+The personal access token is needed to include in the headers for authorisation. To keep the token out of the PowerShell history, it is input via the Read-Host cmdlet. An alternative would be to asign the variable value directly but this would be available in the history which may not be desirable. It's still better than having it in plain text in the script and this could be replaced with the up and coming PowerShell secrets module or by getting the value from a secure secrets management platform such as Hashicorp Vault or Azure Key Vault.
 
 ```powershell
-$env:pat = 'yourPersonalAccessToken'
+$env:pat = Read-Host
+'yourPersonalAccessToken'
 ```
 
 Paste the full code from above into a PowerShell session.
@@ -72,7 +73,10 @@ The dashboard should now be running on 'http://localhost:10002/'
 
 ## Code and logic run through
 
-First thing needed is setting up the variables to be able to query the Azure DevOps api. 
+First thing needed is setting up the variables to be able to query the Azure DevOps api.
+The PAT token is convert to base64 and included in the headers. The variables are then made available to the Universal Dashboard endpoints via the ``` New-UDEndpointInitialization ``` cmdlet.
+
+### Caching Project and Build data
 
 
 
