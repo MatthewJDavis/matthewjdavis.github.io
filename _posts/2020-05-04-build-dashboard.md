@@ -25,7 +25,7 @@ I'll start with a screen shot of what the final out come is and the code.
 
 ![Dashboard overview](/images/build-dashboard/dashboard1.png)
 
-code
+<script src="https://gist.github.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c.js"></script>
 
 ## Set Up
 
@@ -72,6 +72,7 @@ The dashboard should now be running on 'http://localhost:10002/'
 
 ## Code and logic run through
 
+First thing needed is setting up the variables to be able to query the Azure DevOps api. 
 
 
 
