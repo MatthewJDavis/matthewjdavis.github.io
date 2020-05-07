@@ -78,6 +78,20 @@ The PAT token is convert to base64 and included in the headers. The variables ar
 
 ### Caching Project and Build data
 
+Constantly calling the api is can slow the application down so a Scheduled endopoint is used along with a ```$cache ``` variable to update the build data every 5 minutes. The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart.
+
+Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a puscustomobject.
+The final part of the $BuildDataRefresh endpint is to sync the grid. This will update the grid with the new values in the build list (if there are any) when the schedule is run and the cache variable is updated.
+
+### Creating the Dashboard
+
+The first element created is the drop down select element that is populated with the project name and project id. The project name is displayed and the id is used to look up values in the build list to get the relevant build data.
+The onchange property sets a session variable with the project id (this is used to display data in the grid and card elements) and syncs the cards and grid elements.
+
+The 3 display cards are created to show the status of the build (last build success, failure), number of builds and success rate in percent.
+A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The cards background also changes colour depending on the status of the build.
+
+
 
 
 [PowerShell DevOps Playbook]: https://app.pluralsight.com/library/courses/powershell-devops-playbook/table-of-contents
