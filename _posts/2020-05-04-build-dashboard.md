@@ -15,9 +15,9 @@ May 2020
 
 # Overview
 
-I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight and was inspired to play around with the Universal Dashboard PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
+I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight and was inspired to play around with the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
 
-[Universal Dashboard] is a webframework that allows you to easily create web frontends with PowerShell that can then be used with existing scripts and code. After going through the docs to refresh myself with it (I had looked at it a while ago now), I decided it would be a good project to make a similar dashboard as in the Pluralsight course, using Azure DevOps instead. I have a few builds in Azure DevOps and wanted to see how it has come along and using this as a project would be a good refresher on Universal Dashboard and Azure DevOps.
+Universal Dashboard is a webframework that allows you to easily create web frontends with PowerShell that can be used as a web interface for PowerShell code input and output. I  thought it would be a good project to make a similar dashboard as in the Pluralsight course, using [Azure DevOps]. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard.
 
 ## Outcome
 
@@ -102,3 +102,5 @@ Universal Dashboard is a great module and can quickly be used as a frontend for 
 [AppVeyor]: https://www.appveyor.com/
 [Universal Dashboard]: https://universaldashboard.io/
 [Microsoft documentation]: https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page
+[Azure DevOps]: https://dev.azure.com/
+[Azure DevOps REST API]: https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.1
