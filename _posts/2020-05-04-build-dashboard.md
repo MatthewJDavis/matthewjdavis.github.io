@@ -29,7 +29,8 @@ I'll start with a screen shot of what the end result and the full code and break
 
 ## Set Up
 
-This was tested on Windows and Linux using PowerShell version 7.
+This was tested on Windows and Linux using PowerShell version 7 and on Windows using Windows PowerShell version 5.1.
+UniversalDashboard Version: 2.9.0
 
 Azure DevOps [Authentication] methods can be viewed here. To keep things simple, I've created a [Personal Access Token] for my user with Read Access to builds.
 
@@ -47,28 +48,33 @@ Azure DevOps [Authentication] methods can be viewed here. To keep things simple,
 
 ### Install Universal Dashboard
 
-Universal Dashboard can be installed from the PowerShell gallery with ``` Install-Module UniversalDashboard -AcceptLicense ```. This installs the free community edition, there is also a very reasonably priced premium licence which adds more great features including authentication.
+Universal Dashboard can be installed from the PowerShell gallery with:
+
+``` Install-Module -Name UniversalDashboard.Community -RequiredVersion 2.9.0 ```.
+
+ This installs the free community edition, there is also a very reasonably priced premium licence which adds more great features including authentication.
 
 ## Running the dashboard
 
-Add the personal access token to the environment.
+### Add the personal access token to the environment
 
 The personal access token is needed to include in the headers for authentication and authorisation. To keep the token out of the code and PowerShell history, it is input via the ``` Read-Host ``` Cmdlet to an environment variable. An alternative would be to assign the variable value directly but this would be available in the history which is not be desirable. It's still better than having it in plain text in the script and this could be replaced with the up and coming [PowerShell secrets module] or by getting the value from a secure secrets management platform such as [Hashicorp Vault] or [Azure Key Vault].
+
+Save the code to a file locally and from that directory dot source it so the functions are available in your PowerShell session.
 
 ```powershell
 $env:pat = Read-Host
 'yourPersonalAccessToken'
+
+$uri = 'https://gist.githubusercontent.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c/raw/4f018146ed16307973b8af2a0998f8fbe66041e2/dashboard.ps1'
+
+Invoke-WebRequest -uri $uri -OutFile .\dashboard.ps1
+. .\dashboard.ps1
+
+Start-BuildDashboard -OrgName 'yourOrgName'
 ```
 
-Paste the full code from above into a PowerShell session.
-
-Run:
-
-```powershell
-Start-BuildDashboard
-```
-
-The dashboard should now be running on 'http://localhost:10002/'
+The dashboard should now be running on 'http://localhost:10002/' (you can specify a different port via the Port parameter).
 
 ![Dashboard overview](/images/build-dashboard/running.png)
 
@@ -77,11 +83,14 @@ The dashboard should now be running on 'http://localhost:10002/'
 First thing needed is setting up the variables to be able to query the Azure DevOps api.
 The PAT token is convert to base64 and included in the headers. The variables are then made available to the Universal Dashboard endpoints via the ``` New-UDEndpointInitialization ``` Cmdlet.
 
-### Caching Project and Build data
+### Project and Caching Build data
 
-Constantly calling the api is can slow the application down so a Scheduled endpoint is used along with a ```$cache ``` variable to update the build data every 5 minutes. The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart.
+Constantly calling the api is can slow the application down so a Scheduled endpoint is used along with a ```$cache ``` variable to update the build data every 5 minutes.
 
-Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a pscustomobject.
+The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart.
+
+Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a pscustomobject and adding to a list.
+
 The final part of the $BuildDataRefresh endpoint is to sync the grid. This will update the grid with the new values in the build list (if there are any) when the schedule is run and the cache variable is updated.
 
 ### Creating the Dashboard
@@ -96,12 +105,11 @@ A div is used so that the cards can be updated via the select endpoint change wi
 
 ![partial success build with blue background](/images/build-dashboard/partial-success.png)
 
-
 Finally the dashboard is created and passed to the start command.
 
 ### Updating Project
 
-At present the UD Select element does not refresh. I have implemented and endpoint that does sync the projects just in case the functionality is added at a later date. To update project list, the dashboard should be stopped then started with ``` Stop-UniversalDashboard 'AzureDevOpsBuildDashboard' ```. It can then be restarted with ``` Start-BuildDashbaord ```.
+At present the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with ``` Stop-UniversalDashboard 'AzureDevOpsBuildDashboard' ```. It can then be restarted with ``` Start-BuildDashbaord ```.
 
 ## Summary
 
