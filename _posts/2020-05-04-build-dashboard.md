@@ -143,6 +143,8 @@ Constantly calling the API can slow the application down so a Scheduled endpoint
 
 Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a pscustomobject and adding to a list.
 
+The build number and commit properties are added to the object as links which will take the user to the respective pages if clicked on. The commit id is shortened to the first 6 characters.
+
 The final part of the $BuildDataRefresh endpoint is to sync the grid. This will update the grid with the new values in the build list (if there are any) when the schedule is run and the cache variable is updated.
 
 ```powershell
@@ -202,9 +204,15 @@ $projectSelect = New-UDSelect -Label "Project" -Id 'projectSelect' -Option {
 The 3 display cards are created to show the status of the build (last build success, failure), number of builds and success rate in percent.
 A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The cards background also changes colour depending on the status of the build.
 
+Build with last status is failed
 ![failed build status with red background](/images/build-dashboard/failed.png)
 
+Build with last status of partial success
 ![partial success build with blue background](/images/build-dashboard/partial-success.png)
+
+Build that was failing but latest now passes
+![partial success build with blue background](/images/build-dashboard/now-passing.png)
+
 
 ```powershell
 $card = New-UDElement -Tag div -Id "Div1" -Endpoint {
@@ -238,7 +246,7 @@ $card = New-UDElement -Tag div -Id "Div1" -Endpoint {
 } #end UDElement
 ```
 
-The grid element is created with the cached build data.
+The grid element is created with the cached build data. Custome headers are used for the display and selected properties are passed through to omit the projectid property.
 
 ```powershell
 $grid = New-UDGrid -Id 'grid' -Title "Build Information" -Headers @('Build Number', 'Result', 'Commit', 'Start Time', 'Finish Time') -Properties @('BuildNumber', 'Result', 'Commit', 'StartTime', 'FinishTime') -Endpoint {
