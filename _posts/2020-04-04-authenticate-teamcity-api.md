@@ -1,6 +1,6 @@
 ---
 title: How to authenticate and call the TeamCity API
-excerpt: 
+excerpt: Example of using token based authentication and username with password authentication to connect to the TeamCity API with python.
 date: 2020-04-04
 toc: false
 classes: wide
