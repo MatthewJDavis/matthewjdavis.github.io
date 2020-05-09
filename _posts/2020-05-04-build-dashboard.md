@@ -66,7 +66,7 @@ Save the code to a file locally and from that directory dot source it so the fun
 $env:pat = Read-Host
 'yourPersonalAccessToken'
 
-$uri = 'https://gist.githubusercontent.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c/raw/4f018146ed16307973b8af2a0998f8fbe66041e2/dashboard.ps1'
+$uri = 'https://gist.githubusercontent.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c/raw/1e001bd711c27e47782a29ead722f50af7f518ea/dashboard.ps1'
 
 Invoke-WebRequest -uri $uri -OutFile .\dashboard.ps1
 . .\dashboard.ps1
@@ -83,20 +83,121 @@ The dashboard should now be running on 'http://localhost:10002/' (you can specif
 First thing needed is setting up the variables to be able to query the Azure DevOps api.
 The PAT token is convert to base64 and included in the headers. The variables are then made available to the Universal Dashboard endpoints via the ``` New-UDEndpointInitialization ``` Cmdlet.
 
-### Project and Caching Build data
+```powershell
+$PAToken = $env:PAT
+$uri = "https://dev.azure.com/$OrgName"
+$Headers = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($PAToken)")) }
+$DashboardName = 'AzureDevOpsBuildDashboard'
+$Init = New-UDEndpointInitialization -Variable @('OrgName', 'PAToken', 'uri', 'Headers')
+$BuildRefresh = New-UDEndpointSchedule -Every 5 -Minute
+```
 
-Constantly calling the api is can slow the application down so a Scheduled endpoint is used along with a ```$cache ``` variable to update the build data every 5 minutes.
+### Error handling Project data
 
-The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart.
+If you query the Azure DevOps API and something goes wrong, depending on what went wrong you can get a different result or object returned. The general exception thrown contains a lot of text (a whole webpage is returned) so the below section uses try catch block to catch common errors I encountered. There is a final catch that is a catch all that will display the whole text but this is better than the dashboard starting up and having no projects populated.
+
+```powershell
+try {
+    $projectList = Invoke-RestMethod -Uri $projectUri -Method Get -Headers $Headers
+} catch [System.Net.WebException] {
+    if ($_.exception -like "*could not be resolved*") {
+        throw "Check Network connection. Error: $($_.exception.message)"
+    } elseif ($_.exception.response.statuscode -eq 'NotFound') {
+        throw "Check OrgName $orgName is correct. Status code received: $($_.exception.response.statuscode)"
+    } elseif ($_.exception.response.statuscode -eq 'Unauthorized') {
+        throw "Check OrgName $orgName is correct,  Personal Access Token is correct, has read permissions to builds and has not expired. Status code received: $($_.exception.response.statuscode)"
+    } else {
+        throw $_
+    }
+} catch {
+    throw "$($_.Exception)"
+}
+```
+
+Even after the try catch, things can still go wrong so the final check is that we receive a pscustomobject and that there is at least one project.
+
+Note: The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart. That is why and endpoint or $cache variable is not used for it.
+
+```powershell
+if ($projectList.gettype().Name -ne 'PSCustomObject') {
+    throw "Did not get correct response from Azure DevOps API. Require 'PSCustomObject' but got $($projectList.gettype().Name) type. Check OrgName, Personal Access Token value, permissions and expiration"
+} elseif ($projectList.count -lt 1) {
+    throw "No projects found in org $OrgName"
+} else {
+    $projectListSorted = $projectList.value | Sort-Object -Property name
+}
+```
+
+Wrong PAT added
+![incorrect response](/images/build-dashboard/incorrect-response.png)
+
+Organisation doesn't exist
+![project does not exist](/images/build-dashboard/not-exist.png)
+
+Organisation doesn't exist (new [PowerShell 7 error handling] concise view)
+![New error handling in PS7](/images/build-dashboard/error-handling-ps-7.png)
+
+### Caching Build data
+
+Constantly calling the API can slow the application down so a Scheduled endpoint is used along with a `` `$cache ``` variable to update the build data every 5 minutes.
 
 Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a pscustomobject and adding to a list.
 
 The final part of the $BuildDataRefresh endpoint is to sync the grid. This will update the grid with the new values in the build list (if there are any) when the schedule is run and the cache variable is updated.
 
+```powershell
+$buildDataRefresh = New-UDEndpoint -Schedule $BuildRefresh -Endpoint {
+    $Cache:dataList = [System.Collections.Generic.List[pscustomobject]]::new()
+    foreach ($project in $projectListSorted) {
+        $BuildURI = "$uri/$($project.id)/_apis/build/builds?api-version=5.1"
+        $buildList = Invoke-RestMethod -Uri $BuildURI -Headers $Headers
+        foreach ($build in $buildList.value) {
+            $Cache:dataList.Add(
+                [pscustomobject]@{
+                    'ProjectId'   = $project.id
+                    'BuildNumber' = (New-UDLink -Text $($build.buildNumber) -Url $($build._links.Web.href))
+                    'StartTime'   = $build.StartTime
+                    'FinishTime'  = $build.FinishTime
+                    'Result'      = $build.result
+                    'Commit'      = (New-UDLink -Text $($build.sourceVersion.Substring(0, 6)) -Url $($build._links.sourceVersionDisplayUri.href))
+                }
+            )
+        }
+    }
+    Sync-UDElement -Id 'grid'
+}
+```
+
 ### Creating the Dashboard
 
 The first element created is the drop down select element that is populated with the project name and project id. The project name is displayed and the id is used to look up values in the build list to get the relevant build data.
 The onchange property sets a session variable with the project id (this is used to display data in the grid and card elements) and syncs the cards and grid elements.
+
+```powershell
+$projectSelect = New-UDSelect -Label "Project" -Id 'projectSelect' -Option {
+    $SelectionList = [System.Collections.Generic.List[pscustomobject]]::new()
+    $default = [pscustomobject]@{
+        'Name'  = 'Select Project'
+        'Value' = 'default'
+    }
+    $SelectionList.Add($default)
+    foreach ($project in $projectListSorted) {
+        $SelectionList.Add(
+            [pscustomobject]@{
+                'Name'  = $project.name
+                'Value' = "$($project.id)"
+            }
+        )
+    }
+    foreach ($item in $SelectionList) {
+        New-UDSelectOption -Name $item.Name -Value $($item.Value)
+    }
+} -OnChange {
+    $Session:Projectid = $eventData
+    Sync-UDElement -Id 'grid'
+    Sync-UDElement -id 'Div1'
+} # end UDSelect
+```
 
 The 3 display cards are created to show the status of the build (last build success, failure), number of builds and success rate in percent.
 A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The cards background also changes colour depending on the status of the build.
@@ -105,15 +206,61 @@ A div is used so that the cards can be updated via the select endpoint change wi
 
 ![partial success build with blue background](/images/build-dashboard/partial-success.png)
 
+```powershell
+$card = New-UDElement -Tag div -Id "Div1" -Endpoint {
+    if ($null -eq $Session:Projectid) {
+        # No project id yet so nothing to display - prevent divide by 0 errors for percentage
+        $latestResult = 'none'
+        $successRate = '0'
+    }
+    $latestResult = ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Select-Object -property 'Result' -First 1).Result 
+    $resultList = ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Select-Object -property 'Result').Result
+    $total = $resultList.count
+    if ($total -gt 0) {
+        $success = ($resultList | Group-Object | Where-Object -Property Name -eq 'succeeded').Count # get how many builds were successful
+        if (-not $null -eq $Session:Projectid) {
+            $successRate = "$([math]::round($success / $total * 100, 2))" + '%' # calculate percentage of sucessful build to 2 decimal places
+        }
+    } else {
+        $successRate = '0%'
+    }
+    New-UDLayout -Columns 3 -Content {
+        $backgroundColour = switch ($latestResult) {
+            'succeeded' { 'green' }
+            'partiallySucceeded' { 'blue' }
+            'failed' { 'red' }
+            Default { 'white' }
+        }
+        New-UDCard -Id 'statusCard' -Title 'Current Status' -BackgroundColor $backgroundColour -FontColor 'White' -Text $latestResult
+        New-UDCard -Id 'buildCount' -Title 'Build Count' -BackgroundColor $backgroundColour -FontColor 'White' -Text ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Measure-Object ).Count 
+        New-UDCard -Id 'successRate' -Title 'Success Rate' -BackgroundColor $backgroundColour -FontColor 'White' -Text $successRate
+    }
+} #end UDElement
+```
+
+The grid element is created with the cached build data.
+
+```powershell
+$grid = New-UDGrid -Id 'grid' -Title "Build Information" -Headers @('Build Number', 'Result', 'Commit', 'Start Time', 'Finish Time') -Properties @('BuildNumber', 'Result', 'Commit', 'StartTime', 'FinishTime') -Endpoint {
+    $Cache:dataList | Where-Object -Property 'Projectid' -EQ $Session:Projectid | Out-UDGridData
+}
+```
+
 Finally the dashboard is created and passed to the start command.
+
+```powershell
+$dashboard = New-UDDashboard -Title "Azure DevOps $OrgName" -Content { $projectSelect, $card, $grid } -EndpointInitialization $Init
+Start-UDDashboard -Dashboard $dashboard -Name $DashboardName -Endpoint @($buildDataRefresh) -Port $Port
+```
 
 ### Updating Project
 
-At present the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with ``` Stop-UniversalDashboard 'AzureDevOpsBuildDashboard' ```. It can then be restarted with ``` Start-BuildDashbaord ```.
+As previously mentioned, the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with ``` Stop-UniversalDashboard 'AzureDevOpsBuildDashboard' ```. It can then be restarted with ``` Start-BuildDashbaord ```.
 
 ## Summary
 
 Universal Dashboard is a great module and can quickly be used as a frontend for PowerShell scripts to display useful data. This example could be adapted to interact and make changes to Azure DevOps projects (with an updated PAT with more scope permissions) and could also integrate with other endpoints of the Azure DevOps API.
+I enjoyed working on this project over the last couple of weeks and implemented it into an Azure DevOps project itself to run psake for running script analyser and a basic test. Full code can be found in the repo on [Github].
 
 [PowerShell DevOps Playbook]: https://app.pluralsight.com/library/courses/powershell-devops-playbook/table-of-contents
 [AppVeyor]: https://www.appveyor.com/
@@ -125,3 +272,5 @@ Universal Dashboard is a great module and can quickly be used as a frontend for 
 [PowerShell secrets module]: https://devblogs.microsoft.com/powershell/secret-management-preview-2-release/
 [Hashicorp Vault]: https://www.vaultproject.io/
 [Azure Key Vault]: https://azure.microsoft.com/en-us/services/key-vault/
+[PowerShell 7 error handling]: https://www.petri.com/how-error-handling-works-in-powershell-7
+[Repo on Github]: https://github.com/MatthewJDavis/devops-dashboard
