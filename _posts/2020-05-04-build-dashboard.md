@@ -17,22 +17,25 @@ May 2020
 
 I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight by [Adam Bertram] and was inspired to look at the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
 
-Universal Dashboard is a webframework that allows you to easily create web frontends with PowerShell that can be used as a web interface for PowerShell code input and output. I decided to make a similar dashboard as shown the Pluralsight course, using [Azure DevOps] instead. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard.
+Universal Dashboard is a web framework that allows you to easily create web front ends with PowerShell that can be used as an interface for PowerShell code input and output. I decided to make a similar dashboard as shown the Pluralsight course, using [Azure DevOps]. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard.
+
+This post will show how to create the dashboard in the gif below by querying the Azure DevOps API and displaying the data in a Universal Dashboard using various components to give an easy was to see the builds that have run in each project for the organisation.
 
 ## Outcome
 
 ![Dashboard overview](/images/build-dashboard/dashboard.gif)
 
-Full code
+Complete code
 
 <script src="https://gist.github.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c.js"></script>
 
 ## Set Up
 
-This was tested on Windows and Linux using PowerShell version 7 and on Windows using Windows PowerShell version 5.1.
+Tested on Windows and Linux.
+PowerShell core version 7 and Windows PowerShell version 5.1.
 UniversalDashboard Version: 2.9.0
 
-Azure DevOps [Authentication] methods can be viewed here. To keep things simple, I've created a [Personal Access Token] for my user with Read Access to builds.
+There are various different Azure DevOps [Authentication] methods. To keep things simple, I've created a [Personal Access Token] for my user with [Read Access] to builds.
 
 ### Azure DevOps Personal Access Token (Pat)
 
@@ -44,21 +47,21 @@ Azure DevOps [Authentication] methods can be viewed here. To keep things simple,
 5. Enter the name, choose organisation (or all organisations) select expiry date
 6. Under 'Scope' scroll to 'Builds' and select 'Read'
 ![Dashboard overview](/images/build-dashboard/create-new.png)
-7. Copy the token somewhere safe such as a password manager and close.
+7. Copy the token somewhere safe and secure such as a [password manager] and close.
 
 ### Install Universal Dashboard
 
 Universal Dashboard can be installed from the PowerShell gallery with:
 
-``` Install-Module -Name UniversalDashboard.Community -RequiredVersion 2.9.0 ```.
+``` Install-Module -Name UniversalDashboard.Community -RequiredVersion 2.9.0 ```
 
- This installs the free community edition, there is also a very reasonably priced premium licence which adds more great features including authentication.
+ This installs the free community edition, there is also a very reasonably priced [premium licence] which adds more great features including authentication for your dashboards.
 
 ## Running the dashboard
 
 ### Add the personal access token to the environment
 
-The personal access token is needed to include in the headers for authentication and authorisation. To keep the token out of the code and PowerShell history, it is input via the ``` Read-Host ``` Cmdlet to an environment variable. An alternative would be to assign the variable value directly but this would be available in the history which is not be desirable. It's still better than having it in plain text in the script and this could be replaced with the up and coming [PowerShell secrets module] or by getting the value from a secure secrets management platform such as [Hashicorp Vault] or [Azure Key Vault].
+The personal access token needs to be included in the headers for authentication and authorisation. To keep the token out of the code and PowerShell history, it is input via the ``` Read-Host ``` Cmdlet to an environment variable. An alternative would be to assign the variable value directly but this would be available in the history which is not desirable. It's still better than having it in plain text in the script and this could be replaced with the up and coming [PowerShell secrets module] or by getting the value from a secure secrets management platform such as [Hashicorp Vault] or [Azure Key Vault].
 
 Save the code to a file locally and from that directory dot source it so the functions are available in your PowerShell session.
 
@@ -66,7 +69,8 @@ Save the code to a file locally and from that directory dot source it so the fun
 $env:pat = Read-Host
 'yourPersonalAccessToken'
 
-$uri = 'https://gist.githubusercontent.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c/raw/1e001bd711c27e47782a29ead722f50af7f518ea/dashboard.ps1'
+# download full code from github gist, dot source the file and run the function to start the dashboard
+$uri = 'https://gist.githubusercontent.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c/raw/f6fe18127c3f490e3cfca6d0498e25ec20bef45d/dashboard.ps1'
 
 Invoke-WebRequest -uri $uri -OutFile .\dashboard.ps1
 . .\dashboard.ps1
@@ -82,7 +86,7 @@ The dashboard should now be running on 'http://localhost:10002/' (you can specif
 
 ## Code and logic run through
 
-First thing needed is setting up the variables to be able to query the Azure DevOps api.
+Variables are set with the values to query the Azure DevOps api.
 The PAT token is convert to base64 and included in the headers. The variables are then made available to the Universal Dashboard endpoints via the ``` New-UDEndpointInitialization ``` Cmdlet.
 
 ```powershell
@@ -118,7 +122,7 @@ try {
 
 Even after the try catch, things can still go wrong so the final check is that we receive a pscustomobject and that there is at least one project.
 
-Note: The project data is only populated when the dashboard is started or restarted. The reason being is that the New-UDSelect element list does not update with out a restart. That is why and endpoint or $cache variable is not used for it.
+Note: The project data is only populated when the dashboard is started or restarted. The reason being the New-UDSelect element list does not update unless the dashboard is stopped then started again. That is the reason why and endpoint or $cache variable is not used for it.
 
 ```powershell
 if ($projectList.gettype().Name -ne 'PSCustomObject') {
@@ -141,9 +145,9 @@ Organisation doesn't exist (new [PowerShell 7 error handling] concise view)
 
 ### Caching Build data
 
-Constantly calling the API can slow the application down so a Scheduled endpoint is used along with a `` `$cache ``` variable to update the build data every 5 minutes.
+Constantly calling the API can slow the application down so a Scheduled endpoint is used along with a ``` $cache ``` variable to update the build data every 5 minutes.
 
-Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a [pscustomobject] and adding to a list.
+Once there is  a list of projects, this list is iterated over to create a list of builds for each project, saving the properties to display in a [pscustomobject] and adding to the build list.
 
 The build number and commit properties are added to the object as links which will take the user to the respective pages if clicked on. The commit id is shortened to the first 6 characters.
 
@@ -174,7 +178,7 @@ $buildDataRefresh = New-UDEndpoint -Schedule $BuildRefresh -Endpoint {
 
 ### Creating the Dashboard
 
-The first element created is the drop down select element that is populated with the project name and project id. The project name is displayed and the id is used to look up values in the build list to get the relevant build data.
+The first element created is the drop down select element that is populated with the project name and project id. The project name is displayed and the id is used to look up values in the build list to display the relevant build data.
 The onchange property sets a session variable with the project id (this is used to display data in the grid and card elements) and syncs the cards and grid elements.
 
 ```powershell
@@ -204,7 +208,7 @@ $projectSelect = New-UDSelect -Label "Project" -Id 'projectSelect' -Option {
 ```
 
 The 3 display cards are created to show the status of the build (last build success, failure), number of builds and success rate in percent.
-A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The cards background also changes colour depending on the status of the build.
+A div is used so that the cards can be updated via the select endpoint change with the corresponding build data for the project selected. The background of the card also changes colour depending on the status of the last build.
 
 Build with last status is failed
 ![failed build status with red background](/images/build-dashboard/failed.png)
@@ -275,7 +279,7 @@ Start-BuildDashbaord
 ## Summary
 
 Universal Dashboard is a great module and can quickly be used as a frontend for PowerShell scripts to display useful data. This example could be adapted to interact and make changes to Azure DevOps projects (with an updated PAT with more scope permissions) and could also integrate with other endpoints of the Azure DevOps API.
-I enjoyed working on this project over the last couple of weeks and implemented it into an Azure DevOps project itself to run psake for running script analyser and a basic test. Full code can be found in the [repo on Github].
+I enjoyed working on this project over the last couple of weeks and implemented it into an Azure DevOps project. Full code can be found in the [repo on Github].
 
 [PowerShell DevOps Playbook]: https://app.pluralsight.com/library/courses/powershell-devops-playbook/table-of-contents
 [Adam Bertram]: https://app.pluralsight.com/profile/author/adam-bertram
@@ -291,3 +295,6 @@ I enjoyed working on this project over the last couple of weeks and implemented 
 [PowerShell 7 error handling]: https://www.petri.com/how-error-handling-works-in-powershell-7
 [Repo on Github]: https://github.com/MatthewJDavis/devops-dashboard
 [pscustomobject]: https://powershellexplained.com/2016-10-28-powershell-everything-you-wanted-to-know-about-pscustomobject/
+[Read Access]: https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/oauth?view=azure-devops#scopes
+[password manager]: https://en.wikipedia.org/wiki/Password_manager
+[premium licence]: https://ironmansoftware.com/powershell-universal-dashboard/
