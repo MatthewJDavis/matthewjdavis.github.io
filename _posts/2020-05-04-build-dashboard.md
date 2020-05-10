@@ -15,15 +15,15 @@ May 2020
 
 # Overview
 
-I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight and was inspired to look at the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
+I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight by [Adam Bertram] and was inspired to look at the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
 
 Universal Dashboard is a webframework that allows you to easily create web frontends with PowerShell that can be used as a web interface for PowerShell code input and output. I decided to make a similar dashboard as shown the Pluralsight course, using [Azure DevOps] instead. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard.
 
 ## Outcome
 
-I'll start with a screen shot of what the end result and the full code and break it down afterwards.
+![Dashboard overview](/images/build-dashboard/dashboard.gif)
 
-![Dashboard overview](/images/build-dashboard/dashboard1.png)
+Full code
 
 <script src="https://gist.github.com/MatthewJDavis/58a866c1b36a3b729675569bb7d6f42c.js"></script>
 
@@ -73,6 +73,8 @@ Invoke-WebRequest -uri $uri -OutFile .\dashboard.ps1
 
 Start-BuildDashboard -OrgName 'yourOrgName'
 ```
+
+![Starting up the dashboard](/images/build-dashboard/start-dashboard.png)
 
 The dashboard should now be running on 'http://localhost:10002/' (you can specify a different port via the Port parameter).
 
@@ -141,7 +143,7 @@ Organisation doesn't exist (new [PowerShell 7 error handling] concise view)
 
 Constantly calling the API can slow the application down so a Scheduled endpoint is used along with a `` `$cache ``` variable to update the build data every 5 minutes.
 
-Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a pscustomobject and adding to a list.
+Once I have a list of projects, this list is iterated over to create a list of builds for each project, saving the properties I want to display in a [pscustomobject] and adding to a list.
 
 The build number and commit properties are added to the object as links which will take the user to the respective pages if clicked on. The commit id is shortened to the first 6 characters.
 
@@ -213,7 +215,6 @@ Build with last status of partial success
 Build that was failing but latest now passes
 ![partial success build with blue background](/images/build-dashboard/now-passing.png)
 
-
 ```powershell
 $card = New-UDElement -Tag div -Id "Div1" -Endpoint {
     if ($null -eq $Session:Projectid) {
@@ -221,7 +222,7 @@ $card = New-UDElement -Tag div -Id "Div1" -Endpoint {
         $latestResult = 'none'
         $successRate = '0'
     }
-    $latestResult = ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Select-Object -property 'Result' -First 1).Result 
+    $latestResult = ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Select-Object -property 'Result' -First 1).Result
     $resultList = ($Cache:dataList | Where-Object -Property 'ProjectID' -EQ $Session:Projectid | Select-Object -property 'Result').Result
     $total = $resultList.count
     if ($total -gt 0) {
@@ -246,7 +247,7 @@ $card = New-UDElement -Tag div -Id "Div1" -Endpoint {
 } #end UDElement
 ```
 
-The grid element is created with the cached build data. Custome headers are used for the display and selected properties are passed through to omit the projectid property.
+The grid element is created with the cached build data. Custom headers are used for the display and selected properties are passed through to omit the projectid property.
 
 ```powershell
 $grid = New-UDGrid -Id 'grid' -Title "Build Information" -Headers @('Build Number', 'Result', 'Commit', 'Start Time', 'Finish Time') -Properties @('BuildNumber', 'Result', 'Commit', 'StartTime', 'FinishTime') -Endpoint {
@@ -263,14 +264,21 @@ Start-UDDashboard -Dashboard $dashboard -Name $DashboardName -Endpoint @($buildD
 
 ### Updating Project
 
-As previously mentioned, the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with ``` Stop-UniversalDashboard 'AzureDevOpsBuildDashboard' ```. It can then be restarted with ``` Start-BuildDashbaord ```.
+As previously mentioned, the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with:
+
+```powershell
+Stop-UniversalDashboard -Name 'AzureDevOpsBuildDashboard'
+
+Start-BuildDashbaord
+```
 
 ## Summary
 
 Universal Dashboard is a great module and can quickly be used as a frontend for PowerShell scripts to display useful data. This example could be adapted to interact and make changes to Azure DevOps projects (with an updated PAT with more scope permissions) and could also integrate with other endpoints of the Azure DevOps API.
-I enjoyed working on this project over the last couple of weeks and implemented it into an Azure DevOps project itself to run psake for running script analyser and a basic test. Full code can be found in the repo on [Github].
+I enjoyed working on this project over the last couple of weeks and implemented it into an Azure DevOps project itself to run psake for running script analyser and a basic test. Full code can be found in the [repo on Github].
 
 [PowerShell DevOps Playbook]: https://app.pluralsight.com/library/courses/powershell-devops-playbook/table-of-contents
+[Adam Bertram]: https://app.pluralsight.com/profile/author/adam-bertram
 [AppVeyor]: https://www.appveyor.com/
 [Universal Dashboard]: https://universaldashboard.io/
 [Authentication]: https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/authentication-guidance?view=azure-devops
@@ -282,3 +290,4 @@ I enjoyed working on this project over the last couple of weeks and implemented 
 [Azure Key Vault]: https://azure.microsoft.com/en-us/services/key-vault/
 [PowerShell 7 error handling]: https://www.petri.com/how-error-handling-works-in-powershell-7
 [Repo on Github]: https://github.com/MatthewJDavis/devops-dashboard
+[pscustomobject]: https://powershellexplained.com/2016-10-28-powershell-everything-you-wanted-to-know-about-pscustomobject/
