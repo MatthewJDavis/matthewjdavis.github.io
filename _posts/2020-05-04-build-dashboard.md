@@ -9,7 +9,7 @@ categories:
 tags:
 - azure devops
 - universal dashboard
-published: false
+published: true
 ---
 May 2020
 
