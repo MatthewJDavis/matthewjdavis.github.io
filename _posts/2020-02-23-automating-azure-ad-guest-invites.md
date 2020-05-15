@@ -18,7 +18,7 @@ February 2020
 
 A recent project I worked on involved integrating a new data analytics platform called [ThoughtSpot] that is being used to display data and analytics produced by the data team to 3rd party companies. The [ThoughtSpot] implementation required an access solution that allowed a large number outside users access to their data while being manageable and scalable from our side, creating accounts in the application itself was a no go due to the sheer number of accounts that needed access and the issue of if an employee from a 3rd party company left, they would still have access to the data unless we were informed (which past experience has shown, was highly unlikely to happen the majority of the time).
 
-After investigation and working with support, ThoughSpot is compatible with [Azure Active Directory Applications] and users can be created and authenticated via [SAML], so this was the chosen implementation which gave a number of benefits:
+After investigation and working with the support team, ThoughSpot is compatible with [Azure Active Directory Applications] and users can be created and authenticated to the ThoughtSpot application via [SAML]. We implemented the Azure AD Application SAML -> ThoughtSpot in our Azure AD and ThoughtSpot appliance with the help of support which gave a number of benefits:
 
 * 3rd party companies that had their own Azure AD tenant or other supported Identity Provider means their employees use the same logins as they do to access their own company resources
 * Users with a company that does not have an Azure AD tenant could still access the system via the One Time Password option (currently a [preview feature])
