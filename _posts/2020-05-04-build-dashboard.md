@@ -154,6 +154,9 @@ The build number and commit properties are added to the object as links which wi
 
 The final part of the $BuildDataRefresh endpoint is to sync the grid. This will update the grid with the new values in the build list (if there are any) when the schedule is run and the cache variable is updated.
 
+Click on the commit id takes you to the code.
+![Click on commit id](/images/build-dashboard/click-commit.gif)
+
 ```powershell
 $buildDataRefresh = New-UDEndpoint -Schedule $BuildRefresh -Endpoint {
     $Cache:dataList = [System.Collections.Generic.List[pscustomobject]]::new()
