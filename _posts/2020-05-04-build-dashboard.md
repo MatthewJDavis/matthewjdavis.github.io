@@ -15,11 +15,11 @@ May 2020
 
 # Overview
 
-I have recently watched the [PowerShell DevOps Playbook] course on Pluralsight by [Adam Bertram] and was inspired to look at the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard for [AppVeyor] builds.
+I recently watched the [PowerShell DevOps Playbook] course on Pluralsight by [Adam Bertram] and was inspired to look at the [Universal Dashboard] PowerShell module again after the section in the course that used it to create a dashboard to display information for [AppVeyor] builds.
 
-Universal Dashboard is a web framework that allows you to easily create web front ends with PowerShell that can be used as an interface for PowerShell code input and output. I decided to make a similar dashboard as shown the Pluralsight course, using [Azure DevOps]. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard.
+Universal Dashboard is a web framework that allows you to easily create web front ends with PowerShell that can be used as an interface for PowerShell code. I decided to make a similar dashboard as shown the Pluralsight course, using [Azure DevOps]. I have a few different project in Azure DevOps with various builds that I can get information about from the [Azure DevOps REST API] and display it in the dashboard - giving a nice overview of all project builds in one easy to use dashboard.
 
-This post will show how to create the dashboard in the gif below by querying the Azure DevOps API and displaying the data in a Universal Dashboard using various components to give an easy was to see the builds that have run in each project for the organisation.
+This post will show how to create the dashboard in the gif below by querying the Azure DevOps API and displaying the data in a Universal Dashboard using various components to give an easy way to see builds that have run in each project for the organisation.
 
 ## Outcome
 
@@ -31,11 +31,11 @@ Complete code
 
 ## Set Up
 
-Tested on Windows and Linux.
-PowerShell core version 7 and Windows PowerShell version 5.1.
-UniversalDashboard Version: 2.9.0
+- Tested on Windows and Linux.
+- PowerShell core version 7 and Windows PowerShell version 5.1.
+- UniversalDashboard Version: 2.9.0
 
-There are various different Azure DevOps [Authentication] methods. To keep things simple, I've created a [Personal Access Token] for my user with [Read Access] to builds.
+There are various different Azure DevOps [Authentication] methods. To keep things simple I've created a [Personal Access Token] for my user with [Read Access] to builds in my organisation.
 
 ### Azure DevOps Personal Access Token (Pat)
 
@@ -63,7 +63,7 @@ Universal Dashboard can be installed from the PowerShell gallery with:
 
 The personal access token needs to be included in the headers for authentication and authorisation. To keep the token out of the code and PowerShell history, it is input via the ``` Read-Host ``` Cmdlet to an environment variable. An alternative would be to assign the variable value directly but this would be available in the history which is not desirable. It's still better than having it in plain text in the script and this could be replaced with the up and coming [PowerShell secrets module] or by getting the value from a secure secrets management platform such as [Hashicorp Vault] or [Azure Key Vault].
 
-Save the code to a file locally and from that directory dot source it so the functions are available in your PowerShell session.
+Save the code to a file locally and from that directory [dot source] it so the functions are available in your PowerShell session.
 
 ```powershell
 $env:pat = Read-Host
@@ -80,13 +80,14 @@ Start-BuildDashboard -OrgName 'yourOrgName'
 
 ![Starting up the dashboard](/images/build-dashboard/start-dashboard.png)
 
-The dashboard should now be running on 'http://localhost:10002/' (you can specify a different port via the Port parameter).
+The dashboard should now be running on [http://localhost:10002/] (you can specify a different port via the Port parameter).
 
 ![Dashboard overview](/images/build-dashboard/running.png)
 
 ## Code and logic run through
 
-Variables are set with the values to query the Azure DevOps api.
+Variables are set with the values to query the Azure DevOps API.
+
 The PAT token is convert to base64 and included in the headers. The variables are then made available to the Universal Dashboard endpoints via the ``` New-UDEndpointInitialization ``` Cmdlet.
 
 ```powershell
@@ -100,7 +101,7 @@ $BuildRefresh = New-UDEndpointSchedule -Every 5 -Minute
 
 ### Error handling Project data
 
-If you query the Azure DevOps API and something goes wrong, depending on what went wrong you can get a different result or object returned. The general exception thrown contains a lot of text (a whole webpage is returned) so the below section uses try catch block to catch common errors I encountered. There is a final catch that is a catch all that will display the whole text but this is better than the dashboard starting up and having no projects populated.
+If you query the Azure DevOps API and something goes wrong, depending on what went wrong you can get a different result or object returned. The general exception thrown contains a lot of text (an entire web page is returned) so the below section uses a try catch block to catch common errors I encountered. There is a final catch that is a catch all that will display the whole text but this is better than the dashboard starting up and having no projects populated.
 
 ```powershell
 try {
@@ -122,7 +123,7 @@ try {
 
 Even after the try catch, things can still go wrong so the final check is that we receive a pscustomobject and that there is at least one project.
 
-Note: The project data is only populated when the dashboard is started or restarted. The reason being the New-UDSelect element list does not update unless the dashboard is stopped then started again. That is the reason why and endpoint or $cache variable is not used for it.
+Note: The project data is only populated when the dashboard is started or restarted. The reason being the New-UDSelect element list does not update unless the dashboard is stopped then started again. That is why an endpoint or $cache variable is not used for it.
 
 ```powershell
 if ($projectList.gettype().Name -ne 'PSCustomObject') {
@@ -271,7 +272,7 @@ Start-UDDashboard -Dashboard $dashboard -Name $DashboardName -Endpoint @($buildD
 
 ### Updating Project
 
-As previously mentioned, the ``` Select-UDElement ``` element does not refresh.  To update project list, the dashboard should be stopped then started with:
+As previously mentioned, the ``` Select-UDElement ``` element does not refresh. To update project list, the dashboard should be stopped then started with:
 
 ```powershell
 Stop-UniversalDashboard -Name 'AzureDevOpsBuildDashboard'
@@ -301,3 +302,5 @@ I enjoyed working on this project over the last couple of weeks and implemented 
 [Read Access]: https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/oauth?view=azure-devops#scopes
 [password manager]: https://en.wikipedia.org/wiki/Password_manager
 [premium licence]: https://ironmansoftware.com/powershell-universal-dashboard/
+[dot source]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_scripts?view=powershell-7#script-scope-and-dot-sourcing
+[http://localhost:10002/]: http://localhost:10002/
