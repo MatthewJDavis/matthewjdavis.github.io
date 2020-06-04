@@ -34,4 +34,4 @@ June 2020
         msg: "{{ public_ip.json.ip }}"
 ```
 
-Now the public IP address is stored in the public_ip variable, it can be accessed and used in later tasks.
+Now the public IP address is stored in the public_ip variable, it can be accessed and used in later tasks. The returned result is a dictionary with numerous keys and one of those keys is json which has the value of a dictionary. To access the IP address value requires access the nested dictionary: ``` public_ip.json.ip ```.
