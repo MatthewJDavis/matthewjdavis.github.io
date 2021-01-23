@@ -44,8 +44,8 @@ Here is an output with existing keys created
 
 The files are:
 
-- rsa_ida = Private Key
-- rsa_ida.pub = Public Key
+- id_rsa = Private Key
+- id_rsa.pub = Public Key
 - known_hosts = machines that you trust
 
 You can backup any existing keys in the ~/.ssh/ directory by running:
