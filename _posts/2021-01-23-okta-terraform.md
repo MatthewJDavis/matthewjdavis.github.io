@@ -14,22 +14,29 @@ January 2021
 
 # Overview
 
-This week I've started using Okta for work and have been getting familiar with it. I followed the tutorial on integrating a dotnet application with Okta and was aware that there is a Terraform provider for Okta so decided to take a look on how it works. Terraform allows you to manage resources such as AWS, Azure and many other providers with the Hashicorp language.
-This post will cover getting setup with an Okta developer account and using Terraform to manage the applications in it.
+This post will cover adding an application to Okta with terraform.
 
-[Install Terraform] following the official guide. I am using the latest version available at this time: v0.14.5. This was carried out on a Ubuntu system using bash so adjust environment variables to other systems as required.
+I was following the tutorial [ASP.NET Core 3.0 MVC Secure Authentication] that required an application to be created, I had heard there was a terraform provider available for Okta so decided to try it out and have documented the process below.
+
+Terraform allows you to manage resources such as AWS, Azure and many other providers including Okta with the Hashicorp language.
+
+[Install Terraform] following the official guide. I am using the latest version available at this time: v0.14.5. This was carried out on a Ubuntu system using bash so adjust environment variables and commands to other systems as required.
+
+This is not an extensive tutorial on Terraform, the [official tutorial site] is a great resource and I highly recommend checking it out. The details in this post should be enough to get you up an running with Terraform and Okta.
 
 ## Set up Okta dev account
 
-Register for an [Okta developer account].
+Register for an [Okta developer account] if you've not already done so - currently it is free and allows you to create 5 applications to test out.
 
-Login to the portal and create an API token for the user keep this safe and secure, it's need to create a less privilege users shortly.
+Login to the dev portal and create an API token for the user keep this safe and secure, it's need to create a less privilege user shortly (alternatively you can create another user via the portal and assigning it to the Application Administrator role and skip down to the Create Application section).
+
+![Create API token in portal](/images/terraform-okta/api-token.png)
 
 ## Local directory structure
 
-I created two directories for this, one for the service account terraform and one for the application terraform. This is because the service account user that I create for managing applications will not have the required permissions to manage users accounts so have separated out the files. You don't have to create the okta-service-account directory if you create the application service account through the portal.
+I created two directories, one for the service account terraform and one for the application terraform. This is because the service account user that I create for managing applications will not have the required permissions to manage users accounts so I have separated out the files. You don't have to create the okta-service-account directory if you create the application service account through the portal.
 
-![Folder structure](/images/terraform-okta/.gif)
+![Directory structure](/images/terraform-okta/tree.png)
 
 ```bash
 # Create application dir and files
@@ -42,7 +49,6 @@ touch okta-service-account/vairables.tf
 touch okta-service-account/main.tf
 ```
 
-
 ## Create a service account
 
 The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in terraform using the super admin account as a one off.
@@ -51,9 +57,9 @@ The best practice is to use least privilege accounts so I will create a specific
 terraform init
 ```
 
-![Terraform init](/images/terraform-okta/terraform-init.gif)
+![Terraform init](/images/terraform-okta/terraform-init.png)
 
-Next is to set two environment variables. If you put a space before the export statement then they stay out of your bash history.
+Next is to set two environment variables. If you put a space before the export statement it stays out of your bash history.
 
 ```bash
  export OKTA_API_TOKEN="token_here"
@@ -72,7 +78,7 @@ Running a plan first with terraform will show you what is going to be added, cha
 terraform plan
 ```
 
-![Terraform plan output](/images/terraform-okta/terraform-plan.gif)
+![Terraform plan output](/images/terraform-okta/terraform-plan.png)
 
 To create the user run apply with terraform, you'll be prompted to enter ```yes``` and terraform will create the user for you in Okta.
 
@@ -80,11 +86,11 @@ To create the user run apply with terraform, you'll be prompted to enter ```yes`
 terraform apply
 ```
 
-![Terraform init](/images/terraform-okta/terraform-apply.gif)
+![Terraform init](/images/terraform-okta/terraform-apply.png)
 
 The user will now be visible in the Okta portal.
 
-![Okta user portal](/images/terraform-okta/users.gif)
+![Okta user portal](/images/terraform-okta/users.png)
 
 ## Creating the Application
 
@@ -114,7 +120,7 @@ As before, we can run a plan to see what is going to be added.
 terraform plan
 ```
 
-![terraform plan output](/images/terraform-okta/terraform-plan-app.gif)
+![terraform plan output](/images/terraform-okta/terraform-plan-app.png)
 
 Now we can run the apply command to create the application.
 
@@ -122,13 +128,14 @@ Now we can run the apply command to create the application.
 terraform apply
 ```
 
-![terraform apply output](/images/terraform-okta/terraform-apply-app.gif)
+![terraform apply output](/images/terraform-okta/terraform-apply-app.png)
 
 Below is a screenshot of the application created in the Okta dashboard.
 
-![okta portal with created appliation](/images/terraform-okta/apps-portal.gif)
+![okta portal with created appliation](/images/terraform-okta/apps-portal.png)
 
-
+[ASP.NET Core 3.0 MVC Secure Authentication]: https://developer.okta.com/blog/2019/11/15/aspnet-core-3-mvc-secure-authentication
 [Install Terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
 [Okta developer account]: https://developer.okta.com/signup/
 [Okta user resource]: https://registry.terraform.io/providers/oktadeveloper/okta/latest/docs/resources/user
+[official tutorial site]: https://learn.hashicorp.com/terraform?utm_source=terraform_io
