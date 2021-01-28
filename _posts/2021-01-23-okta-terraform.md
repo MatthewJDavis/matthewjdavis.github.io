@@ -25,7 +25,7 @@ Register for an [Okta developer account].
 
 Login to the portal and create an API token for the user keep this safe and secure, it's need to create a less privilege users shortly.
 
-## Create an Application admin
+## Create a service account
 
 The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in terraform using the super admin account as a one off.
 
@@ -68,15 +68,45 @@ The user will now be visible in the Okta portal.
 
 ![Okta user portal](/images/terraform-okta/users.gif)
 
+## Creating the Application
+
 Now the user is created, login to the Okta portal with that user and generate an API token, same process as before and keep it in a safe place. This token will be scoped to the user that created it so only has application permissions and can't manage users etc.
 
-Update the token environment variable.
+Update the token environment variable so it is using the application service account user API token.
 
 ```bash
  export OKTA_API_TOKEN="token_here"
 ```
 
+In the directory ```okta-demo-application`` there are the following two files.
 
+<script src="https://gist.github.com/MatthewJDavis/9741a1ca57c53a682f1378976e2c4f7b.js"></script>
+
+<script src="https://gist.github.com/MatthewJDavis/54f794ff60ed97c77f6ab3bd65067f3e.js"></script>
+
+Because this is a new directory, terraform require initialisation again.
+
+```bash
+terraform init
+```
+
+As before, we can run a plan to see what is going to be added.
+
+```bash
+terraform plan
+```
+
+![terraform plan output](/images/terraform-okta/terraform-plan-app.gif)
+
+```bash
+terraform apply
+```
+
+![terraform apply output](/images/terraform-okta/terraform-apply-app.gif)
+
+Below is a screenshot of the application created in the Okta dashboard.
+
+![okta portal with created appliation](/images/terraform-okta/apps-portal.gif)
 
 
 [Install Terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
