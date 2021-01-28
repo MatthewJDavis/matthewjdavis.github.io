@@ -110,7 +110,7 @@ In the directory ```okta-application``` there are the following two files.
 
 <script src="https://gist.github.com/MatthewJDavis/54f794ff60ed97c77f6ab3bd65067f3e.js"></script>
 
-Because this is a new directory, terraform require initialisation again.
+Because this is a new directory, Terraform requires initialisation again.
 
 ```bash
 terraform init
