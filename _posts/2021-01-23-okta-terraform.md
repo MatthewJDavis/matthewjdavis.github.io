@@ -25,6 +25,24 @@ Register for an [Okta developer account].
 
 Login to the portal and create an API token for the user keep this safe and secure, it's need to create a less privilege users shortly.
 
+## Local directory structure
+
+I created two directories for this, one for the service account terraform and one for the application terraform. This is because the service account user that I create for managing applications will not have the required permissions to manage users accounts so have separated out the files. You don't have to create the okta-service-account directory if you create the application service account through the portal.
+
+![Folder structure](/images/terraform-okta/.gif)
+
+```bash
+# Create application dir and files
+mkdir okta-application
+touch okta-application/variables.tf
+touch okta-application/main.tf
+#Create service account dir and files
+mkdir okta-service-account
+touch okta-service-account/vairables.tf
+touch okta-service-account/main.tf
+```
+
+
 ## Create a service account
 
 The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in terraform using the super admin account as a one off.
@@ -78,7 +96,7 @@ Update the token environment variable so it is using the application service acc
  export OKTA_API_TOKEN="token_here"
 ```
 
-In the directory ```okta-demo-application`` there are the following two files.
+In the directory ```okta-application`` there are the following two files.
 
 <script src="https://gist.github.com/MatthewJDavis/9741a1ca57c53a682f1378976e2c4f7b.js"></script>
 
@@ -97,6 +115,8 @@ terraform plan
 ```
 
 ![terraform plan output](/images/terraform-okta/terraform-plan-app.gif)
+
+Now we can run the apply command to create the application.
 
 ```bash
 terraform apply
