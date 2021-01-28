@@ -53,6 +53,8 @@ touch okta-service-account/main.tf
 
 The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in Terraform using the super admin account as a one off. It's important the user is assigned the [Application Administrator role] in Okta.
 
+First you need to [initialise Terraform] in the current working directory.
+
 ```bash
 terraform init
 ```
@@ -149,3 +151,4 @@ This post showed how easy it is to add and manage applications in Okta. There ar
 [Application Administrator role]: https://help.okta.com/en/prod/Content/Topics/Security/administrators-app-admin.htm
 [Okta user resource]: https://registry.terraform.io/providers/oktadeveloper/okta/latest/docs/resources/user
 [official tutorial site]: https://learn.hashicorp.com/terraform?utm_source=terraform_io
+[initialise terraform]: https://www.terraform.io/docs/cli/commands/init.html
