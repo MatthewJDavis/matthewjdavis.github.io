@@ -14,9 +14,9 @@ January 2021
 
 # Overview
 
-This post will cover adding an application to Okta with terraform.
+This post will cover adding an application to Okta with Terraform.
 
-I was following the tutorial [ASP.NET Core 3.0 MVC Secure Authentication] that required an application to be created, I had heard there was a terraform provider available for Okta so decided to try it out and have documented the process below.
+I was following the tutorial [ASP.NET Core 3.0 MVC Secure Authentication] that required an application to be created, I had heard there was a Terraform provider available for Okta so decided to try it out and have documented the process below.
 
 Terraform allows you to manage resources such as AWS, Azure and many other providers including Okta with the Hashicorp language.
 
@@ -34,7 +34,7 @@ Login to the dev portal and create an API token for the user keep this safe and 
 
 ## Local directory structure
 
-I created two directories, one for the service account terraform and one for the application terraform. This is because the service account user that I create for managing applications will not have the required permissions to manage users accounts so I have separated out the files. You don't have to create the okta-service-account directory if you create the application service account through the portal.
+I created two directories, one for the service account Terraform and one for the application Terraform. This is because the service account user that I create for managing applications will not have the required permissions to manage users accounts so I have separated out the files. You don't have to create the okta-service-account directory if you create the application service account through the portal.
 
 ![Directory structure](/images/terraform-okta/tree.png)
 
@@ -51,7 +51,7 @@ touch okta-service-account/main.tf
 
 ## Create a service account
 
-The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in terraform using the super admin account as a one off.
+The best practice is to use least privilege accounts so I will create a specific account for Terraform to manage applications. This can be done via the portal or in production the account could be mastered from another source such as Active Directory. I'll show how to create the account in Terraform using the super admin account as a one off.
 
 ```bash
 terraform init
@@ -80,7 +80,7 @@ terraform plan
 
 ![Terraform plan output](/images/terraform-okta/terraform-plan.png)
 
-To create the user run apply with terraform, you'll be prompted to enter ```yes``` and terraform will create the user for you in Okta.
+To create the user run apply with Terraform, you'll be prompted to enter ```yes``` and Terraform will create the user for you in Okta.
 
 ```bash
 terraform apply
@@ -128,7 +128,7 @@ Now we can run the apply command to create the application.
 terraform apply
 ```
 
-![terraform apply output](/images/terraform-okta/terraform-apply-app.png)
+![Terraform apply output](/images/terraform-okta/terraform-apply-app.png)
 
 Below is a screenshot of the application created in the Okta dashboard.
 
