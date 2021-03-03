@@ -1,5 +1,5 @@
 ---
-title: Use PowerShell to extract and email address from a string
+title: Use PowerShell to extract an email address from a string
 excerpt: Short post on how to use PowerShell and regex to extract an email address from a string.
 date: 2021-03-02
 toc: false
