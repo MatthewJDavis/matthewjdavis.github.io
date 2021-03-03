@@ -19,9 +19,12 @@ I used the following script to extract the user's email address to a list and th
 
 ## How it works
 
-A [list] of [string types] is created, initialised and assigned to the variable $emailList.
-A foreach loop is used to iterate over the user details assigned to the $userList variable. Each string is matched against the regex pattern and if a portion of the string matches the regex, it is stored in the $Matches automatic variable value property. This value is added to the $emailList.
+A [list] of [string types] is created, initialised and assigned to the variable ```$emailList```.
+A foreach loop is used to iterate over the user details assigned to the ```$userList``` variable. Each string is matched against the [email regex pattern] and if a portion of the string matches the regex, it is stored in the [$Matches] automatic variable value property. This value is added to the $emailList.
+
+![Showing output of email addresses from script](/images/ps-email-extract/ps-email-extract.png)
 
 [list]: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0
 [string types]: https://docs.microsoft.com/en-us/dotnet/api/system.string?view=net-5.0
-[matches]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-7.1#matches
+[$Matches]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-7.1#matches
+[email regex pattern]: https://emailregex.com/
