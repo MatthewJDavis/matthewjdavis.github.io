@@ -15,7 +15,7 @@ March 2021
 
 # Overview
 
-Today I was looking at the Microsoft Graph PowerShell module to find out if there were licencing overlaps with users. I had covered querying the MS Graph with PowerShell in a [previous post] but thought this would be a good opportunity to give the official module a go now.
+Today I was looking at the [Microsoft Graph PowerShell module] to find out if any users had incorrect licences applied ([dynamic groups] are used but the numbers looked a bit off). I had covered querying the MS Graph with PowerShell in a [previous post] but thought this would be a good opportunity to give the official module a go now.
 
 ```powershell
 Install-Module microsoft.graph
@@ -39,17 +39,17 @@ Open the link and authenticate and authorise the PowerShell session to interact 
 
 Filtering by licence type
 
-You can find the licence guids in the [offical documentation] and these are used to filter the user results from the graph.
+You can find the licence guids in the [official documentation] and these are used to [filter] the user results directly from the graph.
 
 ```powershell
-Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq efccb6f7-5641-4e0e-bd10-b4976e1bf68e)" -All # ENTERPRISE MOBILITY + SECURITY E3
-Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 078d2b04-f1bd-4111-bbd4-b4b1b354cef4)" -All # AZURE ACTIVE DIRECTORY PREMIUM P1 
-Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 84a661c4-e949-4bd2-a560-ed7766fcaf2b)" -All # AZURE ACTIVE DIRECTORY PREMIUM P2
+$ems = Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq efccb6f7-5641-4e0e-bd10-b4976e1bf68e)" -All # ENTERPRISE MOBILITY + SECURITY E3
+$p1 = Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 078d2b04-f1bd-4111-bbd4-b4b1b354cef4)" -All # AZURE ACTIVE DIRECTORY PREMIUM P1 
+$p2 = Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 84a661c4-e949-4bd2-a560-ed7766fcaf2b)" -All # AZURE ACTIVE DIRECTORY PREMIUM P2
 ```
 
-The above will only return up to 999 users with that value set in the ```PageSize``` property and doesn't work currently with more than 999 users assigned to a single licence.
+The above will only return a maximum of 200 users with the ``All`` property and 999 users with that value set in the ```PageSize``` property and doesn't work currently with more than 999 users assigned to a single licence.
 
-A work around for this is to get all users, then filter them into variables depending on licence type.
+A work around for this is to get all users in the tenant, then assign them into variables depending on licence type.
 
 ```powershell
 $userList = Get-MgUser -All
@@ -69,6 +69,8 @@ Now you have a list of users you could create reports and discover which users a
 Compare-Object -ReferenceObject $ems.userprincipalname -DifferenceObject $p1.userprincipalname -IncludeEqual -ExcludeDifferent 
 ```
 
-[offical documentation]:https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/licensing-service-plan-reference
-
+[Microsoft Graph PowerShell module]: https://github.com/microsoftgraph/msgraph-sdk-powershell
+[dynamic groups]: https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/groups-dynamic-membership
+[filter]: https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
+[official documentation]:https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/licensing-service-plan-reference
 [previous post]: https://matthewdavis111.com/powershell/microsoft-graph-powershell/
