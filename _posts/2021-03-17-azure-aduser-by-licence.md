@@ -13,7 +13,9 @@ published: false
 ---
 March 2021
 
-Intro
+# Overview
+
+Today I was looking at the Microsoft Graph PowerShell module to find out if there were licencing overlaps with users. I had covered querying the MS Graph with PowerShell in a [previous post] but thought this would be a good opportunity to give the official module a go now.
 
 ```powershell
 Install-Module microsoft.graph
@@ -68,3 +70,5 @@ Compare-Object -ReferenceObject $ems.userprincipalname -DifferenceObject $p1.use
 ```
 
 [offical documentation]:https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/licensing-service-plan-reference
+
+[previous post]: https://matthewdavis111.com/powershell/microsoft-graph-powershell/
