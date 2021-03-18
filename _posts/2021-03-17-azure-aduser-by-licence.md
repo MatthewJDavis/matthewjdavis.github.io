@@ -1,7 +1,7 @@
 ---
 title: Get list of AzureAD users by licence type
 excerpt: Use the Microsoft Graph PowerShell module to get a list of users consuming a particular licence.
-date: 2020-05-04
+date: 2021-03-17
 toc: false
 classes: wide
 categories:
