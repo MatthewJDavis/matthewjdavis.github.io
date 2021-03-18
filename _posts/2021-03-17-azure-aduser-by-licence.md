@@ -33,6 +33,8 @@ Connect-MgGraph -Scopes "User.Read.All"
 
 Open the link and authenticate and authorise the PowerShell session to interact with the graph. Note I found this would not work with my Microsoft account sourced user and needed to be done by a user created in my Azure Active Directory.
 
+![Dashboard overview](/images/azure-ad-ms-graph-lic/scopes.png)
+
 Filtering by licence type
 
 You can find the licence guids in the [offical documentation] and these are used to filter the user results from the graph.
