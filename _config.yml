@@ -109,7 +109,7 @@ analytics:
 author:
   name             : "Matthew Davis"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "PowerShell, Azure, AWS, infrastructure automation, documenting what I'm learning."
+  bio              : "PowerShell, Azure, AWS, identity, infrastructure automation, documenting what I'm learning."
   location         : "Toronto CA"
   email            :
   links:
