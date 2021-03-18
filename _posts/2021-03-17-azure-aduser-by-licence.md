@@ -33,13 +33,17 @@ Connect-MgGraph -Scopes "User.Read.All"
 
 Open the link and authenticate and authorise the PowerShell session to interact with the graph. Note I found this would not work with my Microsoft account sourced user and needed to be done by a user created in my Azure Active Directory.
 
+Filtering by licence type
+
+You can find the licence guids in the [offical documentation] and these are used to filter the user results from the graph.
+
 ```powershell
 Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq efccb6f7-5641-4e0e-bd10-b4976e1bf68e)" -All # ENTERPRISE MOBILITY + SECURITY E3
 Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 078d2b04-f1bd-4111-bbd4-b4b1b354cef4)" -All # AZURE ACTIVE DIRECTORY PREMIUM P1 
 Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 84a661c4-e949-4bd2-a560-ed7766fcaf2b)" -All # AZURE ACTIVE DIRECTORY PREMIUM P2
 ```
 
-The above will only return up to 999 users with the ```PageSize``` property and doesn't work currently with more than that number of users assigned to a licence.
+The above will only return up to 999 users with that value set in the ```PageSize``` property and doesn't work currently with more than 999 users assigned to a single licence.
 
 A work around for this is to get all users, then filter them into variables depending on licence type.
 
@@ -60,3 +64,5 @@ Now you have a list of users you could create reports and discover which users a
 ```powershell
 Compare-Object -ReferenceObject $ems.userprincipalname -DifferenceObject $p1.userprincipalname -IncludeEqual -ExcludeDifferent 
 ```
+
+[offical documentation]:https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/licensing-service-plan-reference
