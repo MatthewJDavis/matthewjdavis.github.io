@@ -60,8 +60,6 @@ $userList = Get-MgUser -All
 $ems = $userList | Where-Object {$_.AssignedLicenses.SkuId -eq 'efccb6f7-5641-4e0e-bd10-b4976e1bf68e'} | Select-Object  UserPrincipalName 
 
 $p1 = $userList | Where-Object {$_.AssignedLicenses.SkuId -eq '078d2b04-f1bd-4111-bbd4-b4b1b354cef4'} | Select-Object UserPrincipalName 
- 
-$ems = $userList | Where-Object {$_.AssignedLicenses.SkuId -eq 'efccb6f7-5641-4e0e-bd10-b4976e1bf68e'} | Select-Object  UserPrincipalName 
 
 $p2 = $userList | Where-Object {$_.AssignedLicenses.SkuId -eq '84a661c4-e949-4bd2-a560-ed7766fcaf2b'} | Select-Object UserPrincipalName 
 ```
