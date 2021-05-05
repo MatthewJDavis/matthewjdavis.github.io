@@ -14,5 +14,5 @@ economic data for the region. The application, which uses the R library Shiny, d
 test6
 
 
-<iframe frameborder="0" width="100%" height="500px" src="https://mjacobsdata.shinyapps.io/europe-economy-covid/" allowfullscreen> </iframe>
+<iframe frameborder="0" width="100%" height="800px" src="https://mjacobsdata.shinyapps.io/europe-economy-covid/" allowfullscreen> </iframe>
 
