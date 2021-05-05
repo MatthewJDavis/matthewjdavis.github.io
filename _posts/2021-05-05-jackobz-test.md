@@ -12,5 +12,5 @@ To illustrate both the current and future impact of the COVID19 pandemic on Euro
 economic data for the region. The application, which uses the R library Shiny, downloads the latest available data on a weekly basis and includes a series of interactive charts and graphics.  
 
 {% raw %}
-<iframe height="100%" width="100%" frameborder="no" src="https://mjacobsdata.shinyapps.io/europe-economy-covid/"> </iframe>
+<iframe width="100%" height="100%" frameborder="0" src="https://mjacobsdata.shinyapps.io/europe-economy-covid/"> </iframe>
 {% endraw %}
