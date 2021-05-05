@@ -204,7 +204,7 @@ Finally the display names of the users in the tenants are written to the output 
 Write-Output $userList.value.displayName
 ```
 
-![Output of display names](/images/ms-graph-powershell/display-name.png)
+![Output of display names](/images/ms-graph-powershell/displayname-output.png)
 
 ## Summary
 
