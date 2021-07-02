@@ -75,5 +75,4 @@ Now I had a list of users in the privileged groups that is used in the report.
 
 ## Summary
 
-
-
+Graph https://docs.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-beta&tabs=http#code-try-3
