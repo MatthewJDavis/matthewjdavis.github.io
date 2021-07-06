@@ -1,7 +1,7 @@
 ---
-title: Get list of AzureAD in pri
-excerpt: Use the Microsoft Graph PowerShell module to get a list of users consuming a particular licence.
-date: 2021-03-17
+title: Get list of AzureAD User Principal Names of Global Admins in Azure AD.
+excerpt: Use the Microsoft Graph PowerShell module to get a list of User Principal Names of Global Admins Azure AD role.
+date: 2021-07-03
 toc: false
 classes: wide
 categories:
