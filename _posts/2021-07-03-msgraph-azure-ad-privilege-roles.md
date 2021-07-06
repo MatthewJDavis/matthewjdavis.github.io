@@ -51,14 +51,15 @@ Get-MgDirectoryRole -Filter "DisplayName eq 'Global Administrator'"
 Get-MgDirectoryRole -Filter "DisplayName eq 'User Administrator'"
 ```
 
-This was good and did what I needed but I realised it wasn't returning all of the privileged roles available
+This was good and did what I needed but I realised it wasn't returning all of the privileged roles available so I searched for some more commands that might help and found the ```Get-MgRoleManagementDirectoryRoleDefinition``` Cmdlets.
 
 ```powershell
 Get-MgRoleManagementDirectoryRoleDefinition
+Get-MgRoleManagementDirectoryRoleDefinition | Select-Object -Property DisplayName, Description | Sort-Object -Property DisplayName
 Get-MgRoleManagementDirectoryRoleDefinition -Filter "DisplayName eq 'Global Administrator'"
 ```
 
-Now that I can find the roles and their IDs, I created the script to get the users.
+Now that I can find the roles and their IDs, I created the script to get the user User Principal Names that belonged to the roles I needed to report on.
 
 ```powershell
 $memberList = [System.Collections.Generic.List[string]]::new()
@@ -71,8 +72,7 @@ foreach ($user in $userList) {
 }
 ```
 
-Now I had a list of users in the privileged groups that is used in the report.
-
 ## Summary
+
 
 Graph https://docs.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-beta&tabs=http#code-try-3
