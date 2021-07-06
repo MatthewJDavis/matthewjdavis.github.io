@@ -51,15 +51,7 @@ Get-MgDirectoryRole -Filter "DisplayName eq 'Global Administrator'"
 Get-MgDirectoryRole -Filter "DisplayName eq 'User Administrator'"
 ```
 
-This was good and did what I needed but I realised it wasn't returning all of the privileged roles available so I searched for some more commands that might help and found the ```Get-MgRoleManagementDirectoryRoleDefinition``` Cmdlets.
-
-```powershell
-Get-MgRoleManagementDirectoryRoleDefinition
-Get-MgRoleManagementDirectoryRoleDefinition | Select-Object -Property DisplayName, Description | Sort-Object -Property DisplayName
-Get-MgRoleManagementDirectoryRoleDefinition -Filter "DisplayName eq 'Global Administrator'"
-```
-
-Now that I can find the roles and their IDs, I created the script to get the user User Principal Names that belonged to the roles I needed to report on.
+Now that I can find the roles and their IDs, I created the script to get the user User Principal Names that belonged to the Global Administrators group I needed to report on.
 
 ```powershell
 $memberList = [System.Collections.Generic.List[string]]::new()
@@ -72,7 +64,13 @@ foreach ($user in $userList) {
 }
 ```
 
+I noticed this does not return all of the roles in Azure AD and after trying different things raised an [issue on GitHub]. You can find a full list of roles on the [official docs] and can use the role IDs there to get the members of roles that are not returned via the ```Get-MgDirectoryRole``` Cmdlet.
+
 ## Summary
 
+The Microsoft Graph PowerShell module is far from finished and is definitely lacking help and examples. This task took some time to figure out but because going [forward this is the module that will be invested in for PowerShell] interaction with the Microsoft Graph it was a good opportunity to use it more. There is still a lot to be done to add functionality, for example currently you can add members to a group via this module but you can't remove them currently without a workaround.
 
-Graph https://docs.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-beta&tabs=http#code-try-3
+[official docs]: https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+[issue on GitHub]: https://github.com/microsoftgraph/msgraph-sdk-powershell/issues/739
+[forward this is the module that will be invested in for PowerShell]: https://techcommunity.microsoft.com/t5/azure-active-directory-identity/automate-and-manage-azure-ad-tasks-at-scale-with-the-microsoft/ba-p/1942489
+[can't remove them]: https://github.com/microsoftgraph/msgraph-sdk-powershell/issues/452
