@@ -72,7 +72,23 @@ foreach ($user in $userList) {
 }
 ```
 
-I noticed this does not return all of the roles in Azure AD and after trying different things raised an [issue on GitHub]. You can find a full list of roles on the [official docs] and can use the role IDs there to get the members of roles that are not returned via the ```Get-MgDirectoryRole``` Cmdlet.
+### Update on getting all the roles
+
+After raising an [issue on GitHub], it turns out that ```Get-MgDirectoryRole``` only returns [activated roles]. A role is activated via the AAD portal when a user or group is added to the role. Below is a screenshot after I added a user to the Security Operator role and a group to the Conditional Access Administrator roles.
+
+![Output after adding user and group to roles](/images/azure-ad-ms-graph-roles/updated-roles.png)
+
+### Getting all of the roles
+
+Use the following Cmdlet to get all of the roles in Azure AD including those that have not been activated.
+
+```powershell
+Get-MgDirectoryRoleTemplate | Select-Object DisplayName, Description | Sort-Object DisplayName
+```
+
+![Output of all roles](/images/azure-ad-ms-graph-roles/role-templates.png)
+
+You can also find a full list of roles on the [official docs].
 
 ## Complete Script
 
@@ -80,9 +96,10 @@ I noticed this does not return all of the roles in Azure AD and after trying dif
 
 ## Summary
 
-The Microsoft Graph PowerShell module is far from finished and is definitely lacking in help and examples at the moment. This task took some time to figure out but because going [forward this is the module that will be invested in for PowerShell] interaction with the Microsoft Graph it was a good opportunity to use it more. There is still a lot to be done to add functionality, for example currently you can add members to a group via this module but you [can't remove them] currently without a workaround, however I will start using this module more in automation in the future.
+The Microsoft Graph PowerShell module is far from finished and is definitely lacking in help and examples at the moment which looks to be being worked on at the moment. This task took some time to figure out but because going [forward this is the module that will be invested in for PowerShell] interaction with the Microsoft Graph it was a good opportunity to use it more. There is still a lot to be done to add functionality. For example currently you can add members to a group via this module but you [can't remove them] currently without a workaround, however I will start using this module more in automation in the future.
 
 [official docs]: https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
 [issue on GitHub]: https://github.com/microsoftgraph/msgraph-sdk-powershell/issues/739
 [forward this is the module that will be invested in for PowerShell]: https://techcommunity.microsoft.com/t5/azure-active-directory-identity/automate-and-manage-azure-ad-tasks-at-scale-with-the-microsoft/ba-p/1942489
 [can't remove them]: https://github.com/microsoftgraph/msgraph-sdk-powershell/issues/452
+[activated roles]: https://docs.microsoft.com/en-us/graph/api/directoryrole-list?view=graph-rest-1.0&tabs=http
