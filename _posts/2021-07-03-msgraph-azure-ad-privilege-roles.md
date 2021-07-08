@@ -74,7 +74,9 @@ foreach ($user in $userList) {
 
 ### Update on getting all the roles
 
-After raising an [issue on GitHub], it turns out that ```Get-MgDirectoryRole``` only returns [activated roles]. A role is activated via the AAD portal when a user or group is added to the role. Below is a screenshot after I added a user to the Security Operator role and a group to the Conditional Access Administrator roles.
+After raising an [issue on GitHub], it turns out that ```Get-MgDirectoryRole``` only returns [activated roles]. A role is activated via the AAD portal when a user or group is added to the role. It can also be activated via the [Graph API].
+
+Below is a screenshot after I added a user to the Security Operator role and a group to the Conditional Access Administrator roles.
 
 ![Output after adding user and group to roles](/images/azure-ad-ms-graph-roles/updated-roles.png)
 
@@ -103,3 +105,4 @@ The Microsoft Graph PowerShell module is far from finished and is definitely lac
 [forward this is the module that will be invested in for PowerShell]: https://techcommunity.microsoft.com/t5/azure-active-directory-identity/automate-and-manage-azure-ad-tasks-at-scale-with-the-microsoft/ba-p/1942489
 [can't remove them]: https://github.com/microsoftgraph/msgraph-sdk-powershell/issues/452
 [activated roles]: https://docs.microsoft.com/en-us/graph/api/directoryrole-list?view=graph-rest-1.0&tabs=http
+[Graph API]: https://docs.microsoft.com/en-us/graph/api/directoryrole-post-directoryroles?view=graph-rest-1.0&tabs=http
