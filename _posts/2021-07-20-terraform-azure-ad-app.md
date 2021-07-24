@@ -9,7 +9,7 @@ categories:
 tags:
 - azuread
 - terraform
-published: false
+published: true
 ---
 July 2021
 
