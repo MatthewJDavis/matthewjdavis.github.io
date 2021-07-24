@@ -174,7 +174,6 @@ az ad sp delete --id
 
 Now all the resources for this post will be removed.
 
-## Summary
 
 [Assign]: https://docs.microsoft.com/en-us/azure/active-directory/roles/manage-roles-portal
 [Application Administrator]: https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#application-administrator
