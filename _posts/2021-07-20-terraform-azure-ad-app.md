@@ -1,7 +1,7 @@
 ---
 title: Use Terraform to deploy an Azure AD application
-excerpt: 
-date: 2021-07-03
+excerpt: Use Terraform to deplay and Azure AD application and set MS Graph permissions and retrieve the secret.
+date: 2021-07-20
 toc: false
 classes: wide
 categories:
