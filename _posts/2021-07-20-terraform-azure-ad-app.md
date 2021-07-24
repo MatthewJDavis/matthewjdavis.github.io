@@ -172,7 +172,7 @@ The resources managed by Terraform will be deleted.
 To remove the service principal created earlier run the Azure CLI:
 
 ```bash
-az ad sp delete --id
+az ad sp delete --id id-of-sp-created-earlier
 ```
 
 Now all the resources for this post will be removed.
