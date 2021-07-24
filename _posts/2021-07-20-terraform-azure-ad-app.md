@@ -118,18 +118,63 @@ If all looks good, it can be deployed using the output from the above plan comma
 terraform apply -auto-approve deployment.tfplan
 ```
 
-After the deployment has finished- check the portal to see it there.
+In the AAD portal under **Azure Active Directory** blade **App registrations** blade and **All applications** search for the created app.
 
 ![app in portal](/images/terraform-azure-ad-app/app-in-portal.png)
 
+Select the app then the **API permissions** blade to see the *User.Read* scope granted to the app.
+
+![user read api permissions granted](/images/terraform-azure-ad-app/api-permissions.png)
 
 ## Update the application
 
+Now the deployment has been made, the plan is stale and needs updating.
+
+```bash
+terraform plan -out deployment.tfplan
+```
+
+Running an apply command again will result in nothing being changed.
+
+Change the identifier_url value in the tfvariables.tf file to something else and run:
+
+```bash
+terraform plan -out deployment.tfplan
+```
+
+A change will be displayed.
+
+Run the apply command to update the application.
+
+```bash
+terraform apply -auto-approve deployment.tfplan
+```
+
+Refresh the **Overview** page and you'll see the new Application ID URI.
+
+![update uri displaying in portal](/images/terraform-azure-ad-app/change.png)
+
 ## Destroy the application
 
-## Azure storage for remote state
+Clean up the application and service principal using the destory command.
 
-##
+```bash
+terraform destroy
+```
+
+Because the auto-approve option is not specified, a prompt will ask to confirm.
+
+The resources managed by Terrafrom will be deleted.
+
+To remove the service principal created earlier run the Azure CLI:
+
+```bash
+az ad sp delete --id
+```
+
+Now all the resources for this post will be removed.
+
+## Summary
 
 [Assign]: https://docs.microsoft.com/en-us/azure/active-directory/roles/manage-roles-portal
 [Application Administrator]: https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#application-administrator
