@@ -48,9 +48,9 @@ The current azuread Terraform provider uses the legacy Azure Active Directory Gr
 
 ## Set up Terraform
 
-Local state
+Create a new directory, and change directory to it. 
 
-## Create the application and deploy
+I create ```azure-tf-demo```
 
 Create two files main.tf and a terraform.tfvars where the variable values are declared.
 
@@ -61,6 +61,67 @@ Main file.
 Variables file.
 
 <script src="https://gist.github.com/MatthewJDavis/69bd18c079b2f7026f637e6674fac03c.js"></script>
+
+To initialize Terraform run the following from the directory with the main and terraform.tfvars are located.
+
+```bash
+terraform init
+```
+
+This will store the state locally on your machine in the same directory.
+
+![output of terraform init](/images/terraform-azure-ad-app/terraform-init.png)
+
+Validate everything is good by running:
+
+```bash
+terraform validate
+```
+
+There will be a warning regarding the attribute *homepage* being deprecated and will change names in version 2.
+
+Now it's time to set the credentials via environment variables. This is appID (ARM_CLIENT_ID below) and password for the ARM_CLIENT_SECRET. A subscription ID and tenant ID is also required.
+
+You can get the subscription and tenant IDs from the Azure CLI:
+
+```bash
+az account list
+```
+
+Setting the authentication environment variables:
+
+```bash
+export ARM_SUBSCRIPTION_ID="abcde"
+export ARM_TENANT_ID="abcde"
+export ARM_CLIENT_ID="abcde"
+ export ARM_CLIENT_SECRET="abcde"
+```
+
+The secret line is intentionally indented to keep it out of the bash history.
+
+The last thing to set is the password value for the application. Note: When the Terraform provider is updated to version 2.0 and used the MS Graph API, this will be read only and will be generated so will no longer applies.
+The password is set via an environment variable again
+
+```bash
+ export TF_VAR_app_password="randomPasswordHere"
+```
+
+Now it's time to run a plan.
+
+```bash
+terraform plan -out deployment.tfplan
+```
+
+If all looks good, it can be deployed using the output from the above plan command.
+
+```bash
+terraform apply -auto-approve deployment.tfplan
+```
+
+After the deployment has finished- check the portal to see it there.
+
+![app in portal](/images/terraform-azure-ad-app/app-in-portal.png)
+
 
 ## Update the application
 
