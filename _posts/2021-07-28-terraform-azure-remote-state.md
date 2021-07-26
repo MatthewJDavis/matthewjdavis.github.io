@@ -47,6 +47,17 @@ az storage container create --name $container --account-name $sa
 
 This creates a new storage account in the resource group and a container that is set to private access (you do not want your Terraform state files public access because they can contain secrets).
 
+## SAS Token
+
+To authenticate to the blob storage container, a 2 year SAS token is created. After creation this is set as an environment variable for Terraform to use. This should also be securely saved somewhere such as a password manager and or a secrets manager solution such as Azure Key Vault or Hashicorp Vault for use in a CI/CD pipeline.
+
+```bash
+accountKey = $(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
+end=`date -u -d "2 years" '+%Y-%m-%dT%H:%MZ'`
+sas=`az storage container generate-sas -n $container --account-key $accountKey --account-name $sa --https-only --permissions dlrw --expiry $end -o tsv
+
+export TF_STATE_ARM_SAS_TOKEN=$sas
+```
 
 ## Terraform Azure backend configuration
 
