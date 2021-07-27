@@ -73,6 +73,17 @@ Variable values file (terraform.tfvars).
 
 <script src="https://gist.github.com/MatthewJDavis/69bd18c079b2f7026f637e6674fac03c.js"></script>
 
+### Setting the credentials
+
+Set the credentials of the Service Principal in authentication environment variables:
+
+```bash
+export ARM_SUBSCRIPTION_ID='abcde'
+export ARM_TENANT_ID="abcde"
+export ARM_CLIENT_ID="abcde"
+ export ARM_CLIENT_SECRET="abcde"
+```
+
 To initialize Terraform run the following:
 
 ```bash
@@ -87,16 +98,6 @@ Validate everything is good by running:
 
 ```bash
 terraform validate
-```
-
-## Setting the credentials
-
-Set the credentials of the Service Principal in authentication environment variables:
-
-```bash
-export ARM_TENANT_ID="abcde"
-export ARM_CLIENT_ID="abcde"
- export ARM_CLIENT_SECRET="abcde"
 ```
 
 The secret line is intentionally indented to keep it out of the bash history.
