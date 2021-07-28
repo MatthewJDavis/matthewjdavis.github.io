@@ -26,7 +26,7 @@ There is a charge for using storage accounts, see the documentation for details.
 
 ## Azure Storage account
 
-Azure CLI way
+### Create with the Azure CLI
 
 ```bash
 az login
@@ -50,13 +50,16 @@ This creates a new storage account in the resource group and a container that is
 ## SAS Token
 
 To authenticate to the blob storage container, a 2 year SAS token is created. After creation this is set as an environment variable for Terraform to use. This should also be securely saved somewhere such as a password manager and or a secrets manager solution such as Azure Key Vault or Hashicorp Vault for use in a CI/CD pipeline.
+You could also use one of the storage account [access keys], however I would advise to use a SAS token that is ony scoped to that particular storage account and container - just enough privilege!
 
 ```bash
-accountKey = $(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
+accountKey=$(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
 end=`date -u -d "2 years" '+%Y-%m-%dT%H:%MZ'`
 sas=`az storage container generate-sas -n $container --account-key $accountKey --account-name $sa --https-only --permissions dlrw --expiry $end -o tsv
 
  export ARM_SAS_TOKEN=$sas
+
+ az logout
 ```
 
 ## Terraform Azure backend configuration
@@ -113,7 +116,8 @@ This solution would allow you to keep some or all of the configuration of of sou
 ## Terraform
 
 ### Init
-Running the initialisation command will create the state file in the blob container.
+
+Running the initialisation command will create the state file in the blob container. If you are still using the state file from the previous post, then the state file will be copied from the local computer storage to Azure blob storage - pretty neat.
 
 ```bash
 terraform init
@@ -145,14 +149,25 @@ If the apply takes along time, you can go to the blob details and you'll see the
 
 ## Clean up
 
+Delete the resources created by Terraform:
+
 ```bash
 terraform destroy
 ```
 
-```bash
+Delete the state file:
 
+```bash
+# Add the variables in again for container, sa and rg if in a new session.
+az login
+accountKey=$(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
+az storage blob delete -c $container --account-name $sa --account-key $accountKey -n msgraphapp.tfstate 
 ```
 
+## Summary
+
+That's it, now the remote state can be shared with others in the team (that have a SAS token) or can be used in a CI/CD pipeline.
 
 [backend section]: https://www.terraform.io/docs/language/state/backends.html
 [partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
+[access key]: https://www.terraform.io/docs/language/settings/backends/azurerm.html#access_key
