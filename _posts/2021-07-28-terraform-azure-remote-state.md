@@ -56,9 +56,103 @@ accountKey = $(az storage account keys list --resource-group $rg --account-name 
 end=`date -u -d "2 years" '+%Y-%m-%dT%H:%MZ'`
 sas=`az storage container generate-sas -n $container --account-key $accountKey --account-name $sa --https-only --permissions dlrw --expiry $end -o tsv
 
-export TF_STATE_ARM_SAS_TOKEN=$sas
+ export ARM_SAS_TOKEN=$sas
 ```
 
 ## Terraform Azure backend configuration
 
-## 
+Now we can access the blob storage via the SAS token, the Terraform configuration should be updated with the details of where to store the state. This is done in the 'backend' section.
+
+```terraform
+terraform {
+  required_providers {
+    azuread = {
+      version = "=1.6.0"
+    }
+  }
+  backend "azurerm" {
+    key = "msgraphapp.tfstate"
+    resource_group_name   = "terraform-state-demo"
+    storage_account_name  = "tfstate13069"
+    container_name        = "tfstate"
+  }
+}
+```
+
+If you want to keep the details for the storage account out of the main file, you can use a [partial configuration]. For example you could create a file called backend.conf (which you can also add to the .gitignore file) and have the following values.
+
+```terraform
+resource_group_name   = "terraform-state-demo"
+storage_account_name  = "tfstate13069"
+container_name        = "tfstate"
+```
+
+The start of the main.tf would look like the following (I like to keep the name of the state file in main.tf):
+
+```terraform
+terraform {
+  required_providers {
+    azuread = {
+      version = "=1.5.0"
+    }
+  }
+  backend "azurerm" {
+    key = "msmsgraphapp.tfstate"
+  }
+}
+```
+
+Then you can run the initialisation to specify the backend file:
+
+```bash
+terraform init -backend-config=backend.conf
+```
+
+This solution would allow you to keep some or all of the configuration of of source control if desired.
+
+## Terraform
+
+### Init
+Running the initialisation command will create the state file in the blob container.
+
+```bash
+terraform init
+```
+
+Here you can see the blob created with the name we specified (msmsgraphapp.tfstate) and the lease state is available.
+
+![blob storage showing state file](/images/terraform-azure-backend/state-blob.png)
+
+ If you download the state file and take a look you'll see a state file with no details.
+
+![state file with barebones outline](/images/terraform-azure-backend/blank-state.png)
+
+### Plan and apply
+
+Running a plan and apply will update the state with the details of the application - including the client secret. That is why it is important to protect the access to the blob storage and only allow those who would need to access.
+
+```bash
+terraform plan -out deployment.tfplan
+```
+
+```bash
+terraform apply -auto-approve deployment.tfplan
+```
+
+![state file with details after apply](/images/terraform-azure-backend/state-after-apply.png)
+
+If the apply takes along time, you can go to the blob details and you'll see the lease status as Locked and the Lease state as unavailable which will prevent anyone else being able to update the infrastructure until you have finished and released the lock.
+
+## Clean up
+
+```bash
+terraform destroy
+```
+
+```bash
+
+```
+
+
+[backend section]: https://www.terraform.io/docs/language/state/backends.html
+[partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
