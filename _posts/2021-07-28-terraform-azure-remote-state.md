@@ -16,11 +16,11 @@ July 2021
 
 # Overview
 
-In this post I will cover setting up Terraform and Azure storage to save state files for Terraform. State files allow Terraform to track the current resources provisioned and can calculate the changes that updates to the Terraform file will make to your infrastructure.
+In this post I will cover setting up Terraform and [Azure blob storage] to save state files for Terraform. State files allow Terraform to track the current resources provisioned and can calculate the changes that updates to the Terraform file will make to your infrastructure.
 
-Azure blob storage is an object store similar to AWS S3. The advantages of storing state in an Azure blob storage container is you get locking on the blob by default - this means that two people can't update the infrastructure at the same time.
+Azure blob storage is an [object store] similar to [AWS S3]. The advantages of storing state in an Azure blob storage container is you get [locking] on the blob by default - this means that two people can't update the infrastructure at the same time. You can set up the same for S3 using a [DynamoDB table] to track the locking state but I find the Azure blob storage way much easier to implement.
 
-In my previous post, I detailed the steps required to provision an Azure AD application via Terraform and this post will build on that.
+In my [previous post], I detailed the steps required to provision an Azure AD application via Terraform and this post will build on that.
 
 There is a charge for using storage accounts, see the documentation for details.
 
@@ -170,6 +170,12 @@ az storage blob delete -c $container --account-name $sa --account-key $accountKe
 
 That's it, now the remote state can be shared with others in the team (that have a SAS token) or can be used in a CI/CD pipeline.
 
+[Azure blob storage]: https://azure.microsoft.com/en-ca/services/storage/blobs/
+[object store]: https://en.wikipedia.org/wiki/Object_storage
+[AWS S3]: https://aws.amazon.com/s3/
+[DynamoDB table]:https://www.terraform.io/docs/language/settings/backends/s3.html
+[locking]: https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+[previous post]: ./2021-07-20-terraform-azure-ad-app.md
 [backend section]: https://www.terraform.io/docs/language/state/backends.html
 [partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
 [access key]: https://www.terraform.io/docs/language/settings/backends/azurerm.html#access_key
