@@ -64,7 +64,7 @@ You could also use one of the storage account [access keys], however I would adv
 ```bash
 accountKey=$(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
 end=`date -u -d "2 years" '+%Y-%m-%dT%H:%MZ'`
-sas=`az storage container generate-sas -n $container --account-key $accountKey --account-name $sa --https-only --permissions dlrw --expiry $end -o tsv
+sas=`az storage container generate-sas -n $container --account-key $accountKey --account-name $sa --https-only --permissions dlrw --expiry $end -o tsv`
 
  export ARM_SAS_TOKEN=$sas
 
