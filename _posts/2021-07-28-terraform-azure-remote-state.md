@@ -10,7 +10,7 @@ tags:
 - azuread
 - terraform
 - azure storage
-published: false
+published: true
 ---
 July 2021
 
@@ -31,7 +31,7 @@ export ARM_CLIENT_ID="abcde"
  export ARM_CLIENT_SECRET="abcde"
 ```
 
-There is a charge for using storage accounts, see the documentation for details.
+There is a charge for using storage accounts (including storage, transfer and read/write operations), see the [Azure Storage Blob pricing] for details.
 
 ## Azure Storage account
 
@@ -196,3 +196,4 @@ That's it, now the remote state can be shared with others in the team (that have
 [backend section]: https://www.terraform.io/docs/language/state/backends.html
 [partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
 [access key]: https://www.terraform.io/docs/language/settings/backends/azurerm.html#access_key
+[Azure Storage Blob pricing]: https://azure.microsoft.com/en-us/pricing/details/storage/blobs/
