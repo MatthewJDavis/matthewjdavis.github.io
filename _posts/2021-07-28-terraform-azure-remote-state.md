@@ -22,6 +22,15 @@ Azure blob storage is an [object store] similar to [AWS S3]. The advantages of s
 
 In my [previous post], I detailed the steps required to provision an Azure AD application via Terraform and this post will build on that.
 
+It requires that the service principal is still available and the details are set in environment variables as before.
+
+```bash
+export ARM_SUBSCRIPTION_ID='abcde'
+export ARM_TENANT_ID="abcde"
+export ARM_CLIENT_ID="abcde"
+ export ARM_CLIENT_SECRET="abcde"
+```
+
 There is a charge for using storage accounts, see the documentation for details.
 
 ## Azure Storage account
@@ -114,6 +123,14 @@ terraform init -backend-config=backend.conf
 This solution would allow you to keep some or all of the configuration of of source control if desired.
 
 ## Terraform
+
+Here is the updated main.tf file from my [previous post].
+
+<script src="https://gist.github.com/MatthewJDavis/2c76473c4d46a54d7930047dd52575b8.js"></script>
+
+The variables file is the same as before.
+
+<script src="https://gist.github.com/MatthewJDavis/69bd18c079b2f7026f637e6674fac03c.js"></script>
 
 ### Init
 

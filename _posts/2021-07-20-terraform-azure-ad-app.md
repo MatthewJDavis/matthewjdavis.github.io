@@ -170,7 +170,7 @@ Because the auto-approve option is not specified, a prompt will ask to confirm.
 
 The resources managed by Terraform will be deleted.
 
-To remove the service principal created earlier run the Azure CLI:
+I've created [another post] on how to configure Azure blob storage to save the state file remotely so it can be used in a team environment so if you want to follow along with that, keep the service principal otherwise it can be removed by running the Azure CLI:
 
 ```bash
 az ad sp delete --id id-of-sp-created-earlier
@@ -192,3 +192,4 @@ Now all the resources for this post will be removed.
 [authenticate interactively]: https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/azure_cli
 [state]: https://www.terraform.io/docs/language/state/index.html
 [sensitive information]: https://www.terraform.io/docs/language/state/sensitive-data.html
+[another post]: ./2021-08-28-terraform-azure-remote-state.md
