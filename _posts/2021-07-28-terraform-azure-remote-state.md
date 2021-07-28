@@ -192,7 +192,7 @@ That's it, now the remote state can be shared with others in the team (that have
 [AWS S3]: https://aws.amazon.com/s3/
 [DynamoDB table]:https://www.terraform.io/docs/language/settings/backends/s3.html
 [locking]: https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-[previous post]: ./2021-07-20-terraform-azure-ad-app.md
+[previous post]: ../2021-07-20-terraform-azure-ad-app.md
 [backend section]: https://www.terraform.io/docs/language/state/backends.html
 [partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
 [access key]: https://www.terraform.io/docs/language/settings/backends/azurerm.html#access_key
