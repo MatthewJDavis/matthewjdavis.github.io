@@ -145,7 +145,9 @@ terraform apply -auto-approve deployment.tfplan
 
 ![state file with details after apply](/images/terraform-azure-backend/state-after-apply.png)
 
-If the apply takes along time, you can go to the blob details and you'll see the lease status as Locked and the Lease state as unavailable which will prevent anyone else being able to update the infrastructure until you have finished and released the lock.
+If the apply takes along time, you can go to the blob details and you'll see the lease status as Locked and the lease state as Leased which will prevent anyone else being able to update the infrastructure until you have finished and released the lock.
+
+![leased state on blob](/images/terraform-azure-backend/leased-state.png)
 
 ## Clean up
 
