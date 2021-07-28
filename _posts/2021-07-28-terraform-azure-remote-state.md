@@ -52,6 +52,9 @@ az storage account create --resource-group $rg --name $sa --sku Standard_LRS --e
 
 # container
 az storage container create --name $container --account-name $sa
+
+# Get the storage account name
+echo $sa
 ```
 
 This creates a new storage account in the resource group and a container that is set to private access (you do not want your Terraform state files public access because they can contain secrets).
@@ -73,7 +76,7 @@ sas=`az storage container generate-sas -n $container --account-key $accountKey -
 
 ## Terraform Azure backend configuration
 
-Now we can access the blob storage via the SAS token, the Terraform configuration should be updated with the details of where to store the state. This is done in the 'backend' section.
+Now we can access the blob storage via the SAS token, the Terraform configuration should be updated with the details of where to store the state. This is done in the 'backend' section. See the full main.tf file below for complete example.
 
 ```terraform
 terraform {
@@ -126,9 +129,11 @@ This solution would allow you to keep some or all of the configuration of of sou
 
 Here is the updated main.tf file from my [previous post].
 
+Copy the contents to a main.tf file - don't forget to update the storage_account_name value with the output of ```echo $sa```.
+
 <script src="https://gist.github.com/MatthewJDavis/2c76473c4d46a54d7930047dd52575b8.js"></script>
 
-The variables file is the same as before.
+The terraform.tfvars file is the same as before.
 
 <script src="https://gist.github.com/MatthewJDavis/69bd18c079b2f7026f637e6674fac03c.js"></script>
 
@@ -150,7 +155,7 @@ Here you can see the blob created with the name we specified (msmsgraphapp.tfsta
 
 ### Plan and apply
 
-Running a plan and apply will update the state with the details of the application - including the client secret. That is why it is important to protect the access to the blob storage and only allow those who would need to access.
+Running a plan and apply will update the state with the details of the application - including the client secret. That is why it is important to protect the access to the blob storage and only allow those who would need to access. Don't forget to set the service principal credentials in the environment variables (see the overview of this post).
 
 ```bash
 terraform plan -out deployment.tfplan
@@ -174,13 +179,19 @@ Delete the resources created by Terraform:
 terraform destroy
 ```
 
-Delete the state file:
+Delete just the state file or delete everything:
 
 ```bash
 # Add the variables in again for container, sa and rg if in a new session.
 az login
 accountKey=$(az storage account keys list --resource-group $rg --account-name $sa --query '[0].value' -o tsv)
-az storage blob delete -c $container --account-name $sa --account-key $accountKey -n msgraphapp.tfstate 
+az storage blob delete -c $container --account-name $sa --account-key $accountKey -n msgraphapp.tfstate
+```
+
+```bash
+az login
+# To delete everything
+az group delete --name  terraform-state-demo
 ```
 
 ## Summary
