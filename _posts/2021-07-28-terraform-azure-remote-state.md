@@ -22,7 +22,7 @@ Azure blob storage is an [object store] similar to [AWS S3]. The advantages of s
 
 In my [previous post], I detailed the steps required to provision an Azure AD application via Terraform and this post will build on that.
 
-It requires that the service principal is still available and the details are set in environment variables as before.
+It requires that the service principal is still available from the [previous post] to deploy the application and the details are set in environment variables as before.
 
 ```bash
 export ARM_SUBSCRIPTION_ID='abcde'
@@ -192,7 +192,7 @@ That's it, now the remote state can be shared with others in the team (that have
 [AWS S3]: https://aws.amazon.com/s3/
 [DynamoDB table]:https://www.terraform.io/docs/language/settings/backends/s3.html
 [locking]: https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-[previous post]: ../2021-07-20-terraform-azure-ad-app.md
+[previous post]: https://matthewdavis111.com/terraform/terraform-azure-ad-app/
 [backend section]: https://www.terraform.io/docs/language/state/backends.html
 [partial configuration]: https://www.terraform.io/docs/language/settings/backends/configuration.html#partial-configuration
 [access key]: https://www.terraform.io/docs/language/settings/backends/azurerm.html#access_key
