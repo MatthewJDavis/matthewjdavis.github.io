@@ -4,6 +4,7 @@ excerpt: Details including the IDs of the MS Graph permissions. Useful for deplo
 date: 2021-08-02
 toc: false
 classes: wide
+read_time: false
 categories:
 - msgraph
 tags:
