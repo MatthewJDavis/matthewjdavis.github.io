@@ -1,6 +1,6 @@
 ---
-title: 
-excerpt: Save Terraform state files on Azure blob storage.
+title: Microsoft Graph App and Scope permissions.
+excerpt: Details including the IDs of the MS Graph permissions. Useful for deploying Azure AD applications via code.
 date: 2021-08-02
 toc: false
 classes: wide
