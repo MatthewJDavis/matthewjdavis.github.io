@@ -38,7 +38,7 @@ Reading those posts, and this question on [Stack Overflow] that shows the requir
 
 ### Dumping the wdsl
 
-First thing to do was dump the wdsl using Zeepv
+First thing to do was dump the wdsl using Zeep
 
 ```bash
 workday_url = 'https://<hostname>.workday.com/ccx/service/<tenant>/Human_Resources/v36.2?wsdl' 
@@ -59,11 +59,11 @@ client.service.Get_Workers(request)
 zeep.exceptions.Fault: Validation error occurred. Invalid ID 'type'  attribute: NotSet.  Valid Types: WID 
 ```
 
-Inspecting the request object I could see that it was kind of right but also missing the type as mentioned in the docs and also in the xml example on the stackoverflow post: https://stackoverflow.com/questions/53440759/workday-get-worker-from-user-id-or-email-filter and what I had be shown in Workday Studio.
+Inspecting the request object I could see that it was kind of right but also missing the type as mentioned in the docs and also in the xml example on the Stack Overflow post and what I had be shown in Workday Studio.
 
 ![Output of the object in Python](/images/python-workday/ref-object.png)
 
-[Further down] in the Zeep datastructures docs and mentioned in this blog post it shows how to set a nest value so after using the request object as a starting point and some trial and error creating the dictionary that finally worked.
+[Further down] in the Zeep [datastructures] docs and mentioned in one of the blog posts it shows how to set a nest value so after using the request object as a starting point and some trial and error creating the dictionary that finally worked.
 
 ```python
 request_dict = { 
