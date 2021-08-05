@@ -16,11 +16,13 @@ August 2021
 
 # Overview
 
-I have spent the last 2 days attempting and finally succeeding in querying the Workday API for a user by their ID using Python and Zeep and couldn't find a solid example so have recorded here the solution and the process of getting to it. I am by no means a Python expert and definitely not a Workday expert having only used it as an employee in the past.
+I have spent the last 2 days attempting and finally succeeding in querying the Workday API for a user by their ID using Python and Zeep and couldn't find a solid example so have recorded here the solution and the process of getting to it. I am by no means a Python expert and definitely not a Workday expert having only used it as an employee in the past, this is what I came up with and worked.
 
 ## Script
 
-Requires the Zeep package to be installed
+If you came here just to see how to get going, check out the below script. Details are further down if you're interested.
+
+Requires the [Zeep package] to be installed.
 
 ```bash
 pip install zeep
@@ -30,9 +32,9 @@ pip install zeep
 
 ## Process
 
-Having not had the joy of using a SOAP based API in a long long time, I set off Googling ways to do this with Python. I found the Zeep package so started there then I came across the Workday package but found that it caused an error for me and the project is now archived in GitHub. Going back to Zeep I read a few tutorials that got me on my way and once I was given the correct credentials for the Workday API user, I was able to return a list of workers however was still stuck on how to actually specify a particular user.
+Having not had the 'joy' of using a SOAP based API in a long long time, I set off Googling ways to do this with Python. I found the Zeep package so started there then I came across the [Workday package] but found that it caused an error for me and the project is now archived in GitHub. Going back to Zeep I read [this tutorial] [and this tutorial] that got me on my way. I was able to return a list of workers however was still stuck on how to actually specify a particular user.
 
-Reading these posts, including this one on Stack Overflow that shows the required xml and going back to the documentation a lot, I finally managed to figure out what was required to send the request to the SOAP endpoint and get back the correct worker data.
+Reading those posts, and this question on [Stack Overflow] that shows the required xml and going back to the documentation a lot, I finally managed to figure out what was required to send the request to the SOAP endpoint and get back the correct worker data.
 
 ### Dumping the wdsl
 
@@ -87,7 +89,12 @@ This returned the data for my user in the test instance.
 
 Hopefully this will help someone who is struggling querying the Workday API like I was.
 
+[Zeep package]: https://pypi.org/project/zeep/
+[Workday package]: https://pypi.org/project/workday/
 [Worker_Request_References]: https://community.workday.com/sites/default/files/file-hosting/productionapi/Human_Resources/v36.2/Get_Workers.html#Worker_Request_ReferencesType
 [type WorkerObjectID]: https://community.workday.com/sites/default/files/file-hosting/productionapi/Human_Resources/v36.2/Get_Workers.html#WorkerObjectIDType
 [datastructures]: https://docs.python-zeep.org/en/master/datastructures.html
 [Further down]: https://docs.python-zeep.org/en/master/datastructures.html#xsd-choice
+[this tutorial]: https://adriennedomingus.medium.com/using-zeep-to-make-soap-requests-in-python-c575ea0ee954
+[and this tutorial]: https://medium.com/@ayushi21095/working-with-soap-based-web-service-using-python-8f532195bc6c
+[Stack Overflow]: https://stackoverflow.com/questions/53440759/workday-get-worker-from-user-id-or-email-filter
