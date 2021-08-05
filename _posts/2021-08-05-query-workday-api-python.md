@@ -10,7 +10,7 @@ tags:
 - zeep
 - python
 - api
-published: false
+published: true
 ---
 August 2021
 
