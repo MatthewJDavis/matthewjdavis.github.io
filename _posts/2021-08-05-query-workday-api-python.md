@@ -52,7 +52,7 @@ Following along with the Zeep docs on [datastructures] I found we can use the ge
 Referencing the hr.txt wdsl dump I searched for 'Worker_Request' and found 'ns0:Worker_Request_ReferencesType'. Inspecting the object looked like I was on the right track so I added the ID I was looking for as per the docs and tried that but got an exception.
 
 ```python
-ref_type = client.get_type('ns0:Worker_Request_ReferencesType'). 
+ref_type = client.get_type('ns0:Worker_Request_ReferencesType')
 request = ref_type(Worker_Reference='1234')
 client.service.Get_Workers(request)
 
