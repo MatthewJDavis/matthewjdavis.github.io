@@ -16,7 +16,7 @@ July 2022
 
 # Overview
 
-Quick guide on how to authenticate and query the [Airthings consumer API] to pull data from the air quality monitors registered with the account.
+Quick guide on how to authenticate and query the [Airthings consumer API] to pull data from the air quality monitoring devices registered with the account.
 
 ## Code
 
