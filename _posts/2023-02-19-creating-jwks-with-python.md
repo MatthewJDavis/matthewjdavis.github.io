@@ -3,7 +3,6 @@ title: How to create JSON Web Key Sets (JWKS) with Python
 excerpt: Creating a JSON Web Key Sets (JWKS) with Python for use with an Okta service application to authenticate with Terraform.
 date: 2023-02-19
 toc: false
-classes: wide
 categories:
 - jwks
 tags:
