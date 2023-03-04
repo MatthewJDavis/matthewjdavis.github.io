@@ -19,7 +19,7 @@ locale                   : "en-GB"
 title                    : "matthewdavis111"
 title_separator          : "-"
 name                     : "Matthew Davis"
-description              : "My site on tech things, PowerShell, Linux, Azure, AWS, DevOps and automation."
+description              : "My site on tech things, Identity, PowerShell, Linux, Azure, AWS, Okta, DevOps and automation."
 url                      : "https://matthewdavis111.com"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : MatthewJDavis/matthewjdavis.github.io
@@ -109,7 +109,7 @@ analytics:
 author:
   name             : "Matthew Davis"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "PowerShell, Azure, AWS, identity, infrastructure automation, documenting what I'm learning."
+  bio              : "Identity, PowerShell, Azure, AWS, Okta, infrastructure automation. Documenting what I'm learning."
   location         : "Toronto CA"
   email            :
   links:
