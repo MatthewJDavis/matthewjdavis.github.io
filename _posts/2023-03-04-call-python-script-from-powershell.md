@@ -13,7 +13,7 @@ March 2023
 
 # Overview
 
-A quick one today to remind me how to call a Python script via PowerShell, passing in an argument and saving the output of the script to a variable in PowerShell using a couple of demo scripts that do nothing more than pass a string to the Python script and return it with text added.
+A quick post to remind me how to call a Python script via PowerShell, passing in an argument and saving the output of the script to a variable in PowerShell using a couple of demo scripts that do nothing more than pass a string to the Python script and return it with text added.
 
 Test machine specs:
 
