@@ -1,6 +1,6 @@
 ---
 title: How to call a Python script from PowerShell
-excerpt: Creating a JSON Web Key Sets (JWKS) with Python for use with an Okta service application to authenticate with Terraform.
+excerpt: Call a Python script passing an argument and saving return value in variable example.
 date: 2023-03-04
 toc: false
 categories:
