@@ -12,11 +12,21 @@ tags:
 - azuread
 published: true
 ---
-August 2021
+August 2021 (Updated April 2024)
 
 # Overview
 
 Below are the details of Microsoft Graph permissions including IDs which are required when using Terraform, PowerShell or Azure CLI.
+
+## Update April 2024
+
+Thanks to this [GitHub issue] raised by [jan-swiecki], I have updated this article with an example of how to find the ID of the MS Graph permissions using Terraform with the [azuread_service_principal resource]. This functionality was [introduced] just after I had written the original article. The below Terraform file demonstrates outputing the IDs via variables and also how to use the permission IDs to create an application.
+
+<script src="https://gist.github.com/MatthewJDavis/a6e91b79538f5e2e7c566449f2d3d957.js"></script>
+
+Thanks again to [[jan-swiecki] for taking the time to share this knowledge.
+
+## Original article continues
 
 In my previous article on using [Terraform to deploy to Azure AD], I used the ```required_resource_access``` argument in the Terraform [azuread_application] resource to set the [Microsoft Graph API permissions] for the app being created. One thing that stumped me for a bit was how to get the ID of the permission. This wasn't available on the [Microsoft Graph API permissions] documentation at the time of writing.
 
@@ -60,6 +70,9 @@ Note: Role permissions display as ```Application``` and scope permissions displa
 [this comment]: https://github.com/microsoftgraph/microsoft-graph-docs/issues/3646#issuecomment-859772348
 [python cli script]: https://github.com/MatthewJDavis/python/tree/master/ms_graph_permissions
 [Terraform to deploy to Azure AD]: https://matthewdavis111.com/terraform/terraform-azure-ad-app/
+[jan-swiecki]: https://github.com/jan-swiecki
+[GitHub Issue]: https://github.com/MatthewJDavis/matthewjdavis.github.io/issues/2
+[introduced]: https://www.hashicorp.com/blog/announcing-terraform-azuread-provider-2-0
 
 ## Role permissions
 
