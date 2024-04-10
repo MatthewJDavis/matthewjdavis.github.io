@@ -24,7 +24,7 @@ Thanks to this [GitHub issue] raised by [jan-swiecki], I have updated this artic
 
 <script src="https://gist.github.com/MatthewJDavis/a6e91b79538f5e2e7c566449f2d3d957.js"></script>
 
-Thanks again to [[jan-swiecki] for taking the time to share this knowledge.
+Thanks again to [jan-swiecki] for taking the time to share this knowledge.
 
 ## Original article continues
 
@@ -73,6 +73,7 @@ Note: Role permissions display as ```Application``` and scope permissions displa
 [jan-swiecki]: https://github.com/jan-swiecki
 [GitHub Issue]: https://github.com/MatthewJDavis/matthewjdavis.github.io/issues/2
 [introduced]: https://www.hashicorp.com/blog/announcing-terraform-azuread-provider-2-0
+[azuread_service_principal resource]: https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal
 
 ## Role permissions
 
