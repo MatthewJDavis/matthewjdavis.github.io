@@ -7,7 +7,7 @@ classes: wide
 categories:
 - terraform
 tags:
-- terraform okta
+- terraform
 published: false
 ---
 January 2021
