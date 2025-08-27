@@ -7,7 +7,6 @@ excerpt: User PowerShell and dsacls to update the OU permissions for the Okta Ac
 categories:
     - PowerShell
 tags:
-    - okta
     - dsacls
     - powershell
 published: false
